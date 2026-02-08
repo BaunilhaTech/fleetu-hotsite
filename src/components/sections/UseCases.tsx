@@ -1,0 +1,72 @@
+"use client"
+
+import {
+    Card,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Server, ShieldAlert, Layers, Terminal } from "lucide-react"
+
+const cases = [
+    {
+        title: "Dependency Upgrades",
+        desc: "Migrate 500+ microservices from Node 14 to 18 in a specific rollout wave.",
+        icon: Server,
+        badge: "Maintenance",
+    },
+    {
+        title: "Security Patching",
+        desc: "Detect Log4Shell across the fleet and apply the patch automatically within hours.",
+        icon: ShieldAlert,
+        badge: "Security",
+    },
+    {
+        title: "Standardization",
+        desc: "Enforce a specific logging library and configuration across all Java services.",
+        icon: Layers,
+        badge: "Compliance",
+    },
+    {
+        title: "Infrastructure Migration",
+        desc: "Update Terraform modules or Kubernetes manifests across the entire organization.",
+        icon: Terminal,
+        badge: "Infra",
+    },
+]
+
+export function UseCases() {
+    return (
+        <section className="py-24">
+            <div className="container px-4 md:px-6 mx-auto">
+                <div className="mb-12 flex flex-col items-center text-center">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                        Built for scale.
+                    </h2>
+                    <p className="mt-4 text-muted-foreground md:text-xl max-w-2xl">
+                        From security patches to complete refactors, Fleetu handles the complexity of large-scale engineering.
+                    </p>
+                </div>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    {cases.map((item, i) => (
+                        <Card key={i} className="bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/50 transition-colors">
+                            <CardHeader>
+                                <div className="mb-4 flex items-center justify-between">
+                                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                                        <item.icon className="h-6 w-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-xs">{item.badge}</Badge>
+                                </div>
+                                <CardTitle>{item.title}</CardTitle>
+                                <CardDescription className="pt-2">
+                                    {item.desc}
+                                </CardDescription>
+                            </CardHeader>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
+}
