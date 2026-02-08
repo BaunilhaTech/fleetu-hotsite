@@ -1,11 +1,12 @@
 "use client"
 
-import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import logo from "@/assets/logo.svg"
+import Link from "next/link"
 
 const navItems = [
     { name: "Product", href: "#product" },
@@ -51,7 +52,7 @@ export function Header() {
                     </SheetTrigger>
                     <SheetContent side="left" className="pr-0">
                         <Link href="/" className="flex items-center gap-2 px-4">
-                            <Image src="/logo.svg" alt="Fleetu Logo" width={32} height={32} />
+                            <Image src={logo} alt="Fleetu Logo" width={32} height={32} />
                             <span className="font-bold">Fleetu</span>
                         </Link>
                         <nav className="mt-8 flex flex-col gap-4 px-4">
