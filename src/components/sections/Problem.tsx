@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { AlertTriangle, Clock, FileText } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { EntropyGrid } from "./EntropyGrid"
 
 export function Problem() {
     const t = useTranslations("Problem")
@@ -63,43 +64,8 @@ export function Problem() {
                     ))}
                 </div>
 
-                {/* Drift Visualization */}
-                <div className="relative mx-auto max-w-4xl h-64 mt-8 rounded-xl border bg-background/50 overflow-hidden flex flex-col justify-center items-center">
-                    <div className="absolute top-4 left-4 text-xs font-mono text-muted-foreground">
-                        Time vs Compliance
-                    </div>
-
-                    {/* Center Line (Intent) */}
-                    <div className="absolute w-full h-0.5 bg-primary/50 z-10"></div>
-                    <div className="absolute right-4 top-1/2 -translate-y-6 text-primary text-xs font-bold">Intent</div>
-
-                    {/* Drift Lines */}
-                    {[...Array(20)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute h-0.5 bg-muted-foreground/20 w-1/2 left-0"
-                            style={{
-                                top: "50%",
-                                transformOrigin: "left center"
-                            }}
-                            initial={{ rotate: 0 }}
-                            whileInView={{
-                                rotate: ((i * 137) % 60) - 30
-                            }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 2, delay: i * 0.05, ease: "easeOut" }}
-                        />
-                    ))}
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ delay: 2 }}
-                        className="absolute right-10 text-destructive text-sm font-mono"
-                    >
-                        ⚠️ Technical Drift Detected
-                    </motion.div>
-                </div>
+                {/* Entropy Visualization */}
+                <EntropyGrid />
             </div>
         </section>
     )
