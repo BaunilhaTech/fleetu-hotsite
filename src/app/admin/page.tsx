@@ -211,7 +211,8 @@ export default function AdminPage() {
         const { error: signInError } = await supabase.auth.signInWithOAuth({
             provider: "github",
             options: {
-                redirectTo: `${window.location.origin}/admin`,
+                // Keep the current pathname so OAuth works on subpath deployments (e.g. GitHub Pages project sites).
+                redirectTo: `${window.location.origin}${window.location.pathname}`,
             },
         })
 
