@@ -11,6 +11,16 @@
         "cta": "Get Started",
         "demo": "Book a Demo"
     },
+    "IntentScanner": {
+        "intent": "Intent",
+        "shift": "Shift",
+        "naturalLanguage": "Natural Language",
+        "card1": "All FastAPI services must use 30s timeout",
+        "card2": "Upgrade Java 8 to Java 17 across all services",
+        "card3": "Apply CVE-2024-1234 security patch immediately",
+        "card4": "Standardize CI/CD pipeline for all repos",
+        "card5": "Add authentication module to all microservices"
+    },
     "Problem": {
         "title": "The Governance Gap",
         "description": "Organizations struggle to enforce engineering standards at scale."
