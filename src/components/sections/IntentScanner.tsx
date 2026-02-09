@@ -6,25 +6,76 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Terminal } from "lucide-react"
 import { useTranslations } from "next-intl"
 
-// Card data with translation keys and code (code stays in English as it's YAML)
+// Card data with translation keys, category, and code
 const CARDS_DATA = [
     {
         intentKey: "card1",
-        code: `shift: python-http-timeout-v1
+        categoryKey: "catSecurity",
+        code: `shift: cve-2024-1234-patch
 scope:
-  language: python
-  framework: fastapi
+  dependency: log4j
+  version: "< 2.17.1"
 transform:
-  operator: add-timeout@1.2.0
+  operator: dep-update@1.0.0
 validate:
-  tests: pytest
+  security_scan: true
+rollout:
+  strategy: immediate
+  priority: critical`,
+    },
+    {
+        intentKey: "card2",
+        categoryKey: "catDependency",
+        code: `shift: spring-boot-3-upgrade
+scope:
+  language: java
+  framework: spring-boot
+  version: "< 3.0"
+transform:
+  operator: spring-upgrade@3.0.0
+  config:
+    jakarta_migration: true
+validate:
+  tests: integration
+rollout:
+  strategy: progressive
+  waves: [5, 25, 100]`,
+    },
+    {
+        intentKey: "card3",
+        categoryKey: "catSyntax",
+        code: `shift: async-await-migration
+scope:
+  language: typescript
+  ast_pattern: "CallExpression[callee.property.name='then']"
+transform:
+  operator: async-refactor@2.0.0
+validate:
+  tests: jest
 rollout:
   strategy: canary
   waves: [10, 50, 100]`,
     },
     {
-        intentKey: "card2",
-        code: `shift: java-version-migration
+        intentKey: "card4",
+        categoryKey: "catArchitecture",
+        code: `shift: ci-standard-v2
+scope:
+  has_file: ".github/workflows/*"
+transform:
+  operator: ci-template@2.0.0
+  config:
+    template: org-standard
+validate:
+  ci_check: true
+rollout:
+  strategy: progressive
+  waves: [10, 50, 100]`,
+    },
+    {
+        intentKey: "card5",
+        categoryKey: "catMigration",
+        code: `shift: java-17-migration
 scope:
   language: java
   version: "< 17"
@@ -33,40 +84,15 @@ transform:
   config:
     target: 17
     fix_deprecations: true
+validate:
+  tests: unit
 rollout:
   strategy: progressive
   waves: [5, 25, 100]`,
     },
     {
-        intentKey: "card3",
-        code: `shift: cve-2024-patch
-scope:
-  dependency: log4j
-  version: "< 2.17.1"
-transform:
-  operator: dependency-update@1.0.0
-validate:
-  security_scan: true
-rollout:
-  strategy: immediate
-  priority: critical`,
-    },
-    {
-        intentKey: "card4",
-        code: `shift: ci-standard-v2
-scope:
-  has_file: ".github/workflows/*"
-transform:
-  operator: ci-template@2.0.0
-  config:
-    template: standard-pipeline
-validate:
-  ci_check: true
-rollout:
-  waves: [10, 50, 100]`,
-    },
-    {
-        intentKey: "card5",
+        intentKey: "card6",
+        categoryKey: "catSharedFeature",
         code: `capability: auth-module-v2
 scope:
   tag: microservice
@@ -79,9 +105,81 @@ transform:
 validate:
   tests: integration
 rollout:
-  strategy: canary`,
+  strategy: canary
+  waves: [10, 50, 100]`,
+    },
+    {
+        intentKey: "card7",
+        categoryKey: "catObservability",
+        code: `shift: otel-instrumentation
+scope:
+  tag: backend
+  runtime: [node, python, java]
+transform:
+  operator: add-otel@1.5.0
+  config:
+    traces: true
+    metrics: true
+    logs: structured
+rollout:
+  strategy: progressive
+  waves: [10, 50, 100]`,
+    },
+    {
+        intentKey: "card8",
+        categoryKey: "catSecurity",
+        code: `shift: secrets-rotation
+scope:
+  secret_type: [api_key, token, password]
+  age: "> 90d"
+transform:
+  operator: rotate-secrets@1.0.0
+  config:
+    vault: hashicorp
+validate:
+  security_audit: true
+rollout:
+  strategy: immediate`,
+    },
+    {
+        intentKey: "card9",
+        categoryKey: "catArchitecture",
+        code: `shift: error-handling-std
+scope:
+  language: typescript
+  missing_pattern: "ErrorBoundary"
+transform:
+  operator: error-boundary@1.2.0
+  config:
+    logger: structured
+    retry: exponential
+validate:
+  tests: unit
+rollout:
+  strategy: canary
+  waves: [10, 50, 100]`,
+    },
+    {
+        intentKey: "card10",
+        categoryKey: "catDependency",
+        code: `shift: react-19-upgrade
+scope:
+  framework: react
+  version: "< 19"
+transform:
+  operator: react-upgrade@19.0.0
+  config:
+    concurrent: true
+    suspense: true
+validate:
+  tests: [jest, cypress]
+rollout:
+  strategy: canary
+  waves: [5, 25, 100]`,
     },
 ]
+
+
 
 // Triplicate cards for seamless infinite loop
 const LOOPED_CARDS = [...CARDS_DATA, ...CARDS_DATA, ...CARDS_DATA]
@@ -384,9 +482,9 @@ export function IntentScanner() {
                                         <p className="text-lg font-medium text-foreground leading-relaxed">
                                             "{tScanner(card.intentKey)}"
                                         </p>
-                                        <div className="absolute bottom-4 left-5 right-5 flex items-center gap-2 text-xs text-muted-foreground/50">
+                                        <div className="absolute bottom-4 left-5 right-5 flex items-center gap-2 text-xs text-muted-foreground/60">
                                             <span className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" />
-                                            {tScanner("intentLabel")}
+                                            {tScanner(card.categoryKey)}
                                         </div>
                                     </div>
                                 </div>
