@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Activity, Shield, ShieldAlert, Clock } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 type RepoStatus = "healthy" | "critical" | "recovering"
 
@@ -15,6 +16,7 @@ interface Repo {
 
 
 export function EntropyGrid() {
+    const t = useTranslations("EntropyGrid")
     const GRID_SIZE = 112 // 16x7 grid
     const [repos, setRepos] = useState<Repo[]>(
         Array.from({ length: GRID_SIZE }, (_, i) => ({ id: i, status: "healthy" }))
@@ -75,7 +77,7 @@ export function EntropyGrid() {
                         {complianceScore < 90 ? <ShieldAlert className="w-6 h-6" /> : <Shield className="w-6 h-6" />}
                     </div>
                     <div>
-                        <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Compliance Score</div>
+                        <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{t("complianceScore")}</div>
                         <div className={cn("text-2xl font-bold font-mono transition-colors duration-500",
                             complianceScore < 90 ? "text-red-500" : "text-foreground"
                         )}>
@@ -88,7 +90,7 @@ export function EntropyGrid() {
                     <div className="flex items-center gap-3">
                         <Clock className="w-4 h-4 text-muted-foreground" />
                         <div>
-                            <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Time Since Audit</div>
+                            <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{t("timeSinceAudit")}</div>
                             <div className="text-sm font-mono font-medium">{days}d {hours}h</div>
                         </div>
                     </div>
@@ -96,7 +98,7 @@ export function EntropyGrid() {
                     <div className="flex items-center gap-3">
                         <Activity className="w-4 h-4 text-muted-foreground" />
                         <div>
-                            <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Active Drifts</div>
+                            <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{t("activeDrifts")}</div>
                             <div className="text-sm font-mono font-medium text-red-500">
                                 {repos.filter(r => r.status === 'critical').length}
                             </div>
@@ -126,8 +128,8 @@ export function EntropyGrid() {
             </div>
 
             <div className="mt-6 flex justify-between items-center text-xs text-muted-foreground/50 font-mono">
-                <span>Fleet Status: MONITORING</span>
-                <span className="animate-pulse">● Live Data</span>
+                <span>{t("fleetStatus")}</span>
+                <span className="animate-pulse">● {t("liveData")}</span>
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ export function Hero() {
                             className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
                         >
                             <Terminal className="mr-2 h-4 w-4" />
-                            <span>Governance as Code</span>
+                            <span>{t("badge")}</span>
                         </motion.div>
 
                         <motion.h1

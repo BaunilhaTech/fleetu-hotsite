@@ -14,7 +14,7 @@ export function Problem() {
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="inline-flex items-center rounded-full border border-destructive/20 bg-destructive/10 px-3 py-1 text-sm font-medium text-destructive">
                         <AlertTriangle className="mr-2 h-4 w-4" />
-                        <span>The Reality</span>
+                        <span>{t("badge")}</span>
                     </div>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                         {t("title")}
@@ -28,20 +28,20 @@ export function Problem() {
                     {[
                         {
                             icon: FileText,
-                            title: "Policies become documents",
-                            desc: "Standards are defined in wikis but ignored in code reviews.",
+                            title: t("card1Title"),
+                            desc: t("card1Desc"),
                             delay: 0
                         },
                         {
                             icon: Clock,
-                            title: "Migrations never end",
-                            desc: "Upgrading a framework across 500 repos takes 18 months of meetings.",
+                            title: t("card2Title"),
+                            desc: t("card2Desc"),
                             delay: 0.2
                         },
                         {
                             icon: AlertTriangle,
-                            title: "Security Debt accumulates",
-                            desc: "Patches rely on teams finding time in their roadmap.",
+                            title: t("card3Title"),
+                            desc: t("card3Desc"),
                             delay: 0.4
                         }
                     ].map((item, i) => (

@@ -10,22 +10,22 @@ export function HowItWorks() {
         {
             icon: Search,
             title: t("step1"),
-            desc: "Fleetu continuously scans your entire codebase. Use metadata to target specific subsets (e.g., 'all nodejs-14 repos').",
+            desc: t("step1Desc"),
         },
         {
             icon: Zap,
             title: t("step2"),
-            desc: "Apply automated transformations (Operators). From simple search-and-replace to complex AST refactors via LLMs.",
+            desc: t("step2Desc"),
         },
         {
             icon: GitPullRequest,
             title: t("step3"),
-            desc: "Changes are verified in isolated CI environments. If successful, Fleetu opens a PR or commits directly.",
+            desc: t("step3Desc"),
         },
         {
             icon: Shield,
-            title: "4. Guard",
-            desc: "Once a Shift is applied, Fleetu monitors for regression, automatically correcting any drift.",
+            title: t("step4"),
+            desc: t("step4Desc"),
         },
     ]
 
@@ -37,7 +37,7 @@ export function HowItWorks() {
                         {t("title")}
                     </h2>
                     <p className="mt-4 text-muted-foreground md:text-xl">
-                        Turn ad-hoc tasks into a repeatable industrial process.
+                        {t("subtitle")}
                     </p>
                 </div>
 

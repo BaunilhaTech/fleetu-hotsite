@@ -6,6 +6,7 @@
         "requestAccess": "Join Waitlist"
     },
     "Hero": {
+        "badge": "Governance as Code",
         "title": "Where intent becomes system",
         "description": "Engineering governance platform that transforms organizational decisions into executable systems.",
         "cta": "Join Waitlist",
@@ -33,23 +34,62 @@
         "card10": "Upgrade React to version 19 with concurrent mode"
     },
     "Problem": {
+        "badge": "The Reality",
         "title": "The Governance Gap",
-        "description": "Organizations struggle to enforce engineering standards at scale."
+        "description": "Organizations struggle to enforce engineering standards at scale.",
+        "card1Title": "Policies become documents",
+        "card1Desc": "Standards are defined in wikis but ignored in code reviews.",
+        "card2Title": "Migrations never end",
+        "card2Desc": "Upgrading a framework across 500 repos takes 18 months of meetings.",
+        "card3Title": "Security Debt accumulates",
+        "card3Desc": "Patches rely on teams finding time in their roadmap."
     },
     "Solution": {
         "title": "Automated Governance",
-        "description": "Define policies as code and enforce them automatically."
+        "description": "Define policies as code and enforce them automatically.",
+        "item1": "Targeting: Define scope via metadata (e.g., 'framework: react')",
+        "item2": "Action: Apply automated refactors or patches",
+        "item3": "Validation: Run tests in isolated containers",
+        "item4": "Rollout: Execute in waves to prevent outages",
+        "executing": "Executing..."
     },
     "HowItWorks": {
         "title": "How it works",
+        "subtitle": "Turn ad-hoc tasks into a repeatable industrial process.",
         "step1": "Define Policy",
+        "step1Desc": "Fleetu continuously scans your entire codebase. Use metadata to target specific subsets (e.g., 'all nodejs-14 repos').",
         "step2": "Enforce via CI/CD",
-        "step3": "Monitor Compliance"
+        "step2Desc": "Apply automated transformations (Operators). From simple search-and-replace to complex AST refactors via LLMs.",
+        "step3": "Monitor Compliance",
+        "step3Desc": "Changes are verified in isolated CI environments. If successful, Fleetu opens a PR or commits directly.",
+        "step4": "4. Guard",
+        "step4Desc": "Once a Shift is applied, Fleetu monitors for regression, automatically correcting any drift."
     },
     "UseCases": {
         "title": "Use Cases",
+        "description": "From security patches to complete refactors, Fleetu handles the complexity of large-scale engineering.",
+        "standardization": "Stack Standardization",
+        "case1Desc": "Migrate 500+ microservices from Node 14 to 18 in a specific rollout wave.",
+        "case1Badge": "Maintenance",
+        "securityPatching": "Security Patching",
+        "case2Desc": "Detect Log4Shell across the fleet and apply the patch automatically within hours.",
+        "case2Badge": "Security",
         "compliance": "Compliance Management",
-        "standardization": "Stack Standardization"
+        "case3Desc": "Enforce a specific logging library and configuration across all Java services.",
+        "case3Badge": "Compliance",
+        "infraMigration": "Infrastructure Migration",
+        "case4Desc": "Update Terraform modules or Kubernetes manifests across the entire organization.",
+        "case4Badge": "Infra"
+    },
+    "EntropyGrid": {
+        "complianceScore": "Compliance Score",
+        "timeSinceAudit": "Time Since Audit",
+        "activeDrifts": "Active Drifts",
+        "fleetStatus": "Fleet Status: MONITORING",
+        "liveData": "Live Data"
+    },
+    "Footer": {
+        "copyright": "All rights reserved."
     },
     "CTA": {
         "title": "Ready to scale governance?",

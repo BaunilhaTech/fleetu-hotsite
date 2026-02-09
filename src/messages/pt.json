@@ -6,6 +6,7 @@
         "requestAccess": "Entrar na Lista"
     },
     "Hero": {
+        "badge": "Governança como Código",
         "title": "Onde a intenção vira sistema",
         "description": "Plataforma de governança de engenharia que transforma decisões organizacionais em sistemas executáveis.",
         "cta": "Entrar na Lista",
@@ -19,7 +20,7 @@
         "catSyntax": "Migração de Sintaxe",
         "catArchitecture": "Padrão Arquitetural",
         "catMigration": "Migração Tecnológica",
-        "catSharedFeature": "Feature Compartilhada",
+        "catSharedFeature": "Funcionalidade Compartilhada",
         "catObservability": "Observabilidade",
         "card1": "Aplicar patch CVE-2024-1234 em todos os serviços vulneráveis",
         "card2": "Atualizar Spring Boot para versão 3 com migração Jakarta",
@@ -30,30 +31,69 @@
         "card7": "Instrumentar todos os backends com OpenTelemetry",
         "card8": "Rotacionar todos os secrets com mais de 90 dias",
         "card9": "Adicionar error boundaries nos serviços sem eles",
-        "card10": "Atualizar React para versão 19 com modo concurrent"
+        "card10": "Atualizar React para versão 19 com modo concorrente"
     },
     "Problem": {
-        "title": "O Gap de Governança",
-        "description": "Organizações lutam para aplicar padrões de engenharia em escala."
+        "badge": "A Realidade",
+        "title": "A Lacuna da Governança",
+        "description": "Organizações enfrentam dificuldades para aplicar padrões de engenharia em escala.",
+        "card1Title": "Políticas viram documentos",
+        "card1Desc": "Padrões são definidos em wikis, mas ignorados nos code reviews.",
+        "card2Title": "Migrações nunca terminam",
+        "card2Desc": "Atualizar um framework em 500 repos leva 18 meses de reuniões.",
+        "card3Title": "Dívida de segurança se acumula",
+        "card3Desc": "Patches dependem de times encontrarem tempo no roadmap."
     },
     "Solution": {
         "title": "Governança Automatizada",
-        "description": "Defina políticas como código e aplique-as automaticamente."
+        "description": "Defina políticas como código e aplique-as automaticamente.",
+        "item1": "Escopo: Defina o alcance via metadados (ex: 'framework: react')",
+        "item2": "Ação: Aplique refatorações ou patches automatizados",
+        "item3": "Validação: Execute testes em containers isolados",
+        "item4": "Rollout: Execute em ondas para prevenir incidentes",
+        "executing": "Executando..."
     },
     "HowItWorks": {
         "title": "Como funciona",
+        "subtitle": "Transforme tarefas avulsas em um processo industrial repetível.",
         "step1": "Defina Políticas",
+        "step1Desc": "O Fleetu escaneia continuamente todo o seu codebase. Use metadados para filtrar subconjuntos específicos (ex: 'todos os repos nodejs-14').",
         "step2": "Aplique via CI/CD",
-        "step3": "Monitore Conformidade"
+        "step2Desc": "Aplique transformações automatizadas (Operators). De simples busca-e-substitui até refatorações complexas via AST e LLMs.",
+        "step3": "Monitore Conformidade",
+        "step3Desc": "As mudanças são verificadas em ambientes de CI isolados. Se bem-sucedidas, o Fleetu abre um PR ou commita diretamente.",
+        "step4": "4. Proteja",
+        "step4Desc": "Uma vez que um Shift é aplicado, o Fleetu monitora por regressões, corrigindo automaticamente qualquer desvio."
     },
     "UseCases": {
         "title": "Casos de Uso",
-        "compliance": "Gestão de Compliance",
-        "standardization": "Padronização de Stack"
+        "description": "De patches de segurança a refatorações completas, o Fleetu lida com a complexidade da engenharia em larga escala.",
+        "standardization": "Padronização de Stack",
+        "case1Desc": "Migre mais de 500 microserviços de Node 14 para 18 em uma onda de rollout específica.",
+        "case1Badge": "Manutenção",
+        "securityPatching": "Patches de Segurança",
+        "case2Desc": "Detecte o Log4Shell em toda a frota e aplique o patch automaticamente em horas.",
+        "case2Badge": "Segurança",
+        "compliance": "Gestão de Conformidade",
+        "case3Desc": "Aplique uma biblioteca de logging e configuração específica em todos os serviços Java.",
+        "case3Badge": "Conformidade",
+        "infraMigration": "Migração de Infraestrutura",
+        "case4Desc": "Atualize módulos Terraform ou manifestos Kubernetes em toda a organização.",
+        "case4Badge": "Infra"
+    },
+    "EntropyGrid": {
+        "complianceScore": "Score de Conformidade",
+        "timeSinceAudit": "Tempo desde Auditoria",
+        "activeDrifts": "Desvios Ativos",
+        "fleetStatus": "Status da Frota: MONITORANDO",
+        "liveData": "Dados ao Vivo"
+    },
+    "Footer": {
+        "copyright": "Todos os direitos reservados."
     },
     "CTA": {
         "title": "Pronto para escalar a governança?",
-        "subtitle": "Junte-se aos líderes de engenharia que estão transformando intenção em sistema. Solicite acesso antecipado.",
+        "subtitle": "Junte-se aos líderes de engenharia que estão transformando intenção em sistema. Solicite acesso antecipado à plataforma.",
         "emailPlaceholder": "Seu e-mail corporativo",
         "rolePlaceholder": "Seu cargo",
         "fleetPlaceholder": "Qtd de repos",

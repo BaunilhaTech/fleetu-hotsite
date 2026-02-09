@@ -17,27 +17,27 @@ export function UseCases() {
     const cases = [
         {
             title: t("standardization"),
-            desc: "Migrate 500+ microservices from Node 14 to 18 in a specific rollout wave.",
+            desc: t("case1Desc"),
             icon: Server,
-            badge: "Maintenance",
+            badge: t("case1Badge"),
         },
         {
-            title: "Security Patching",
-            desc: "Detect Log4Shell across the fleet and apply the patch automatically within hours.",
+            title: t("securityPatching"),
+            desc: t("case2Desc"),
             icon: ShieldAlert,
-            badge: "Security",
+            badge: t("case2Badge"),
         },
         {
             title: t("compliance"),
-            desc: "Enforce a specific logging library and configuration across all Java services.",
+            desc: t("case3Desc"),
             icon: Layers,
-            badge: "Compliance",
+            badge: t("case3Badge"),
         },
         {
-            title: "Infrastructure Migration",
-            desc: "Update Terraform modules or Kubernetes manifests across the entire organization.",
+            title: t("infraMigration"),
+            desc: t("case4Desc"),
             icon: Terminal,
-            badge: "Infra",
+            badge: t("case4Badge"),
         },
     ]
 
@@ -49,7 +49,7 @@ export function UseCases() {
                         {t("title")}
                     </h2>
                     <p className="mt-4 text-muted-foreground md:text-xl max-w-2xl">
-                        From security patches to complete refactors, Fleetu handles the complexity of large-scale engineering.
+                        {t("description")}
                     </p>
                 </div>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

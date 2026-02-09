@@ -21,10 +21,10 @@ export function Solution() {
                         </p>
                         <ul className="space-y-4">
                             {[
-                                "Targeting: Define scope via metadata (e.g., 'framework: react')",
-                                "Action: Apply automated refactors or patches",
-                                "Validation: Run tests in isolated containers",
-                                "Rollout: Execute in waves to prevent outages"
+                                t("item1"),
+                                t("item2"),
+                                t("item3"),
+                                t("item4")
                             ].map((item, i) => (
                                 <li key={i} className="flex items-center space-x-3">
                                     <Check className="h-5 w-5 text-green-500" />
@@ -78,7 +78,7 @@ export function Solution() {
                                 >
                                     <div className="flex items-center space-x-2 bg-green-500/20 text-green-500 px-4 py-2 rounded-full border border-green-500/30 shadow-lg backdrop-blur-md">
                                         <Play className="h-4 w-4 fill-current" />
-                                        <span className="font-bold">Executing...</span>
+                                        <span className="font-bold">{t("executing")}</span>
                                     </div>
                                 </motion.div>
                             </motion.div>
