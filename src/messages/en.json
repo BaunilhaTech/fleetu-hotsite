@@ -92,6 +92,20 @@
     "Footer": {
         "copyright": "All rights reserved."
     },
+    "NotFound": {
+        "title": "Route Not Found",
+        "description": "Looks like this route drifted away from the fleet. The page you're looking for doesn't exist or has been moved.",
+        "terminal": {
+            "error": "error",
+            "status": "status",
+            "message": "message",
+            "action": "action",
+            "pathError": "path does not exist",
+            "returnAction": "return_to_fleet"
+        },
+        "goBack": "Go Back",
+        "returnHome": "Return to Fleet"
+    },
     "CTA": {
         "title": "Ready to scale governance?",
         "subtitle": "Join engineering leaders who are turning intent into system. Request early access to the platform.",

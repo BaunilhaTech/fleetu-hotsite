@@ -92,6 +92,20 @@
     "Footer": {
         "copyright": "Todos os direitos reservados."
     },
+    "NotFound": {
+        "title": "Rota Não Encontrada",
+        "description": "Parece que esta rota se desviou da frota. A página que você está procurando não existe ou foi movida.",
+        "terminal": {
+            "error": "erro",
+            "status": "status",
+            "message": "mensagem",
+            "action": "ação",
+            "pathError": "caminho inexistente",
+            "returnAction": "retornar_a_frota"
+        },
+        "goBack": "Voltar",
+        "returnHome": "Voltar para a Frota"
+    },
     "CTA": {
         "title": "Pronto para escalar a governança?",
         "subtitle": "Junte-se aos líderes de engenharia que estão transformando intenção em sistema. Solicite acesso antecipado à plataforma.",
