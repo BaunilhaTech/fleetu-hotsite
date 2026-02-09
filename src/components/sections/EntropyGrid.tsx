@@ -116,13 +116,13 @@ export function EntropyGrid() {
                         layout
                         onMouseEnter={() => fixRepo(repo.id)}
                         className={cn(
-                            "aspect-square rounded-[3px] transition-all duration-500 cursor-crosshair backdrop-blur-sm",
+                            "aspect-square rounded-[3px] transition-all duration-500 cursor-crosshair backdrop-blur-md shadow-sm",
                             // Healthy: Frosted glass, neutral border
-                            repo.status === "healthy" && "bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05]",
-                            // Recovering: Soft emerald glow, border emphasis
-                            repo.status === "recovering" && "bg-emerald-500/[0.08] border border-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.15)]",
-                            // Critical: Subtle red fill, strong red border
-                            repo.status === "critical" && "bg-red-500/[0.06] border border-red-400/30 hover:border-red-400/50"
+                            repo.status === "healthy" && "bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-md",
+                            // Recovering: Soft emerald glass
+                            repo.status === "recovering" && "bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]",
+                            // Critical: Red glass
+                            repo.status === "critical" && "bg-red-500/10 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.15)]"
                         )}
                     />
                 ))}
