@@ -7,6 +7,10 @@ import { useTranslations } from "next-intl"
 
 export function Hero() {
     const t = useTranslations("Hero")
+    const highlightedTitle = t.rich("title", {
+        intent: (chunks) => <span className="text-primary">{chunks}</span>,
+        system: (chunks) => <span className="text-primary">{chunks}</span>,
+    })
 
     return (
         <section className="relative overflow-hidden pt-8 md:pt-12 lg:pt-16 pb-16">
@@ -29,7 +33,7 @@ export function Hero() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
                         >
-                            {t("title")}
+                            {highlightedTitle}
                         </motion.h1>
 
                         <motion.p

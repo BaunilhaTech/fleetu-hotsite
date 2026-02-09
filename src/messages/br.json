@@ -8,7 +8,7 @@
     },
     "Hero": {
         "badge": "Governança como Código",
-        "title": "Onde a intenção vira sistema",
+        "title": "Onde a <intent>intenção</intent> vira <system>sistema</system>",
         "description": "Plataforma de governança de engenharia que transforma decisões organizacionais em sistemas executáveis.",
         "cta": "Entrar na Lista",
         "demo": "Como Funciona"

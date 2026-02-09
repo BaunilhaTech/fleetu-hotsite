@@ -9,24 +9,24 @@ export function Solution() {
     const t = useTranslations("Solution")
 
     return (
-        <section id="solution" className="py-24 min-h-dvh flex items-center">
+        <section id="solution" className="py-20 md:py-24 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="grid gap-12 lg:grid-cols-2 items-center">
-                    <div className="space-y-6">
+                    <div className="space-y-6 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                             {t("title")}
                         </h2>
                         <p className="text-muted-foreground md:text-xl">
                             {t("description")}
                         </p>
-                        <ul className="space-y-4">
+                        <ul className="space-y-4 max-w-xl mx-auto lg:mx-0">
                             {[
                                 t("item1"),
                                 t("item2"),
                                 t("item3"),
                                 t("item4")
                             ].map((item, i) => (
-                                <li key={i} className="flex items-center space-x-3">
+                                <li key={i} className="flex items-center justify-center lg:justify-start gap-3 text-left">
                                     <Check className="h-5 w-5 text-green-500" />
                                     <span>{item}</span>
                                 </li>
@@ -34,7 +34,7 @@ export function Solution() {
                         </ul>
                     </div>
 
-                    <div className="relative">
+                    <div className="relative w-full max-w-2xl mx-auto">
                         {/* Mobile: Terminal with scroll animation but no tilt */}
                         <motion.div
                             className="lg:hidden relative rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-card-foreground shadow-xl overflow-hidden font-mono ring-1 ring-white/5"
@@ -60,7 +60,7 @@ export function Solution() {
                                 whileInView={{ rotateY: 0, opacity: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8 }}
-                                className="rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-card-foreground shadow-2xl overflow-hidden font-mono text-sm ring-1 ring-white/5 transition-all duration-500 hover:scale-[1.02] hover:bg-black/50 hover:border-purple-500/30 hover:shadow-[0_0_40px_-10px_rgba(168,85,247,0.3)]"
+                                className="rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-card-foreground shadow-2xl overflow-hidden font-mono text-sm ring-1 ring-white/5 transition-all duration-500 hover:scale-[1.01] hover:bg-black/45 hover:border-purple-400/25 hover:shadow-[0_0_30px_-14px_rgba(168,85,247,0.24)]"
                             >
                                 <TerminalContent />
 
@@ -80,7 +80,7 @@ export function Solution() {
                         </TiltCard>
 
                         {/* Decoration */}
-                        <div className="absolute -top-10 -right-10 w-72 h-72 bg-purple-500/10 blur-3xl rounded-full -z-10"></div>
+                        <div className="absolute -top-10 -right-10 w-72 h-72 bg-purple-500/10 blur-3xl rounded-full -z-10 hidden lg:block"></div>
                     </div>
                 </div>
             </div>

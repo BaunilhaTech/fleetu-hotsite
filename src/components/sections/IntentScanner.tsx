@@ -199,6 +199,10 @@ interface Particle {
 export function IntentScanner() {
   const t = useTranslations("Hero")
   const tScanner = useTranslations("IntentScanner")
+  const highlightedTitle = t.rich("title", {
+    intent: (chunks) => <span className="text-primary">{chunks}</span>,
+    system: (chunks) => <span className="text-primary">{chunks}</span>,
+  })
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
@@ -445,7 +449,7 @@ export function IntentScanner() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            {t("title")}
+            {highlightedTitle}
           </motion.h1>
 
           <motion.p

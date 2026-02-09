@@ -10,24 +10,25 @@ interface TiltCardProps {
     perspective?: number
 }
 
-export function TiltCard({ children, className, perspective = 1000 }: TiltCardProps) {
+export function TiltCard({ children, className, perspective = 1400 }: TiltCardProps) {
     const ref = useRef<HTMLDivElement>(null)
 
     const x = useMotionValue(0)
     const y = useMotionValue(0)
 
-    const mouseX = useSpring(x, { stiffness: 500, damping: 40 })
-    const mouseY = useSpring(y, { stiffness: 500, damping: 40 })
+    const mouseX = useSpring(x, { stiffness: 220, damping: 26, mass: 0.8 })
+    const mouseY = useSpring(y, { stiffness: 220, damping: 26, mass: 0.8 })
 
-    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"])
-    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"])
+    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["7deg", "-7deg"])
+    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-7deg", "7deg"])
 
     // Glare effects
     const glareX = useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"])
     const glareY = useTransform(mouseY, [-0.5, 0.5], ["0%", "100%"])
 
-    // Simple radial gradient following mouse
-    const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.15) 0%, transparent 80%)`
+    const glareOpacity = useTransform(mouseX, [-0.5, 0, 0.5], [0.1, 0.2, 0.1])
+    // Wide glare so it reaches card borders without clipped-looking margins
+    const glareBackground = useMotionTemplate`radial-gradient(140% 140% at ${glareX} ${glareY}, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.03) 55%, transparent 100%)`
 
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -61,16 +62,16 @@ export function TiltCard({ children, className, perspective = 1000 }: TiltCardPr
             }}
             className={cn("relative will-change-transform group", className)}
         >
-            <div style={{ transform: "translateZ(20px)" }} className="h-full">
+            <div style={{ transform: "translateZ(12px)" }} className="h-full">
                 {children}
             </div>
 
             {/* Glare Layer */}
             <motion.div
-                className="absolute inset-0 pointer-events-none rounded-xl mix-blend-overlay z-50"
+                className="absolute -inset-px pointer-events-none rounded-[14px] mix-blend-overlay z-50"
                 style={{
                     background: glareBackground,
-                    opacity: useTransform(mouseX, [-0.5, 0.5], [0, 0.6]) // Hacky opacity for now, simple is better
+                    opacity: glareOpacity
                 }}
             />
         </motion.div>
