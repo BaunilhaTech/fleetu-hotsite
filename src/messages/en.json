@@ -1,15 +1,15 @@
 {
     "Header": {
         "product": "Product",
-        "solutions": "Solutions",
-        "docs": "Docs",
-        "requestAccess": "Request Access"
+        "howItWorks": "How it Works",
+        "useCases": "Use Cases",
+        "requestAccess": "Join Waitlist"
     },
     "Hero": {
         "title": "Where intent becomes system",
         "description": "Engineering governance platform that transforms organizational decisions into executable systems.",
-        "cta": "Get Started",
-        "demo": "Book a Demo"
+        "cta": "Join Waitlist",
+        "demo": "How it Works"
     },
     "IntentScanner": {
         "intent": "Intent",
@@ -53,6 +53,25 @@
     },
     "CTA": {
         "title": "Ready to scale governance?",
-        "button": "Start Now"
+        "subtitle": "Join engineering leaders who are turning intent into system. Request early access to the platform.",
+        "emailPlaceholder": "Enter your work email",
+        "rolePlaceholder": "Your role",
+        "fleetPlaceholder": "Repo count",
+        "roleDeveloper": "Dev Lead / Tech Lead",
+        "roleStaff": "Staff Engineer",
+        "rolePlatform": "Platform Engineer",
+        "roleArchitect": "Architect",
+        "roleHead": "Head of Engineering",
+        "roleOther": "Other",
+        "fleet50": "Less than 50 repos",
+        "fleet200": "50-200 repos",
+        "fleet500": "200-500 repos",
+        "fleet500plus": "500+ repos",
+        "button": "Join the Waitlist",
+        "privacy": "By subscribing, you agree to our Terms of Service and Privacy Policy.",
+        "successTitle": "You're on the list!",
+        "successMessage": "We've added you to our priority waiting list. Our team will reach out shortly.",
+        "close": "Close",
+        "error": "Something went wrong. Please try again."
     }
 }

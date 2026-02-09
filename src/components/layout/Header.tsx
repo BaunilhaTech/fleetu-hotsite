@@ -16,9 +16,9 @@ export function Header() {
     const locale = useLocale()
 
     const navItems = [
-        { name: t("product"), href: "#product" },
-        { name: t("solutions"), href: "#solutions" },
-        { name: t("docs"), href: "/docs" },
+        { name: t("product"), href: "#solution" },
+        { name: t("howItWorks"), href: "#how-it-works" },
+        { name: t("useCases"), href: "#use-cases" },
     ]
 
     return (
@@ -78,7 +78,9 @@ export function Header() {
                     </div>
                     <nav className="flex items-center gap-2">
                         <LanguageSwitcher />
-                        <Button>{t("requestAccess")}</Button>
+                        <Button onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}>
+                            {t("requestAccess")}
+                        </Button>
                     </nav>
                 </div>
             </div>

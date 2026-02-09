@@ -1,15 +1,15 @@
 {
     "Header": {
         "product": "Produto",
-        "solutions": "Soluções",
-        "docs": "Documentação",
-        "requestAccess": "Pedir Acesso"
+        "howItWorks": "Como Funciona",
+        "useCases": "Casos de Uso",
+        "requestAccess": "Entrar na Lista"
     },
     "Hero": {
         "title": "Onde a intenção vira sistema",
         "description": "Plataforma de governança de engenharia que transforma decisões organizacionais em sistemas executáveis.",
-        "cta": "Começar Agora",
-        "demo": "Agendar Demo"
+        "cta": "Entrar na Lista",
+        "demo": "Como Funciona"
     },
     "IntentScanner": {
         "intent": "Intenção",
@@ -53,6 +53,25 @@
     },
     "CTA": {
         "title": "Pronto para escalar a governança?",
-        "button": "Comece Agora"
+        "subtitle": "Junte-se aos líderes de engenharia que estão transformando intenção em sistema. Solicite acesso antecipado.",
+        "emailPlaceholder": "Seu e-mail corporativo",
+        "rolePlaceholder": "Seu cargo",
+        "fleetPlaceholder": "Qtd de repos",
+        "roleDeveloper": "Dev Lead / Tech Lead",
+        "roleStaff": "Staff Engineer",
+        "rolePlatform": "Platform Engineer",
+        "roleArchitect": "Arquiteto",
+        "roleHead": "Head de Engenharia",
+        "roleOther": "Outro",
+        "fleet50": "Menos de 50 repos",
+        "fleet200": "50-200 repos",
+        "fleet500": "200-500 repos",
+        "fleet500plus": "500+ repos",
+        "button": "Entrar na Lista",
+        "privacy": "Ao se inscrever, você concorda com nossos Termos de Serviço e Política de Privacidade.",
+        "successTitle": "Você está na lista!",
+        "successMessage": "Adicionamos você à nossa lista de espera prioritária. Nossa equipe entrará em contato em breve.",
+        "close": "Fechar",
+        "error": "Algo deu errado. Tente novamente."
     }
 }

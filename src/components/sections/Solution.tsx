@@ -8,7 +8,7 @@ export function Solution() {
     const t = useTranslations("Solution")
 
     return (
-        <section className="py-24">
+        <section id="solution" className="py-24 min-h-screen flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="grid gap-12 lg:grid-cols-2 items-center">
                     <div className="space-y-6">
