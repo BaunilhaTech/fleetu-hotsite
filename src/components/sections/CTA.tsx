@@ -29,7 +29,7 @@ export function CTA() {
     }
 
     return (
-        <section className="py-24 bg-primary/5 border-t border-primary/10">
+        <section className="py-24 border-t border-white/5">
             <div className="container px-4 md:px-6 mx-auto text-center">
                 <div className="max-w-3xl mx-auto space-y-8">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">

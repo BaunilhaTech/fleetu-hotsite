@@ -30,7 +30,7 @@ export function HowItWorks() {
     ]
 
     return (
-        <section className="py-24 bg-muted/20">
+        <section className="py-24">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">

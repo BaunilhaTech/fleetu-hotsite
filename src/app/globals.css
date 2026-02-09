@@ -150,5 +150,12 @@
 
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+    /* GitHub-style subtle gradient - covers full viewport */
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-image:
+      radial-gradient(ellipse 150% 100% at 50% 0%, rgba(120, 119, 198, 0.12), transparent 60%),
+      radial-gradient(ellipse 100% 80% at 100% 30%, rgba(139, 92, 246, 0.08), transparent 50%),
+      radial-gradient(ellipse 80% 60% at 0% 70%, rgba(59, 130, 246, 0.06), transparent 50%);
   }
 }

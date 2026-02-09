@@ -9,7 +9,7 @@ export function Problem() {
     const t = useTranslations("Problem")
 
     return (
-        <section className="py-24 bg-muted/30">
+        <section className="py-24">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="inline-flex items-center rounded-full border border-destructive/20 bg-destructive/10 px-3 py-1 text-sm font-medium text-destructive">
