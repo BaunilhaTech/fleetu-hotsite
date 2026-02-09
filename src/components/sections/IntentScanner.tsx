@@ -372,8 +372,11 @@ export function IntentScanner() {
 
                                     {/* Intent Card (top layer - clips away to reveal Shift) */}
                                     <div
-                                        className="absolute inset-0 rounded-xl border border-blue-500/20 bg-zinc-900/95 backdrop-blur-sm p-5 overflow-hidden"
-                                        style={{ clipPath: `inset(0 ${clipPercent}% 0 0)` }}
+                                        className="absolute inset-0 rounded-xl border border-white/20 bg-white/5 backdrop-blur-md p-5 overflow-hidden"
+                                        style={{
+                                            clipPath: `inset(0 ${clipPercent}% 0 0)`,
+                                            boxShadow: "inset 0 1px 1px 0 rgba(255,255,255,0.1)"
+                                        }}
                                     >
                                         <div className="text-xs font-mono text-blue-400/80 uppercase tracking-wider mb-3">
                                             {tScanner("intent")}
@@ -383,7 +386,7 @@ export function IntentScanner() {
                                         </p>
                                         <div className="absolute bottom-4 left-5 right-5 flex items-center gap-2 text-xs text-muted-foreground/50">
                                             <span className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" />
-                                            {tScanner("naturalLanguage")}
+                                            {tScanner("intentLabel")}
                                         </div>
                                     </div>
                                 </div>

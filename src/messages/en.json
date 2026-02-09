@@ -14,7 +14,7 @@
     "IntentScanner": {
         "intent": "Intent",
         "shift": "Shift",
-        "naturalLanguage": "Natural Language",
+        "intentLabel": "Engineering Decision",
         "card1": "All FastAPI services must use 30s timeout",
         "card2": "Upgrade Java 8 to Java 17 across all services",
         "card3": "Apply CVE-2024-1234 security patch immediately",
