@@ -20,15 +20,12 @@ export async function saveLead(lead: Lead) {
         throw new Error('Database connection not available')
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from('leads')
         .insert([lead])
-        .select()
 
     if (error) {
         console.error('Error saving lead:', error)
         throw error
     }
-
-    return data
 }
