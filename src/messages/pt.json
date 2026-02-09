@@ -55,6 +55,7 @@
         "executing": "Executando..."
     },
     "HowItWorks": {
+        "badge": "Pipeline de Execução",
         "title": "Como funciona",
         "subtitle": "Transforme tarefas avulsas em um processo industrial repetível.",
         "step1": "Defina Políticas",
@@ -63,8 +64,18 @@
         "step2Desc": "Aplique transformações automatizadas (Operators). De simples busca-e-substitui até refatorações complexas via AST e LLMs.",
         "step3": "Monitore Conformidade",
         "step3Desc": "As mudanças são verificadas em ambientes de CI isolados. Se bem-sucedidas, o Fleetu abre um PR ou commita diretamente.",
-        "step4": "4. Proteja",
-        "step4Desc": "Uma vez que um Shift é aplicado, o Fleetu monitora por regressões, corrigindo automaticamente qualquer desvio."
+        "step4": "Proteja",
+        "step4Desc": "Uma vez que um Shift é aplicado, o Fleetu monitora por regressões, corrigindo automaticamente qualquer desvio.",
+        "statusQueued": "na fila",
+        "statusRunning": "em execução",
+        "statusMerged": "mesclado",
+        "statusGuarding": "protegendo",
+        "runtimeTitle": "Runtime ao Vivo",
+        "runtimeSubtitle": "Cada política é executada como pipeline governado com trilha de auditoria.",
+        "metricTargets": "Repos Alvo",
+        "metricWaves": "Ondas de Rollout",
+        "metricPullRequests": "PRs Automáticos",
+        "metricGuard": "Vigilância de Drift"
     },
     "UseCases": {
         "title": "Casos de Uso",

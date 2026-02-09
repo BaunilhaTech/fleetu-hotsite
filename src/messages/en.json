@@ -55,6 +55,7 @@
         "executing": "Executing..."
     },
     "HowItWorks": {
+        "badge": "Execution Pipeline",
         "title": "How it works",
         "subtitle": "Turn ad-hoc tasks into a repeatable industrial process.",
         "step1": "Define Policy",
@@ -63,8 +64,18 @@
         "step2Desc": "Apply automated transformations (Operators). From simple search-and-replace to complex AST refactors via LLMs.",
         "step3": "Monitor Compliance",
         "step3Desc": "Changes are verified in isolated CI environments. If successful, Fleetu opens a PR or commits directly.",
-        "step4": "4. Guard",
-        "step4Desc": "Once a Shift is applied, Fleetu monitors for regression, automatically correcting any drift."
+        "step4": "Guard",
+        "step4Desc": "Once a Shift is applied, Fleetu monitors for regression, automatically correcting any drift.",
+        "statusQueued": "queued",
+        "statusRunning": "running",
+        "statusMerged": "merged",
+        "statusGuarding": "guarding",
+        "runtimeTitle": "Live Runtime",
+        "runtimeSubtitle": "Every policy is executed as a governed pipeline with audit trace.",
+        "metricTargets": "Target Repos",
+        "metricWaves": "Rollout Waves",
+        "metricPullRequests": "Auto PRs",
+        "metricGuard": "Drift Watch"
     },
     "UseCases": {
         "title": "Use Cases",
