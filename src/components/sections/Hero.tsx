@@ -64,42 +64,45 @@ export function Hero() {
                         className="relative mx-auto w-full max-w-[600px] lg:max-w-none"
                     >
                         {/* Abstract Pipeline Visualization */}
-                        <div className="relative rounded-xl border bg-card/50 backdrop-blur-sm p-2 shadow-2xl overflow-hidden aspect-video transform rotate-1 lg:rotate-2 hover:rotate-0 transition-transform duration-500">
-                            <div className="absolute top-0 left-0 w-full h-8 bg-muted/50 border-b flex items-center px-4 space-x-2">
-                                <div className="w-3 h-3 rounded-full bg-red-500/20"></div>
-                                <div className="w-3 h-3 rounded-full bg-yellow-500/20"></div>
-                                <div className="w-3 h-3 rounded-full bg-green-500/20"></div>
-                                <div className="flex-1 text-xs text-center text-muted-foreground font-mono">pipeline-executor — bash</div>
+                        <div className="relative rounded-xl border border-white/10 bg-black/60 backdrop-blur-xl p-2 shadow-2xl overflow-hidden aspect-video transform rotate-1 lg:rotate-2 hover:rotate-0 transition-transform duration-500 ring-1 ring-white/5">
+                            <div className="absolute top-0 left-0 w-full h-10 bg-white/5 border-b border-white/5 flex items-center px-4 space-x-2">
+                                <div className="w-3 h-3 rounded-full bg-[#FF5F56] shadow-sm"></div>
+                                <div className="w-3 h-3 rounded-full bg-[#FFBD2E] shadow-sm"></div>
+                                <div className="w-3 h-3 rounded-full bg-[#27C93F] shadow-sm"></div>
+                                <div className="flex-1 text-xs text-center text-muted-foreground/60 font-mono tracking-wide">pipeline-executor — bash — 80x24</div>
                             </div>
 
-                            <div className="p-4 pt-12 font-mono text-sm space-y-4">
-                                <div className="flex items-center space-x-3 text-muted-foreground/50">
-                                    <span>$ fleetu apply shift:upgrade-node-v22</span>
+                            <div className="p-6 pt-14 font-mono text-sm space-y-4">
+                                <div className="flex items-center space-x-2 text-muted-foreground/80">
+                                    <span className="text-green-500 font-bold">➜</span>
+                                    <span className="text-blue-400 font-bold">~</span>
+                                    <span className="text-foreground/90">$ fleetu apply shift:upgrade-node-v22</span>
+                                    <span className="w-2 h-4 bg-muted-foreground/40 animate-pulse" />
                                 </div>
 
-                                <div className="space-y-2">
+                                <div className="space-y-2 text-sm/relaxed">
                                     <div className="flex items-center space-x-2">
                                         <span className="text-green-500">✔</span>
-                                        <span className="text-foreground">Scanning 1,420 repositories...</span>
+                                        <span className="text-foreground/80">Scanning 1,420 repositories...</span>
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <span className="text-green-500">✔</span>
-                                        <span className="text-foreground">Found 842 matching targets</span>
+                                        <span className="text-foreground/80">Found 842 matching targets</span>
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <motion.span
                                             animate={{ rotate: 360 }}
-                                            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                                            transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
                                             className="text-primary"
                                         >
                                             ⟳
                                         </motion.span>
-                                        <span className="text-primary">Applying transformation... (430/842)</span>
+                                        <span className="text-primary font-medium">Applying transformation... (430/842)</span>
                                     </div>
                                 </div>
 
                                 {/* Visual blocks flowing */}
-                                <div className="relative h-20 mt-8 border rounded bg-background/50 overflow-hidden">
+                                <div className="relative h-24 mt-8 border border-white/5 rounded-lg bg-black/40 overflow-hidden shadow-inner">
                                     <div className="absolute inset-0 flex items-center space-x-4 px-4 overflow-hidden">
                                         {[1, 2, 3, 4, 5].map((i) => (
                                             <motion.div
@@ -112,14 +115,14 @@ export function Hero() {
                                                     delay: i * 0.6,
                                                     ease: "linear"
                                                 }}
-                                                className="w-12 h-12 rounded border bg-card flex items-center justify-center text-xs border-red-500/30 text-red-500"
+                                                className="w-12 h-12 rounded border bg-card/80 backdrop-blur-sm flex items-center justify-center text-xs font-bold border-red-500/30 text-red-400 shadow-sm"
                                             >
                                                 v14
                                             </motion.div>
                                         ))}
 
-                                        <div className="absolute left-1/2 -translate-x-1/2 w-12 h-20 bg-primary/20 backdrop-blur-md z-10 flex items-center justify-center border-x border-primary/30">
-                                            <Zap className="h-6 w-6 text-primary animate-pulse" />
+                                        <div className="absolute left-1/2 -translate-x-1/2 w-16 h-full bg-primary/10 backdrop-blur-md z-10 flex items-center justify-center border-x border-primary/20 shadow-[0_0_30px_rgba(124,58,237,0.1)]">
+                                            <Zap className="h-6 w-6 text-primary animate-pulse filter drop-shadow-[0_0_8px_rgba(124,58,237,0.5)]" />
                                         </div>
 
                                         {[1, 2, 3, 4, 5].map((i) => (
@@ -133,7 +136,7 @@ export function Hero() {
                                                     delay: i * 0.6 + 1.5, // Sync with input
                                                     ease: "linear"
                                                 }}
-                                                className="absolute w-12 h-12 rounded border bg-card flex items-center justify-center text-xs border-green-500/30 text-green-500"
+                                                className="absolute w-12 h-12 rounded border bg-card/80 backdrop-blur-sm flex items-center justify-center text-xs font-bold border-green-500/30 text-green-400 shadow-sm"
                                             >
                                                 v22
                                             </motion.div>

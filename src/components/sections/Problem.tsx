@@ -51,7 +51,7 @@ export function Problem() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: item.delay, duration: 0.5 }}
-                            className="flex flex-col items-center space-y-4 rounded-xl border bg-card p-6 shadow-sm hover:shadow-md transition-shadow"
+                            className="flex flex-col items-center space-y-4 rounded-xl border border-primary/10 bg-card/30 backdrop-blur-md p-6 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:bg-card/40 hover:border-primary/30 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)]"
                         >
                             <div className="p-3 rounded-full bg-primary/10 text-primary">
                                 <item.icon className="h-6 w-6" />

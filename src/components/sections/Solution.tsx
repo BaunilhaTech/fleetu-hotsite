@@ -40,31 +40,31 @@ export function Solution() {
                             whileInView={{ rotateY: 0, opacity: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
-                            className="rounded-xl border bg-card text-card-foreground shadow-2xl overflow-hidden font-mono text-sm"
+                            className="rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-card-foreground shadow-2xl overflow-hidden font-mono text-sm ring-1 ring-white/5 transition-all duration-500 hover:scale-[1.02] hover:bg-black/50 hover:border-purple-500/30 hover:shadow-[0_0_40px_-10px_rgba(168,85,247,0.3)]"
                         >
-                            <div className="flex items-center justify-between border-b px-4 py-3 bg-muted/50">
+                            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 bg-white/5 backdrop-blur-sm">
                                 <div className="flex items-center space-x-2">
                                     <FileIcon className="h-4 w-4 text-blue-400" />
-                                    <span className="text-muted-foreground">shift.yaml</span>
+                                    <span className="text-muted-foreground/80 font-medium">shift.yaml</span>
                                 </div>
-                                <div className="flex space-x-1">
-                                    <div className="h-2 w-2 rounded-full bg-red-500/50" />
-                                    <div className="h-2 w-2 rounded-full bg-yellow-500/50" />
-                                    <div className="h-2 w-2 rounded-full bg-green-500/50" />
+                                <div className="flex space-x-1.5">
+                                    <div className="h-3 w-3 rounded-full bg-[#FF5F56] shadow-sm" />
+                                    <div className="h-3 w-3 rounded-full bg-[#FFBD2E] shadow-sm" />
+                                    <div className="h-3 w-3 rounded-full bg-[#27C93F] shadow-sm" />
                                 </div>
                             </div>
-                            <div className="p-6 space-y-1 text-blue-300">
+                            <div className="p-6 space-y-1.5 text-blue-200/90 font-medium leading-relaxed">
                                 <div><span className="text-purple-400">shift:</span> python-http-timeout-v1</div>
                                 <div><span className="text-purple-400">scope:</span></div>
-                                <div className="pl-4"><span className="text-purple-400">language:</span> python</div>
-                                <div className="pl-4"><span className="text-purple-400">framework:</span> fastapi</div>
+                                <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">language:</span> python</div>
+                                <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">framework:</span> fastapi</div>
                                 <div><span className="text-purple-400">transform:</span></div>
-                                <div className="pl-4"><span className="text-purple-400">operator:</span> add-timeout@1.2.0</div>
+                                <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">operator:</span> add-timeout@1.2.0</div>
                                 <div><span className="text-purple-400">validate:</span></div>
-                                <div className="pl-4"><span className="text-purple-400">tests:</span> pytest</div>
+                                <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">tests:</span> pytest</div>
                                 <div><span className="text-purple-400">rollout:</span></div>
-                                <div className="pl-4"><span className="text-purple-400">strategy:</span> canary</div>
-                                <div className="pl-4"><span className="text-purple-400">waves:</span> [10, 50, 100]</div>
+                                <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">strategy:</span> canary</div>
+                                <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">waves:</span> [10, 50, 100]</div>
                             </div>
 
                             {/* Execute Overlay */}

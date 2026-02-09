@@ -53,7 +53,7 @@ export function UseCases() {
                 </div>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {cases.map((item, i) => (
-                        <Card key={i} className="bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/50 transition-colors">
+                        <Card key={i} className="bg-card/30 backdrop-blur-md border-primary/10 transition-all duration-300 hover:scale-[1.02] hover:bg-card/40 hover:border-primary/30 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)]">
                             <CardHeader>
                                 <div className="mb-4 flex items-center justify-between">
                                     <div className="p-2 bg-primary/10 rounded-lg text-primary">
