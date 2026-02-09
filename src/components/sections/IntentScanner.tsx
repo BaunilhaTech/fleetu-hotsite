@@ -203,9 +203,28 @@ export function IntentScanner() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const animationRef = useRef<number>(0)
+  const [cardScale, setCardScale] = useState(1)
+  const scannerHeightRef = useRef(300)
 
-  const CARD_WIDTH = 380
-  const CARD_GAP = 48
+  useEffect(() => {
+    const updateScale = () => {
+      const w = window.innerWidth
+      let s: number
+      if (w < 640) s = 0.7
+      else if (w < 1024) s = 0.7 + ((w - 640) / (1024 - 640)) * 0.3
+      else s = 1
+      setCardScale(s)
+      scannerHeightRef.current = Math.round(300 * s)
+    }
+    updateScale()
+    window.addEventListener("resize", updateScale)
+    return () => window.removeEventListener("resize", updateScale)
+  }, [])
+
+  const CARD_WIDTH = Math.round(380 * cardScale)
+  const CARD_HEIGHT = Math.round(250 * cardScale)
+  const CARD_GAP = Math.round(48 * cardScale)
+  const SCANNER_HEIGHT = Math.round(300 * cardScale)
   const SINGLE_SET_WIDTH = (CARD_WIDTH + CARD_GAP) * CARDS_DATA.length
 
   const [position, setPosition] = useState<number | null>(-SINGLE_SET_WIDTH)
@@ -223,7 +242,7 @@ export function IntentScanner() {
     const resizeCanvas = () => {
       const rect = container.getBoundingClientRect()
       canvas.width = rect.width
-      canvas.height = 300
+      canvas.height = scannerHeightRef.current
       setContainerWidth(rect.width)
     }
     resizeCanvas()
@@ -247,7 +266,7 @@ export function IntentScanner() {
 
     const createParticle = (x: number): Particle => ({
       x: x + (Math.random() - 0.5) * 8,
-      y: Math.random() * 300,
+      y: Math.random() * scannerHeightRef.current,
       vx: (Math.random() - 0.5) * 1.5,
       vy: (Math.random() - 0.5) * 0.5,
       radius: Math.random() * 2 + 1,
@@ -257,7 +276,8 @@ export function IntentScanner() {
     })
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      const h = scannerHeightRef.current
+      ctx.clearRect(0, 0, canvas.width, h)
       const centerX = canvas.width / 2
 
       ctx.globalCompositeOperation = "lighter"
@@ -269,7 +289,7 @@ export function IntentScanner() {
       glow4.addColorStop(1, "rgba(139, 92, 246, 0)")
       ctx.globalAlpha = 0.6
       ctx.fillStyle = glow4
-      ctx.fillRect(centerX - 100, 0, 200, 300)
+      ctx.fillRect(centerX - 100, 0, 200, h)
 
       // Outer glow 3
       const glow3 = ctx.createLinearGradient(centerX - 50, 0, centerX + 50, 0)
@@ -279,7 +299,7 @@ export function IntentScanner() {
       ctx.globalAlpha = 0.7
       ctx.fillStyle = glow3
       ctx.beginPath()
-      ctx.roundRect(centerX - 50, 0, 100, 300, 30)
+      ctx.roundRect(centerX - 50, 0, 100, h, 30)
       ctx.fill()
 
       // Outer glow 2
@@ -290,7 +310,7 @@ export function IntentScanner() {
       ctx.globalAlpha = 0.8
       ctx.fillStyle = glow2
       ctx.beginPath()
-      ctx.roundRect(centerX - 20, 0, 40, 300, 25)
+      ctx.roundRect(centerX - 20, 0, 40, h, 25)
       ctx.fill()
 
       // Glow layer 1
@@ -301,7 +321,7 @@ export function IntentScanner() {
       ctx.globalAlpha = 0.9
       ctx.fillStyle = glow1
       ctx.beginPath()
-      ctx.roundRect(centerX - 10, 0, 20, 300, 20)
+      ctx.roundRect(centerX - 10, 0, 20, h, 20)
       ctx.fill()
 
       // Core scanner line
@@ -312,11 +332,11 @@ export function IntentScanner() {
       ctx.globalAlpha = 1
       ctx.fillStyle = coreGradient
       ctx.beginPath()
-      ctx.roundRect(centerX - 2, 0, 4, 300, 15)
+      ctx.roundRect(centerX - 2, 0, 4, h, 15)
       ctx.fill()
 
       // Vertical fade
-      const fadeMask = ctx.createLinearGradient(0, 0, 0, 300)
+      const fadeMask = ctx.createLinearGradient(0, 0, 0, h)
       fadeMask.addColorStop(0, "rgba(255, 255, 255, 0)")
       fadeMask.addColorStop(0.1, "rgba(255, 255, 255, 1)")
       fadeMask.addColorStop(0.9, "rgba(255, 255, 255, 1)")
@@ -324,7 +344,7 @@ export function IntentScanner() {
       ctx.globalCompositeOperation = "destination-in"
       ctx.globalAlpha = 1
       ctx.fillStyle = fadeMask
-      ctx.fillRect(0, 0, canvas.width, 300)
+      ctx.fillRect(0, 0, canvas.width, h)
 
       // Add new particles from scanner
       if (Math.random() < 0.95 && particlesRef.current.length < 600) {
@@ -333,6 +353,7 @@ export function IntentScanner() {
       }
 
       ctx.globalCompositeOperation = "lighter"
+      const fadeEdge = h * 0.1
       particlesRef.current = particlesRef.current.filter((p) => {
         p.x += p.vx
         p.y += p.vy
@@ -341,8 +362,8 @@ export function IntentScanner() {
         if (p.life <= 0 || p.x < -20 || p.x > canvas.width + 20) return false
 
         let fadeAlpha = 1
-        if (p.y < 30) fadeAlpha = p.y / 30
-        else if (p.y > 270) fadeAlpha = (300 - p.y) / 30
+        if (p.y < fadeEdge) fadeAlpha = p.y / fadeEdge
+        else if (p.y > h - fadeEdge) fadeAlpha = (h - p.y) / fadeEdge
 
         ctx.globalAlpha = p.alpha * p.life * Math.max(0, fadeAlpha)
         ctx.drawImage(gradCanvas, p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2)
@@ -443,8 +464,9 @@ export function IntentScanner() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative w-full h-[300px] overflow-hidden"
+          className="relative w-full overflow-hidden"
           style={{
+            height: `${SCANNER_HEIGHT}px`,
             maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
           }}
@@ -454,15 +476,18 @@ export function IntentScanner() {
 
           {/* Card stream */}
           <div
-            className="absolute top-0 left-0 flex items-center gap-12 h-full z-5"
-            style={{ transform: `translateX(${position}px)`, willChange: "transform" }}
+            className="absolute top-0 left-0 flex items-center h-full z-5"
+            style={{ transform: `translateX(${position}px)`, willChange: "transform", gap: `${CARD_GAP}px` }}
           >
             {LOOPED_CARDS.map((card, index) => {
               const clipPercent = getClipPercent(index)
               return (
-                <div key={index} className="relative w-[380px] h-[250px] flex-shrink-0">
+                <div key={index} className="relative flex-shrink-0" style={{ width: `${CARD_WIDTH}px`, height: `${CARD_HEIGHT}px` }}>
                   {/* Shift Card (base layer - revealed after passing scanner) */}
-                  <div className="absolute inset-0 rounded-xl border border-violet-500/30 bg-zinc-950/95 backdrop-blur-sm p-5 overflow-hidden">
+                  <div
+                    className="absolute top-0 left-0 origin-top-left rounded-xl border border-violet-500/30 bg-zinc-950/95 backdrop-blur-sm p-5 overflow-hidden"
+                    style={{ width: 380, height: 250, transform: `scale(${cardScale})` }}
+                  >
                     <div className="text-xs font-mono text-violet-400/80 uppercase tracking-wider mb-2">
                       {tScanner("shift")}
                     </div>
@@ -473,8 +498,11 @@ export function IntentScanner() {
 
                   {/* Intent Card (top layer - clips away to reveal Shift) */}
                   <div
-                    className="absolute inset-0 rounded-xl border border-white/20 bg-zinc-900 p-5 overflow-hidden"
+                    className="absolute top-0 left-0 origin-top-left rounded-xl border border-white/20 bg-zinc-900 p-5 overflow-hidden"
                     style={{
+                      width: 380,
+                      height: 250,
+                      transform: `scale(${cardScale})`,
                       clipPath: `inset(0 ${clipPercent}% 0 0)`,
                       boxShadow: "inset 0 1px 1px 0 rgba(255,255,255,0.1)"
                     }}
