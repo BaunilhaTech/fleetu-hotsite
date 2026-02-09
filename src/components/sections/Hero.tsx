@@ -100,7 +100,7 @@ export function Hero() {
 
                                 {/* Visual blocks flowing */}
                                 <div className="relative h-20 mt-8 border rounded bg-background/50 overflow-hidden">
-                                    <div className="absolute inset-0 flex items-center space-x-4 px-4">
+                                    <div className="absolute inset-0 flex items-center space-x-4 px-4 overflow-hidden">
                                         {[1, 2, 3, 4, 5].map((i) => (
                                             <motion.div
                                                 key={i}
@@ -144,7 +144,7 @@ export function Hero() {
                         </div>
 
                         {/* Back glow */}
-                        <div className="absolute -inset-4 bg-primary/20 blur-3xl -z-10 rounded-full opacity-50"></div>
+                        <div className="absolute -inset-4 bg-primary/20 blur-3xl -z-10 rounded-full opacity-50 max-w-[100vw]"></div>
                     </motion.div>
                 </div>
             </div>
