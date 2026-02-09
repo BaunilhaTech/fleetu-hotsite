@@ -7,7 +7,7 @@ import { ArrowLeft, Home } from "lucide-react"
 
 export default function NotFound() {
     return (
-        <div className="relative min-h-screen w-full overflow-hidden bg-background text-foreground flex flex-col font-sans">
+        <div className="fixed inset-0 w-full h-full overflow-hidden bg-background text-foreground flex flex-col font-sans">
             <TubesEffect />
 
             <header className="container mx-auto px-4 h-16 flex items-center z-10">
