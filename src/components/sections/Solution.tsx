@@ -8,6 +8,36 @@ import { TiltCard } from "@/components/ui/tilt-card"
 export function Solution() {
     const t = useTranslations("Solution")
 
+    // Terminal content component to avoid duplication
+    const TerminalContent = () => (
+        <>
+            <div className="flex items-center justify-between border-b border-white/10 px-3 sm:px-4 py-2 sm:py-3 bg-white/5 backdrop-blur-sm">
+                <div className="flex items-center space-x-2">
+                    <FileIcon className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400" />
+                    <span className="text-xs sm:text-sm text-muted-foreground/80 font-medium">shift.yaml</span>
+                </div>
+                <div className="flex space-x-1 sm:space-x-1.5">
+                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#FF5F56] shadow-sm" />
+                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#FFBD2E] shadow-sm" />
+                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#27C93F] shadow-sm" />
+                </div>
+            </div>
+            <div className="p-4 sm:p-6 space-y-1 sm:space-y-1.5 text-blue-200/90 font-medium leading-relaxed text-xs sm:text-sm">
+                <div><span className="text-purple-400">shift:</span> python-http-timeout-v1</div>
+                <div><span className="text-purple-400">scope:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">language:</span> python</div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">framework:</span> fastapi</div>
+                <div><span className="text-purple-400">transform:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">operator:</span> add-timeout@1.2.0</div>
+                <div><span className="text-purple-400">validate:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">tests:</span> pytest</div>
+                <div><span className="text-purple-400">rollout:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">strategy:</span> canary</div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">waves:</span> [10, 50, 100]</div>
+            </div>
+        </>
+    )
+
     return (
         <section id="solution" className="py-24 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
@@ -35,8 +65,26 @@ export function Solution() {
                     </div>
 
                     <div className="relative">
-                        {/* Code Block */}
-                        <TiltCard className="relative z-10">
+                        {/* Mobile: Terminal with scroll animation but no tilt */}
+                        <motion.div
+                            className="lg:hidden relative rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-card-foreground shadow-xl overflow-hidden font-mono ring-1 ring-white/5"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <TerminalContent />
+                            {/* Static execute badge */}
+                            <div className="absolute bottom-4 right-4">
+                                <div className="flex items-center space-x-2 bg-green-500/20 text-green-500 px-3 py-1.5 rounded-full border border-green-500/30 shadow-lg backdrop-blur-md text-xs">
+                                    <Play className="h-3 w-3 fill-current" />
+                                    <span className="font-bold">{t("executing")}</span>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Desktop: TiltCard with animations */}
+                        <TiltCard className="relative z-10 hidden lg:block">
                             <motion.div
                                 initial={{ rotateY: -10, opacity: 0 }}
                                 whileInView={{ rotateY: 0, opacity: 1 }}
@@ -44,30 +92,7 @@ export function Solution() {
                                 transition={{ duration: 0.8 }}
                                 className="rounded-xl border border-white/10 bg-black/40 backdrop-blur-md text-card-foreground shadow-2xl overflow-hidden font-mono text-sm ring-1 ring-white/5 transition-all duration-500 hover:scale-[1.02] hover:bg-black/50 hover:border-purple-500/30 hover:shadow-[0_0_40px_-10px_rgba(168,85,247,0.3)]"
                             >
-                                <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 bg-white/5 backdrop-blur-sm">
-                                    <div className="flex items-center space-x-2">
-                                        <FileIcon className="h-4 w-4 text-blue-400" />
-                                        <span className="text-muted-foreground/80 font-medium">shift.yaml</span>
-                                    </div>
-                                    <div className="flex space-x-1.5">
-                                        <div className="h-3 w-3 rounded-full bg-[#FF5F56] shadow-sm" />
-                                        <div className="h-3 w-3 rounded-full bg-[#FFBD2E] shadow-sm" />
-                                        <div className="h-3 w-3 rounded-full bg-[#27C93F] shadow-sm" />
-                                    </div>
-                                </div>
-                                <div className="p-6 space-y-1.5 text-blue-200/90 font-medium leading-relaxed">
-                                    <div><span className="text-purple-400">shift:</span> python-http-timeout-v1</div>
-                                    <div><span className="text-purple-400">scope:</span></div>
-                                    <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">language:</span> python</div>
-                                    <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">framework:</span> fastapi</div>
-                                    <div><span className="text-purple-400">transform:</span></div>
-                                    <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">operator:</span> add-timeout@1.2.0</div>
-                                    <div><span className="text-purple-400">validate:</span></div>
-                                    <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">tests:</span> pytest</div>
-                                    <div><span className="text-purple-400">rollout:</span></div>
-                                    <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">strategy:</span> canary</div>
-                                    <div className="pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">waves:</span> [10, 50, 100]</div>
-                                </div>
+                                <TerminalContent />
 
                                 {/* Execute Overlay */}
                                 <motion.div
@@ -84,7 +109,7 @@ export function Solution() {
                             </motion.div>
                         </TiltCard>
 
-                        {/* Decoratiodn */}
+                        {/* Decoration */}
                         <div className="absolute -top-10 -right-10 w-72 h-72 bg-purple-500/10 blur-3xl rounded-full -z-10"></div>
                     </div>
                 </div>
