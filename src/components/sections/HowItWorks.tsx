@@ -281,7 +281,8 @@ export function HowItWorks() {
 
                                         <button
                                             type="button"
-                                            onClick={() => setActiveStep(step.id)}
+                                            onMouseEnter={() => setActiveStep(step.id)}
+                                            onFocus={() => setActiveStep(step.id)}
                                             aria-pressed={step.id === activeStep}
                                             className={`w-full rounded-2xl border p-4 md:p-5 text-left transition-all duration-300 ${step.id === activeStep
                                                 ? "border-primary/45 bg-primary/10 shadow-[0_0_30px_-12px_rgba(124,58,237,0.75)]"
