@@ -2,9 +2,13 @@
 
 import { motion } from "framer-motion"
 import { GitPullRequest, Search, Shield, Zap, type LucideIcon } from "lucide-react"
+import { useState } from "react"
 import { useTranslations } from "next-intl"
 
 type StepState = "queued" | "running" | "done" | "watch"
+type StepId = "policy" | "enforce" | "monitor" | "guard"
+
+const STEP_ORDER: StepId[] = ["policy", "enforce", "monitor", "guard"]
 
 const STATE_CLASSES: Record<StepState, string> = {
     queued: "border-white/15 bg-white/5 text-muted-foreground",
@@ -13,60 +17,148 @@ const STATE_CLASSES: Record<StepState, string> = {
     watch: "border-purple-500/30 bg-purple-500/15 text-purple-300",
 }
 
-interface Step {
+interface StepDef {
+    id: StepId
     icon: LucideIcon
     title: string
     desc: string
+}
+
+interface Step extends StepDef {
     state: StepState
     stateLabel: string
 }
 
+interface RuntimeEvent {
+    id: string
+    label: string
+    detail: string
+    state: StepState
+}
+
+function resolveStepState(stepId: StepId, index: number, activeIndex: number): StepState {
+    if (index < activeIndex) {
+        return "done"
+    }
+
+    if (index > activeIndex) {
+        return "queued"
+    }
+
+    if (stepId === "guard") {
+        return "watch"
+    }
+
+    return "running"
+}
+
 export function HowItWorks() {
     const t = useTranslations("HowItWorks")
+    const [activeStep, setActiveStep] = useState<StepId>("enforce")
 
-    const steps: Step[] = [
+    const activeStepIndex = STEP_ORDER.indexOf(activeStep)
+    const statusLabels: Record<StepState, string> = {
+        queued: t("statusQueued"),
+        running: t("statusRunning"),
+        done: t("statusDone"),
+        watch: t("statusGuarding"),
+    }
+
+    const baseSteps: StepDef[] = [
         {
+            id: "policy",
             icon: Search,
             title: t("step1"),
             desc: t("step1Desc"),
-            state: "queued",
-            stateLabel: t("statusQueued"),
         },
         {
+            id: "enforce",
             icon: Zap,
             title: t("step2"),
             desc: t("step2Desc"),
-            state: "running",
-            stateLabel: t("statusRunning"),
         },
         {
+            id: "monitor",
             icon: GitPullRequest,
             title: t("step3"),
             desc: t("step3Desc"),
-            state: "done",
-            stateLabel: t("statusMerged"),
         },
         {
+            id: "guard",
             icon: Shield,
             title: t("step4"),
             desc: t("step4Desc"),
-            state: "watch",
-            stateLabel: t("statusGuarding"),
         },
     ]
 
-    const runtimeEvents = [
-        { key: "scan", message: steps[0].title, detail: "842 targets", state: "running" as const },
-        { key: "transform", message: steps[1].title, detail: "518/842 applied", state: "running" as const },
-        { key: "review", message: steps[2].title, detail: "187 PRs opened", state: "done" as const },
-        { key: "track", message: steps[3].title, detail: "drift monitor active", state: "watch" as const },
-    ]
+    const steps: Step[] = baseSteps.map((step, index) => {
+        const state = resolveStepState(step.id, index, activeStepIndex)
 
+        return {
+            ...step,
+            state,
+            stateLabel: statusLabels[state],
+        }
+    })
+
+    const runtimeByStep: Record<StepId, RuntimeEvent[]> = {
+        policy: [
+            { id: "policy-1", label: t("policyEvent1"), detail: t("policyEvent1Detail"), state: "running" },
+            { id: "policy-2", label: t("policyEvent2"), detail: t("policyEvent2Detail"), state: "running" },
+            { id: "policy-3", label: t("policyEvent3"), detail: t("policyEvent3Detail"), state: "queued" },
+        ],
+        enforce: [
+            { id: "enforce-1", label: t("enforceEvent1"), detail: t("enforceEvent1Detail"), state: "done" },
+            { id: "enforce-2", label: t("enforceEvent2"), detail: t("enforceEvent2Detail"), state: "running" },
+            { id: "enforce-3", label: t("enforceEvent3"), detail: t("enforceEvent3Detail"), state: "running" },
+        ],
+        monitor: [
+            { id: "monitor-1", label: t("monitorEvent1"), detail: t("monitorEvent1Detail"), state: "done" },
+            { id: "monitor-2", label: t("monitorEvent2"), detail: t("monitorEvent2Detail"), state: "running" },
+            { id: "monitor-3", label: t("monitorEvent3"), detail: t("monitorEvent3Detail"), state: "queued" },
+        ],
+        guard: [
+            { id: "guard-1", label: t("guardEvent1"), detail: t("guardEvent1Detail"), state: "done" },
+            { id: "guard-2", label: t("guardEvent2"), detail: t("guardEvent2Detail"), state: "watch" },
+            { id: "guard-3", label: t("guardEvent3"), detail: t("guardEvent3Detail"), state: "watch" },
+        ],
+    }
+
+    const metricsByStep: Record<StepId, Record<"targets" | "waves" | "pullRequests" | "guard", string>> = {
+        policy: {
+            targets: "842",
+            waves: "10/50/100",
+            pullRequests: "0",
+            guard: t("metricGuardStandby"),
+        },
+        enforce: {
+            targets: "842",
+            waves: "10/50/100",
+            pullRequests: "32",
+            guard: t("metricGuardStandby"),
+        },
+        monitor: {
+            targets: "842",
+            waves: "10/50/100",
+            pullRequests: "187",
+            guard: t("metricGuardPending"),
+        },
+        guard: {
+            targets: "842",
+            waves: "10/50/100",
+            pullRequests: "187",
+            guard: t("metricGuardActive"),
+        },
+    }
+
+    const activeStepData = steps.find((step) => step.id === activeStep) ?? steps[0]
+    const runtimeEvents = runtimeByStep[activeStep]
+    const activeMetrics = metricsByStep[activeStep]
     const metrics = [
-        { label: t("metricTargets"), value: "842" },
-        { label: t("metricWaves"), value: "10/50/100" },
-        { label: t("metricPullRequests"), value: "187" },
-        { label: t("metricGuard"), value: "24/7" },
+        { label: t("metricTargets"), value: activeMetrics.targets },
+        { label: t("metricWaves"), value: activeMetrics.waves },
+        { label: t("metricPullRequests"), value: activeMetrics.pullRequests },
+        { label: t("metricGuard"), value: activeMetrics.guard },
     ]
 
     return (
@@ -99,7 +191,7 @@ export function HowItWorks() {
                         <div className="space-y-4">
                             {steps.map((step, index) => (
                                 <motion.div
-                                    key={step.title}
+                                    key={step.id}
                                     initial={{ opacity: 0, x: -16 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, amount: 0.3 }}
@@ -110,11 +202,19 @@ export function HowItWorks() {
                                         <div className="absolute left-[20px] top-11 h-[calc(100%+8px)] w-px bg-gradient-to-b from-primary/40 to-transparent" />
                                     )}
 
-                                    <div className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary">
+                                    <div className={`absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border text-primary transition-colors ${step.id === activeStep ? "border-primary/50 bg-primary/20" : "border-primary/30 bg-primary/10"}`}>
                                         <step.icon className="h-5 w-5" />
                                     </div>
 
-                                    <div className="rounded-2xl border border-white/10 bg-black/40 p-4 md:p-5 text-left transition-colors duration-300 hover:border-primary/30">
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveStep(step.id)}
+                                        aria-pressed={step.id === activeStep}
+                                        className={`w-full rounded-2xl border p-4 md:p-5 text-left transition-all duration-300 ${step.id === activeStep
+                                            ? "border-primary/45 bg-primary/10 shadow-[0_0_30px_-12px_rgba(124,58,237,0.75)]"
+                                            : "border-white/10 bg-black/40 hover:border-primary/30"
+                                            }`}
+                                    >
                                         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                                             <h3 className="text-lg font-semibold">{step.title}</h3>
                                             <span className={`px-2.5 py-1 rounded-full text-[11px] border font-medium ${STATE_CLASSES[step.state]}`}>
@@ -124,7 +224,7 @@ export function HowItWorks() {
                                         <p className="text-sm text-muted-foreground leading-relaxed">
                                             {step.desc}
                                         </p>
-                                    </div>
+                                    </button>
                                 </motion.div>
                             ))}
                         </div>
@@ -141,20 +241,29 @@ export function HowItWorks() {
                                     <div className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
                                     <div className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
                                     <div className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
-                                    <span className="ml-2 text-xs text-muted-foreground font-mono">pipeline.runtime</span>
+                                    <span className="ml-2 text-xs text-muted-foreground font-mono">{t("runtimeShell")}</span>
                                 </div>
-                                <span className="text-xs text-primary font-medium">{t("runtimeTitle")}</span>
+                                <div className="flex items-center gap-2">
+                                    <span className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/15 px-2 py-0.5 text-[10px] uppercase tracking-wide text-blue-200">
+                                        {t("runtimeMockBadge")}
+                                    </span>
+                                    <span className="text-xs text-primary font-medium">{t("runtimeTitle")}</span>
+                                </div>
                             </div>
 
                             <div className="p-4 md:p-6">
                                 <p className="text-xs text-muted-foreground mb-4">
                                     {t("runtimeSubtitle")}
                                 </p>
+                                <div className="mb-4 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
+                                    <span className="text-[11px] text-muted-foreground">{t("runtimeFocusLabel")}:</span>{" "}
+                                    <span className="text-xs text-foreground/90 font-medium">{activeStepData.title}</span>
+                                </div>
 
                                 <div className="space-y-3 font-mono">
                                     {runtimeEvents.map((event, index) => (
                                         <motion.div
-                                            key={event.key}
+                                            key={event.id}
                                             initial={{ opacity: 0, x: -10 }}
                                             whileInView={{ opacity: 1, x: 0 }}
                                             viewport={{ once: true }}
@@ -162,14 +271,17 @@ export function HowItWorks() {
                                             className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs"
                                         >
                                             <div className="flex items-center gap-2 min-w-0">
-                                                <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${event.state === "done"
+                                                <span
+                                                    className={`h-1.5 w-1.5 rounded-full shrink-0 ${event.state === "done"
                                                         ? "bg-green-400"
                                                         : event.state === "watch"
                                                             ? "bg-purple-400"
-                                                            : "bg-blue-400 animate-pulse"
-                                                    }`}
+                                                            : event.state === "queued"
+                                                                ? "bg-white/40"
+                                                                : "bg-blue-400 animate-pulse"
+                                                        }`}
                                                 />
-                                                <span className="text-foreground/90 truncate">{event.message}</span>
+                                                <span className="text-foreground/90 truncate">{event.label}</span>
                                             </div>
                                             <span className="text-muted-foreground shrink-0">{event.detail}</span>
                                         </motion.div>
