@@ -94,7 +94,7 @@ export function CTA() {
 
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Select value={role} onValueChange={setRole} required>
-                                <SelectTrigger className="h-12 bg-background flex-1">
+                                <SelectTrigger className="h-12 bg-background w-full sm:flex-1">
                                     <SelectValue placeholder={t("rolePlaceholder")} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -107,7 +107,7 @@ export function CTA() {
                             </Select>
 
                             <Select value={fleetSize} onValueChange={setFleetSize} required>
-                                <SelectTrigger className="h-12 bg-background flex-1">
+                                <SelectTrigger className="h-12 bg-background w-full sm:flex-1">
                                     <SelectValue placeholder={t("fleetPlaceholder")} />
                                 </SelectTrigger>
                                 <SelectContent>
