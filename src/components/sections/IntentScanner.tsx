@@ -445,6 +445,10 @@ export function IntentScanner() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative w-full h-[300px] overflow-hidden"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+          }}
         >
           {/* Scanner canvas with particles */}
           <canvas ref={canvasRef} className="absolute inset-0 z-10 pointer-events-none" />
@@ -491,6 +495,22 @@ export function IntentScanner() {
               )
             })}
           </div>
+
+          {/* Blur overlays with mask for smooth transition */}
+          <div
+            className="absolute left-0 top-0 bottom-0 w-32 backdrop-blur-xl z-20 pointer-events-none"
+            style={{
+              maskImage: 'linear-gradient(to right, black, transparent)',
+              WebkitMaskImage: 'linear-gradient(to right, black, transparent)'
+            }}
+          />
+          <div
+            className="absolute right-0 top-0 bottom-0 w-32 backdrop-blur-xl z-20 pointer-events-none"
+            style={{
+              maskImage: 'linear-gradient(to left, black, transparent)',
+              WebkitMaskImage: 'linear-gradient(to left, black, transparent)'
+            }}
+          />
         </motion.div>
 
         {/* CTA */}
