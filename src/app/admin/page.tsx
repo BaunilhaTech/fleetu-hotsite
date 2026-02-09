@@ -208,11 +208,17 @@ export default function AdminPage() {
         setIsSigningIn(true)
         setError(null)
 
+        const redirectUrl = new URL(window.location.href)
+        redirectUrl.search = ""
+        redirectUrl.hash = ""
+        redirectUrl.pathname = redirectUrl.pathname.replace(/\/$/, "")
+
         const { error: signInError } = await supabase.auth.signInWithOAuth({
             provider: "github",
             options: {
                 // Keep the current pathname so OAuth works on subpath deployments (e.g. GitHub Pages project sites).
-                redirectTo: `${window.location.origin}${window.location.pathname}`,
+                // Also avoid trailing slash mismatches vs Supabase's exact allow-list.
+                redirectTo: redirectUrl.toString(),
             },
         })
 
