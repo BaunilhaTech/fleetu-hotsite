@@ -8,36 +8,6 @@ import { TiltCard } from "@/components/ui/tilt-card"
 export function Solution() {
     const t = useTranslations("Solution")
 
-    // Terminal content component to avoid duplication
-    const TerminalContent = () => (
-        <>
-            <div className="flex items-center justify-between border-b border-white/10 px-3 sm:px-4 py-2 sm:py-3 bg-white/5 backdrop-blur-sm">
-                <div className="flex items-center space-x-2">
-                    <FileIcon className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400" />
-                    <span className="text-xs sm:text-sm text-muted-foreground/80 font-medium">shift.yaml</span>
-                </div>
-                <div className="flex space-x-1 sm:space-x-1.5">
-                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#FF5F56] shadow-sm" />
-                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#FFBD2E] shadow-sm" />
-                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#27C93F] shadow-sm" />
-                </div>
-            </div>
-            <div className="p-4 sm:p-6 space-y-1 sm:space-y-1.5 text-blue-200/90 font-medium leading-relaxed text-xs sm:text-sm">
-                <div><span className="text-purple-400">shift:</span> python-http-timeout-v1</div>
-                <div><span className="text-purple-400">scope:</span></div>
-                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">language:</span> python</div>
-                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">framework:</span> fastapi</div>
-                <div><span className="text-purple-400">transform:</span></div>
-                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">operator:</span> add-timeout@1.2.0</div>
-                <div><span className="text-purple-400">validate:</span></div>
-                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">tests:</span> pytest</div>
-                <div><span className="text-purple-400">rollout:</span></div>
-                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">strategy:</span> canary</div>
-                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">waves:</span> [10, 50, 100]</div>
-            </div>
-        </>
-    )
-
     return (
         <section id="solution" className="py-24 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
@@ -115,6 +85,37 @@ export function Solution() {
                 </div>
             </div>
         </section>
+    )
+}
+
+function TerminalContent() {
+    return (
+        <>
+            <div className="flex items-center justify-between border-b border-white/10 px-3 sm:px-4 py-2 sm:py-3 bg-white/5 backdrop-blur-sm">
+                <div className="flex items-center space-x-2">
+                    <FileIcon className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400" />
+                    <span className="text-xs sm:text-sm text-muted-foreground/80 font-medium">shift.yaml</span>
+                </div>
+                <div className="flex space-x-1 sm:space-x-1.5">
+                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#FF5F56] shadow-sm" />
+                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#FFBD2E] shadow-sm" />
+                    <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-[#27C93F] shadow-sm" />
+                </div>
+            </div>
+            <div className="p-4 sm:p-6 space-y-1 sm:space-y-1.5 text-blue-200/90 font-medium leading-relaxed text-xs sm:text-sm">
+                <div><span className="text-purple-400">shift:</span> python-http-timeout-v1</div>
+                <div><span className="text-purple-400">scope:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">language:</span> python</div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">framework:</span> fastapi</div>
+                <div><span className="text-purple-400">transform:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">operator:</span> add-timeout@1.2.0</div>
+                <div><span className="text-purple-400">validate:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">tests:</span> pytest</div>
+                <div><span className="text-purple-400">rollout:</span></div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">strategy:</span> canary</div>
+                <div className="pl-3 sm:pl-4 border-l border-white/10 ml-1"><span className="text-purple-400">waves:</span> [10, 50, 100]</div>
+            </div>
+        </>
     )
 }
 
