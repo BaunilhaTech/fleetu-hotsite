@@ -2,6 +2,7 @@
     "Header": {
         "product": "Product",
         "problem": "The Gap",
+        "goldenPath": "Golden Path",
         "howItWorks": "How it Works",
         "useCases": "Use Cases",
         "requestAccess": "Join Waitlist"

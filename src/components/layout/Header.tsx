@@ -19,6 +19,7 @@ export function Header() {
 
     const navItems = [
         { name: t("problem"), href: "#problem" },
+        { name: t("goldenPath"), href: "#golden-path" },
         { name: t("product"), href: "#solution" },
         { name: t("howItWorks"), href: "#how-it-works" },
         { name: t("useCases"), href: "#use-cases" },
@@ -40,7 +41,7 @@ export function Header() {
                     <div className="mr-4 hidden md:flex">
                         <Link href={`/${locale}`} className="mr-6 flex items-center space-x-2">
                             <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
-                            <span className="hidden font-bold sm:inline-block">
+                            <span className="hidden font-bold sm:inline-block font-[var(--font-logo)] tracking-tight">
                                 Fleetu
                             </span>
                         </Link>
@@ -112,7 +113,7 @@ export function Header() {
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
-                                    <span className="font-bold text-white">Fleetu</span>
+                                    <span className="font-bold text-white font-[var(--font-logo)] tracking-tight">Fleetu</span>
                                 </Link>
                                 <button
                                     onClick={() => setIsMenuOpen(false)}
@@ -180,4 +181,3 @@ export function Header() {
         </>
     )
 }
-

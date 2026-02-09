@@ -2,6 +2,7 @@
     "Header": {
         "product": "Produto",
         "problem": "O Problema",
+        "goldenPath": "Golden Path",
         "howItWorks": "Como Funciona",
         "useCases": "Casos de Uso",
         "requestAccess": "Entrar na Lista"
