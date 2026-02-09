@@ -54,14 +54,16 @@ export function Problem() {
                             whileHover={{ scale: 1.02 }}
                             className="h-full"
                         >
-                            <div className="flex flex-col items-center space-y-4 rounded-xl border border-primary/10 bg-card/30 backdrop-blur-md p-6 shadow-sm transition-all duration-300 hover:bg-card/40 hover:border-primary/30 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)] h-full">
-                                <div className="p-3 rounded-full bg-primary/10 text-primary">
-                                    <item.icon className="h-6 w-6" />
+                            <div className="flex flex-row sm:flex-col items-center sm:items-center gap-4 sm:space-y-4 rounded-xl border border-primary/10 bg-card/30 backdrop-blur-md p-4 sm:p-6 shadow-sm transition-all duration-300 hover:bg-card/40 hover:border-primary/30 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)] h-full">
+                                <div className="p-2.5 sm:p-3 rounded-full bg-primary/10 text-primary shrink-0">
+                                    <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                                 </div>
-                                <h3 className="text-xl font-bold">{item.title}</h3>
-                                <p className="text-center text-muted-foreground">
-                                    {item.desc}
-                                </p>
+                                <div className="flex flex-col sm:items-center text-left sm:text-center">
+                                    <h3 className="text-lg sm:text-xl font-bold">{item.title}</h3>
+                                    <p className="text-sm sm:text-base text-muted-foreground">
+                                        {item.desc}
+                                    </p>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

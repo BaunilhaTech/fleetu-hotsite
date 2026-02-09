@@ -13,17 +13,45 @@ interface Repo {
     status: RepoStatus
 }
 
+// Responsive grid sizes: mobile shows less, desktop shows more
+const GRID_SIZES = {
+    mobile: 48,   // 8x6 grid for mobile
+    tablet: 84,   // 12x7 grid for tablet
+    desktop: 112  // 16x7 grid for desktop
+}
 
+function useGridSize() {
+    const [gridSize, setGridSize] = useState(GRID_SIZES.desktop)
+
+    useEffect(() => {
+        const updateGridSize = () => {
+            if (window.innerWidth < 640) {
+                setGridSize(GRID_SIZES.mobile)
+            } else if (window.innerWidth < 1024) {
+                setGridSize(GRID_SIZES.tablet)
+            } else {
+                setGridSize(GRID_SIZES.desktop)
+            }
+        }
+
+        updateGridSize()
+        window.addEventListener('resize', updateGridSize)
+        return () => window.removeEventListener('resize', updateGridSize)
+    }, [])
+
+    return gridSize
+}
 
 export function EntropyGrid() {
     const t = useTranslations("EntropyGrid")
-    const GRID_SIZE = 112 // 16x7 grid
+    const gridSize = useGridSize()
     const [repos, setRepos] = useState<Repo[]>(
-        Array.from({ length: GRID_SIZE }, (_, i) => ({ id: i, status: "healthy" }))
+        Array.from({ length: GRID_SIZES.desktop }, (_, i) => ({ id: i, status: "healthy" }))
     )
-    // entries derived from state
-    const healthyCount = repos.filter(r => r.status === "healthy" || r.status === "recovering").length
-    const complianceScore = Math.round((healthyCount / GRID_SIZE) * 100)
+    // entries derived from state - use only visible items for score
+    const visibleRepos = repos.slice(0, gridSize)
+    const healthyCount = visibleRepos.filter(r => r.status === "healthy" || r.status === "recovering").length
+    const complianceScore = Math.round((healthyCount / gridSize) * 100)
 
     const [timeElapsed, setTimeElapsed] = useState(0)
 
@@ -67,26 +95,45 @@ export function EntropyGrid() {
     const hours = (timeElapsed % 24).toString().padStart(2, '0')
 
     return (
-        <div className="relative mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-xl border border-white/10 bg-zinc-950/50 p-5 backdrop-blur-xl shadow-2xl">
+        <div className="relative mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-xl border border-white/10 bg-zinc-950/50 p-4 sm:p-5 backdrop-blur-xl shadow-2xl">
             {/* Dashboard Header */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 border-b border-white/5 pb-6">
-                <div className="flex items-center gap-4">
-                    <div className={cn("flex items-center justify-center w-12 h-12 rounded-lg border bg-background/50 backdrop-blur transition-colors duration-500",
-                        complianceScore < 90 ? "border-red-500/30 text-red-500" : "border-emerald-500/30 text-emerald-500"
-                    )}>
-                        {complianceScore < 90 ? <ShieldAlert className="w-6 h-6" /> : <Shield className="w-6 h-6" />}
-                    </div>
-                    <div>
-                        <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{t("complianceScore")}</div>
-                        <div className={cn("text-2xl font-bold font-mono transition-colors duration-500",
-                            complianceScore < 90 ? "text-red-500" : "text-foreground"
+            <div className="flex flex-col gap-4 mb-6 sm:mb-8 border-b border-white/5 pb-4 sm:pb-6">
+                {/* Compliance Score - prominent on mobile */}
+                <div className="flex items-center justify-between sm:justify-start gap-4">
+                    <div className="flex items-center gap-3">
+                        <div className={cn("flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg border bg-background/50 backdrop-blur transition-colors duration-500",
+                            complianceScore < 90 ? "border-red-500/30 text-red-500" : "border-emerald-500/30 text-emerald-500"
                         )}>
-                            {complianceScore}%
+                            {complianceScore < 90 ? <ShieldAlert className="w-5 h-5 sm:w-6 sm:h-6" /> : <Shield className="w-5 h-5 sm:w-6 sm:h-6" />}
+                        </div>
+                        <div>
+                            <div className="text-[10px] sm:text-xs font-mono text-muted-foreground uppercase tracking-wider">{t("complianceScore")}</div>
+                            <div className={cn("text-xl sm:text-2xl font-bold font-mono transition-colors duration-500",
+                                complianceScore < 90 ? "text-red-500" : "text-foreground"
+                            )}>
+                                {complianceScore}%
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Stats row - visible on mobile next to score */}
+                    <div className="flex items-center gap-4 sm:hidden">
+                        <div className="flex items-center gap-2">
+                            <Clock className="w-3 h-3 text-muted-foreground" />
+                            <div className="text-xs font-mono font-medium">{days}d {hours}h</div>
+                        </div>
+                        <div className="w-px h-4 bg-white/10" />
+                        <div className="flex items-center gap-2">
+                            <Activity className="w-3 h-3 text-muted-foreground" />
+                            <div className="text-xs font-mono font-medium text-red-500">
+                                {visibleRepos.filter(r => r.status === 'critical').length}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-8">
+                {/* Stats row - desktop only (expanded version) */}
+                <div className="hidden sm:flex items-center gap-8">
                     <div className="flex items-center gap-3">
                         <Clock className="w-4 h-4 text-muted-foreground" />
                         <div>
@@ -94,22 +141,22 @@ export function EntropyGrid() {
                             <div className="text-sm font-mono font-medium">{days}d {hours}h</div>
                         </div>
                     </div>
-                    <div className="hidden sm:block w-px h-8 bg-white/10" />
+                    <div className="w-px h-8 bg-white/10" />
                     <div className="flex items-center gap-3">
                         <Activity className="w-4 h-4 text-muted-foreground" />
                         <div>
                             <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{t("activeDrifts")}</div>
                             <div className="text-sm font-mono font-medium text-red-500">
-                                {repos.filter(r => r.status === 'critical').length}
+                                {visibleRepos.filter(r => r.status === 'critical').length}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* The Grid */}
-            <div className="grid grid-cols-8 sm:grid-cols-12 md:grid-cols-14 lg:grid-cols-16 gap-[2px] sm:gap-[3px]">
-                {repos.map((repo) => (
+            {/* The Grid - responsive item count */}
+            <div className="grid grid-cols-8 sm:grid-cols-12 lg:grid-cols-16 gap-[2px] sm:gap-[3px]">
+                {visibleRepos.map((repo) => (
                     <motion.div
                         key={repo.id}
                         layout
@@ -127,10 +174,11 @@ export function EntropyGrid() {
                 ))}
             </div>
 
-            <div className="mt-6 flex justify-between items-center text-xs text-muted-foreground/50 font-mono">
+            <div className="mt-4 sm:mt-6 flex justify-between items-center text-[10px] sm:text-xs text-muted-foreground/50 font-mono">
                 <span>{t("fleetStatus")}</span>
                 <span className="animate-pulse">● {t("liveData")}</span>
             </div>
         </div>
     )
 }
+
