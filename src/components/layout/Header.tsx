@@ -26,7 +26,7 @@ export function Header() {
             <div className="container flex h-14 max-w-screen-2xl items-center mx-auto px-4 md:px-8">
                 <div className="mr-4 hidden md:flex">
                     <Link href={`/${locale}`} className="mr-6 flex items-center space-x-2">
-                        <Image src="/logo.svg" alt="Fleetu Logo" width={32} height={32} />
+                        <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
                         <span className="hidden font-bold sm:inline-block">
                             Fleetu
                         </span>
@@ -56,7 +56,7 @@ export function Header() {
                     </SheetTrigger>
                     <SheetContent side="left" className="pr-0">
                         <Link href={`/${locale}`} className="flex items-center gap-2 px-4">
-                            <Image src={logo} alt="Fleetu Logo" width={32} height={32} />
+                            <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
                             <span className="font-bold">Fleetu</span>
                         </Link>
                         <nav className="mt-8 flex flex-col gap-4 px-4">
