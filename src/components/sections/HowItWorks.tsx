@@ -30,7 +30,7 @@ export function HowItWorks() {
     ]
 
     return (
-        <section id="how-it-works" className="py-24 min-h-screen flex items-center">
+        <section id="how-it-works" className="py-24 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">

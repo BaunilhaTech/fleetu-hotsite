@@ -42,7 +42,7 @@ export function UseCases() {
     ]
 
     return (
-        <section id="use-cases" className="py-24 min-h-screen flex items-center">
+        <section id="use-cases" className="py-24 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="mb-12 flex flex-col items-center text-center">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">

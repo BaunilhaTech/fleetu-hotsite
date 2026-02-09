@@ -425,10 +425,10 @@ export function IntentScanner() {
   }
 
   return (
-    <section className="relative overflow-hidden pt-16 md:pt-24 lg:pt-32 pb-16 min-h-[90vh]">
-      <div className="container relative z-10 px-4 md:px-6 mx-auto">
+    <section className="relative overflow-hidden min-h-dvh flex flex-col pt-20 md:pt-28 lg:pt-36 pb-10 md:pb-16 lg:pb-20">
+      <div className="container relative z-10 px-4 md:px-6 mx-auto flex flex-col flex-1 justify-center items-center gap-8 md:gap-12">
         {/* Header */}
-        <div className="flex flex-col items-center text-center space-y-6 mb-12">
+        <div className="flex flex-col items-center text-center space-y-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -545,11 +545,11 @@ export function IntentScanner() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-col items-center gap-4 mt-12 sm:flex-row sm:justify-center"
+          className="flex flex-col gap-3 w-full px-6 sm:flex-row sm:justify-center sm:w-auto sm:gap-4 sm:px-0"
         >
           <Button
             size="lg"
-            className="h-12 px-8 text-base"
+            className="h-12 w-full sm:w-auto px-8 text-base"
             onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}
           >
             {t("cta")}
@@ -558,7 +558,7 @@ export function IntentScanner() {
           <Button
             variant="outline"
             size="lg"
-            className="h-12 px-8 text-base"
+            className="h-12 w-full sm:w-auto px-8 text-base"
             onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
           >
             {t("demo")}
