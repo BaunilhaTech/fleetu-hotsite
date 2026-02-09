@@ -1,5 +1,6 @@
 "use client"
 
+import { motion } from "framer-motion"
 import {
     Card,
     CardDescription,
@@ -53,20 +54,30 @@ export function UseCases() {
                 </div>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {cases.map((item, i) => (
-                        <Card key={i} className="bg-card/30 backdrop-blur-md border-primary/10 transition-all duration-300 hover:scale-[1.02] hover:bg-card/40 hover:border-primary/30 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)]">
-                            <CardHeader>
-                                <div className="mb-4 flex items-center justify-between">
-                                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
-                                        <item.icon className="h-6 w-6" />
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1, duration: 0.5 }}
+                            whileHover={{ scale: 1.02 }}
+                            className="h-full"
+                        >
+                            <Card className="h-full bg-card/30 backdrop-blur-md border-primary/10 transition-all duration-300 hover:bg-card/40 hover:border-primary/30 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)]">
+                                <CardHeader>
+                                    <div className="mb-4 flex items-center justify-between">
+                                        <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                                            <item.icon className="h-6 w-6" />
+                                        </div>
+                                        <Badge variant="outline" className="text-xs">{item.badge}</Badge>
                                     </div>
-                                    <Badge variant="outline" className="text-xs">{item.badge}</Badge>
-                                </div>
-                                <CardTitle>{item.title}</CardTitle>
-                                <CardDescription className="pt-2">
-                                    {item.desc}
-                                </CardDescription>
-                            </CardHeader>
-                        </Card>
+                                    <CardTitle>{item.title}</CardTitle>
+                                    <CardDescription className="pt-2">
+                                        {item.desc}
+                                    </CardDescription>
+                                </CardHeader>
+                            </Card>
+                        </motion.div>
                     ))}
                 </div>
             </div>
