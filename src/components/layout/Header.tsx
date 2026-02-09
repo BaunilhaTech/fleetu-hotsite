@@ -24,8 +24,13 @@ export function Header() {
         { name: t("useCases"), href: "#use-cases" },
     ]
 
-    const handleNavClick = () => {
+    const handleNavClick = (href: string) => {
         setIsMenuOpen(false)
+        // Small delay to allow menu close animation before scrolling
+        setTimeout(() => {
+            const element = document.querySelector(href)
+            element?.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
     }
 
     return (
@@ -104,7 +109,7 @@ export function Header() {
                                 <Link
                                     href={`/${locale}`}
                                     className="flex items-center gap-2"
-                                    onClick={handleNavClick}
+                                    onClick={() => setIsMenuOpen(false)}
                                 >
                                     <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
                                     <span className="font-bold text-white">Fleetu</span>
@@ -134,7 +139,10 @@ export function Header() {
                                     >
                                         <Link
                                             href={item.href}
-                                            onClick={handleNavClick}
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                handleNavClick(item.href)
+                                            }}
                                             className="group relative text-3xl font-medium text-white/80 hover:text-white transition-colors"
                                         >
                                             {item.name}
