@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { IntentScanner } from "@/components/sections/IntentScanner"
 import { Problem } from "@/components/sections/Problem"
+import { GoldenPath } from "@/components/sections/GoldenPath"
 import { Solution } from "@/components/sections/Solution"
 import { HowItWorks } from "@/components/sections/HowItWorks"
 import { UseCases } from "@/components/sections/UseCases"
@@ -18,6 +19,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       <IntentScanner />
       <Problem />
+      <GoldenPath />
       <Solution />
       <HowItWorks />
       <UseCases />
