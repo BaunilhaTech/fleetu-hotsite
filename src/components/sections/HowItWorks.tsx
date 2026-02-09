@@ -1,37 +1,40 @@
 "use client"
 
 import { GitPullRequest, Search, Shield, Zap } from "lucide-react"
-
-const steps = [
-    {
-        icon: Search,
-        title: "1. Scan & Select",
-        desc: "Fleetu continuously scans your entire codebase. Use metadata to target specific subsets (e.g., 'all nodejs-14 repos').",
-    },
-    {
-        icon: Zap,
-        title: "2. Shift",
-        desc: "Apply automated transformations (Operators). From simple search-and-replace to complex AST refactors via LLMs.",
-    },
-    {
-        icon: GitPullRequest,
-        title: "3. Validate & PR",
-        desc: "Changes are verified in isolated CI environments. If successful, Fleetu opens a PR or commits directly.",
-    },
-    {
-        icon: Shield,
-        title: "4. Guard",
-        desc: "Once a Shift is applied, Fleetu monitors for regression, automatically correcting any drift.",
-    },
-]
+import { useTranslations } from "next-intl"
 
 export function HowItWorks() {
+    const t = useTranslations("HowItWorks")
+
+    const steps = [
+        {
+            icon: Search,
+            title: t("step1"),
+            desc: "Fleetu continuously scans your entire codebase. Use metadata to target specific subsets (e.g., 'all nodejs-14 repos').",
+        },
+        {
+            icon: Zap,
+            title: t("step2"),
+            desc: "Apply automated transformations (Operators). From simple search-and-replace to complex AST refactors via LLMs.",
+        },
+        {
+            icon: GitPullRequest,
+            title: t("step3"),
+            desc: "Changes are verified in isolated CI environments. If successful, Fleetu opens a PR or commits directly.",
+        },
+        {
+            icon: Shield,
+            title: "4. Guard",
+            desc: "Once a Shift is applied, Fleetu monitors for regression, automatically correcting any drift.",
+        },
+    ]
+
     return (
         <section className="py-24 bg-muted/20">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                        The Governance Pipeline
+                        {t("title")}
                     </h2>
                     <p className="mt-4 text-muted-foreground md:text-xl">
                         Turn ad-hoc tasks into a repeatable industrial process.

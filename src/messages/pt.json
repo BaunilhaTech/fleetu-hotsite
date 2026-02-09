@@ -1,0 +1,37 @@
+{
+    "Header": {
+        "product": "Produto",
+        "solutions": "Soluções",
+        "docs": "Documentação",
+        "requestAccess": "Pedir Acesso"
+    },
+    "Hero": {
+        "title": "Onde a intenção vira sistema",
+        "description": "Plataforma de governança de engenharia que transforma decisões organizacionais em sistemas executáveis.",
+        "cta": "Começar Agora",
+        "demo": "Agendar Demo"
+    },
+    "Problem": {
+        "title": "O Gap de Governança",
+        "description": "Organizações lutam para aplicar padrões de engenharia em escala."
+    },
+    "Solution": {
+        "title": "Governança Automatizada",
+        "description": "Defina políticas como código e aplique-as automaticamente."
+    },
+    "HowItWorks": {
+        "title": "Como funciona",
+        "step1": "Defina Políticas",
+        "step2": "Aplique via CI/CD",
+        "step3": "Monitore Conformidade"
+    },
+    "UseCases": {
+        "title": "Casos de Uso",
+        "compliance": "Gestão de Compliance",
+        "standardization": "Padronização de Stack"
+    },
+    "CTA": {
+        "title": "Pronto para escalar a governança?",
+        "button": "Comece Agora"
+    }
+}

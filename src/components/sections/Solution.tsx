@@ -2,18 +2,21 @@
 
 import { motion } from "framer-motion"
 import { Check, Play } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function Solution() {
+    const t = useTranslations("Solution")
+
     return (
         <section className="py-24">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="grid gap-12 lg:grid-cols-2 items-center">
                     <div className="space-y-6">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                            Meet the <span className="text-primary">Shift</span>.
+                            {t("title")}
                         </h2>
                         <p className="text-muted-foreground md:text-xl">
-                            A Shift is an organizational decision defined as code. It targets specific repositories, applies transformations, and validates results automatically.
+                            {t("description")}
                         </p>
                         <ul className="space-y-4">
                             {[

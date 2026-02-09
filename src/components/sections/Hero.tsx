@@ -3,8 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { ArrowRight, Terminal } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function Hero() {
+    const t = useTranslations("Hero")
+
     return (
         <section className="relative overflow-hidden pt-16 md:pt-24 lg:pt-32 pb-16">
             <div className="container relative z-10 px-4 md:px-6 mx-auto">
@@ -26,7 +29,7 @@ export function Hero() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
                         >
-                            Where intent becomes <span className="text-primary">system</span>.
+                            {t("title")}
                         </motion.h1>
 
                         <motion.p
@@ -35,8 +38,7 @@ export function Hero() {
                             transition={{ duration: 0.5, delay: 0.2 }}
                             className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
                         >
-                            Fleetu turns organizational decisions into executable systems.
-                            Define policies as code and automatically propagate them across thousands of repositories.
+                            {t("description")}
                         </motion.p>
 
                         <motion.div
@@ -46,11 +48,11 @@ export function Hero() {
                             className="flex flex-col gap-4 min-[400px]:flex-row"
                         >
                             <Button size="lg" className="h-12 px-8 text-base">
-                                Request Early Access
+                                {t("cta")}
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                             <Button variant="outline" size="lg" className="h-12 px-8 text-base">
-                                Read the Manifesto
+                                {t("demo")}
                             </Button>
                         </motion.div>
                     </div>

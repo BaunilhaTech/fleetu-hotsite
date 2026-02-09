@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion"
 import { AlertTriangle, Clock, FileText } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function Problem() {
+    const t = useTranslations("Problem")
+
     return (
         <section className="py-24 bg-muted/30">
             <div className="container px-4 md:px-6 mx-auto">
@@ -13,11 +16,10 @@ export function Problem() {
                         <span>The Reality</span>
                     </div>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                        Decisions don&apos;t scale manually.
+                        {t("title")}
                     </h2>
                     <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                        In large organizations, &quot;Policy&quot; often means a PDF that no one reads.
-                        Without automation, drift is inevitable.
+                        {t("description")}
                     </p>
                 </div>
 

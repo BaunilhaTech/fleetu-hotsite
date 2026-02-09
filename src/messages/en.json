@@ -1,0 +1,37 @@
+{
+    "Header": {
+        "product": "Product",
+        "solutions": "Solutions",
+        "docs": "Docs",
+        "requestAccess": "Request Access"
+    },
+    "Hero": {
+        "title": "Where intent becomes system",
+        "description": "Engineering governance platform that transforms organizational decisions into executable systems.",
+        "cta": "Get Started",
+        "demo": "Book a Demo"
+    },
+    "Problem": {
+        "title": "The Governance Gap",
+        "description": "Organizations struggle to enforce engineering standards at scale."
+    },
+    "Solution": {
+        "title": "Automated Governance",
+        "description": "Define policies as code and enforce them automatically."
+    },
+    "HowItWorks": {
+        "title": "How it works",
+        "step1": "Define Policy",
+        "step2": "Enforce via CI/CD",
+        "step3": "Monitor Compliance"
+    },
+    "UseCases": {
+        "title": "Use Cases",
+        "compliance": "Compliance Management",
+        "standardization": "Stack Standardization"
+    },
+    "CTA": {
+        "title": "Ready to scale governance?",
+        "button": "Start Now"
+    }
+}

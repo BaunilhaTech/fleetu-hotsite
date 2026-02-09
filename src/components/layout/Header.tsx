@@ -7,21 +7,25 @@ import { Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import logo from "@/assets/logo.svg"
 import Link from "next/link"
-
-const navItems = [
-    { name: "Product", href: "#product" },
-    { name: "Solutions", href: "#solutions" },
-    { name: "Docs", href: "/docs" },
-]
+import { useTranslations, useLocale } from "next-intl"
+import LanguageSwitcher from "./LanguageSwitcher"
 
 export function Header() {
     const pathname = usePathname()
+    const t = useTranslations("Header")
+    const locale = useLocale()
+
+    const navItems = [
+        { name: t("product"), href: "#product" },
+        { name: t("solutions"), href: "#solutions" },
+        { name: t("docs"), href: "/docs" },
+    ]
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-14 max-w-screen-2xl items-center mx-auto px-4 md:px-8">
                 <div className="mr-4 hidden md:flex">
-                    <Link href="/" className="mr-6 flex items-center space-x-2">
+                    <Link href={`/${locale}`} className="mr-6 flex items-center space-x-2">
                         <Image src="/logo.svg" alt="Fleetu Logo" width={32} height={32} />
                         <span className="hidden font-bold sm:inline-block">
                             Fleetu
@@ -51,7 +55,7 @@ export function Header() {
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="pr-0">
-                        <Link href="/" className="flex items-center gap-2 px-4">
+                        <Link href={`/${locale}`} className="flex items-center gap-2 px-4">
                             <Image src={logo} alt="Fleetu Logo" width={32} height={32} />
                             <span className="font-bold">Fleetu</span>
                         </Link>
@@ -72,11 +76,13 @@ export function Header() {
                     <div className="w-full flex-1 md:w-auto md:flex-none">
                         {/* Search or other items could go here */}
                     </div>
-                    <nav className="flex items-center">
-                        <Button>Request Access</Button>
+                    <nav className="flex items-center gap-2">
+                        <LanguageSwitcher />
+                        <Button>{t("requestAccess")}</Button>
                     </nav>
                 </div>
             </div>
         </header>
     )
 }
+

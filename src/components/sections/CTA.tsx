@@ -11,8 +11,10 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { CheckCircle2, ArrowRight } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function CTA() {
+    const t = useTranslations("CTA")
     const [email, setEmail] = useState("")
     const [isOpen, setIsOpen] = useState(false)
 
@@ -31,7 +33,7 @@ export function CTA() {
             <div className="container px-4 md:px-6 mx-auto text-center">
                 <div className="max-w-3xl mx-auto space-y-8">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                        Ready to govern your fleet?
+                        {t("title")}
                     </h2>
                     <p className="text-muted-foreground md:text-xl">
                         Join the engineering leaders who are turning intent into system.
@@ -48,7 +50,7 @@ export function CTA() {
                             required
                         />
                         <Button type="submit" size="lg" className="h-12 w-full sm:w-auto">
-                            Request Access
+                            {t("button")}
                             <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                     </form>
