@@ -9,7 +9,7 @@ export function Hero() {
     const t = useTranslations("Hero")
 
     return (
-        <section className="relative overflow-hidden pt-16 md:pt-24 lg:pt-32 pb-16">
+        <section className="relative overflow-hidden pt-8 md:pt-12 lg:pt-16 pb-16">
             <div className="container relative z-10 px-4 md:px-6 mx-auto">
                 <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
                     <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-6">

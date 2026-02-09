@@ -148,10 +148,15 @@
     @apply border-border outline-ring/50;
   }
 
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
     /* Subtle gradient using design system colors */
     min-height: 100vh;
+    overflow-x: hidden;
     background-attachment: fixed;
     background-image:
       radial-gradient(ellipse 150% 100% at 50% 0%, oklch(0.65 0.22 280 / 0.12), transparent 60%),
