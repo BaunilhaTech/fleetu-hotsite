@@ -2,8 +2,21 @@
 
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
-import { ChangeEvent, useTransition } from "react";
-import { Globe } from "lucide-react";
+import { useTransition } from "react";
+import { Check, Globe2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+const languageOptions = [
+    { code: "en", label: "English", shortLabel: "EN", countryCode: "US" },
+    { code: "br", label: "Português (Brasil)", shortLabel: "BR", countryCode: "BR" },
+] as const;
+
+function countryCodeToFlag(countryCode: string) {
+    return String.fromCodePoint(
+        ...[...countryCode.toUpperCase()].map((char) => 127397 + char.charCodeAt(0))
+    );
+}
 
 export default function LanguageSwitcher() {
     const locale = useLocale();
@@ -11,31 +24,68 @@ export default function LanguageSwitcher() {
     const pathname = usePathname();
     const [isPending, startTransition] = useTransition();
 
-    const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        const nextLocale = e.target.value;
-        startTransition(() => {
-            // Replace the current locale in the pathname with the new one
-            // This assumes the pathname always starts with `/${locale}`
-            const segments = pathname.split('/');
-            segments[1] = nextLocale;
-            const newPath = segments.join('/');
+    const changeLocale = (nextLocale: string) => {
+        if (nextLocale === locale) {
+            return;
+        }
 
-            router.replace(newPath);
+        startTransition(() => {
+            const segments = pathname.split('/');
+            if (segments.length > 1) {
+                segments[1] = nextLocale;
+            } else {
+                segments.push(nextLocale);
+            }
+
+            const newPath = segments.join('/') || `/${nextLocale}`;
+            const search = window.location.search;
+            const hash = window.location.hash;
+
+            router.replace(`${newPath}${search}${hash}`);
         });
     };
 
     return (
-        <div className="relative flex items-center">
-            <Globe className="absolute left-2 h-4 w-4 text-muted-foreground pointer-events-none" />
-            <select
-                defaultValue={locale}
-                onChange={onSelectChange}
-                disabled={isPending}
-                className="h-9 w-full appearance-none rounded-md border border-input bg-transparent pl-8 pr-8 py-1 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-            >
-                <option value="en" className="bg-background">English</option>
-                <option value="pt" className="bg-background">Português</option>
-            </select>
+        <div className="relative inline-flex items-center rounded-full border border-primary/25 bg-gradient-to-r from-primary/15 via-background/80 to-primary/10 p-1 shadow-[0_10px_30px_-18px_hsl(var(--primary)/0.7)] backdrop-blur-md">
+            <div className="pl-2 pr-1 text-muted-foreground">
+                <Globe2 className="h-3.5 w-3.5" />
+                <span className="sr-only">Select language</span>
+            </div>
+            <div className="relative grid grid-cols-2 gap-1">
+                {languageOptions.map((option) => {
+                    const isActive = locale === option.code;
+
+                    return (
+                        <button
+                            key={option.code}
+                            type="button"
+                            onClick={() => changeLocale(option.code)}
+                            disabled={isPending}
+                            aria-label={option.label}
+                            aria-pressed={isActive}
+                            className={cn(
+                                "relative min-w-[68px] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-200",
+                                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70",
+                                isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                                isPending && "cursor-wait opacity-70"
+                            )}
+                        >
+                            {isActive ? (
+                                <motion.span
+                                    layoutId="active-locale-pill"
+                                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                                    className="absolute inset-0 rounded-full border border-primary/30 bg-primary/20"
+                                />
+                            ) : null}
+                            <span className="relative z-10 inline-flex items-center gap-1.5">
+                                <span aria-hidden>{countryCodeToFlag(option.countryCode)}</span>
+                                <span>{option.shortLabel}</span>
+                                {isActive ? <Check className="h-3.5 w-3.5" /> : null}
+                            </span>
+                        </button>
+                    );
+                })}
+            </div>
         </div>
     );
 }
