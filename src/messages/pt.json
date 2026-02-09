@@ -121,7 +121,19 @@
         "case3Badge": "Conformidade",
         "infraMigration": "Migração de Infraestrutura",
         "case4Desc": "Atualize módulos Terraform ou manifestos Kubernetes em toda a organização.",
-        "case4Badge": "Infra"
+        "case4Badge": "Infra",
+        "codeRefactoring": "Refatoração em Larga Escala",
+        "case5Desc": "Migre serviços de Java 8 para 17 com codemods e validação automática no pipeline.",
+        "case5Badge": "Refatoração",
+        "observabilityInstrumentation": "Instrumentação de Observabilidade",
+        "case6Desc": "Propague tracing, métricas e padrão de logs para todos os serviços sem intervenção manual.",
+        "case6Badge": "Observabilidade",
+        "devcontainerStandardization": "Padronização de Dev Containers",
+        "case7Desc": "Abra PRs de setup Day 1 e atualize imagens base de desenvolvimento em toda a frota no Day 2+.",
+        "case7Badge": "Produtividade",
+        "sharedCapabilities": "Rollout de Capabilities Compartilhadas",
+        "case8Desc": "Distribua módulos internos, como autenticação, com migração versionada para todos os consumidores.",
+        "case8Badge": "Plataforma"
     },
     "EntropyGrid": {
         "complianceScore": "Score de Conformidade",

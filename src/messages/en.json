@@ -121,7 +121,19 @@
         "case3Badge": "Compliance",
         "infraMigration": "Infrastructure Migration",
         "case4Desc": "Update Terraform modules or Kubernetes manifests across the entire organization.",
-        "case4Badge": "Infra"
+        "case4Badge": "Infra",
+        "codeRefactoring": "Large-Scale Refactoring",
+        "case5Desc": "Migrate services from Java 8 to 17 with codemods and automated pipeline validation.",
+        "case5Badge": "Refactoring",
+        "observabilityInstrumentation": "Observability Instrumentation",
+        "case6Desc": "Roll out tracing, metrics, and logging standards across all services without manual coordination.",
+        "case6Badge": "Observability",
+        "devcontainerStandardization": "Dev Container Standardization",
+        "case7Desc": "Open Day 1 setup PRs and keep base development images updated fleet-wide on Day 2+.",
+        "case7Badge": "Productivity",
+        "sharedCapabilities": "Shared Capability Rollouts",
+        "case8Desc": "Distribute internal modules, such as authentication, with versioned migration across every consumer.",
+        "case8Badge": "Platform"
     },
     "EntropyGrid": {
         "complianceScore": "Compliance Score",

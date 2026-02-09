@@ -8,7 +8,16 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Server, ShieldAlert, Layers, Terminal } from "lucide-react"
+import {
+    Activity,
+    Container,
+    Layers,
+    Puzzle,
+    Server,
+    ShieldAlert,
+    SquareCode,
+    Terminal,
+} from "lucide-react"
 import { useTranslations } from "next-intl"
 
 export function UseCases() {
@@ -38,6 +47,30 @@ export function UseCases() {
             desc: t("case4Desc"),
             icon: Terminal,
             badge: t("case4Badge"),
+        },
+        {
+            title: t("codeRefactoring"),
+            desc: t("case5Desc"),
+            icon: SquareCode,
+            badge: t("case5Badge"),
+        },
+        {
+            title: t("observabilityInstrumentation"),
+            desc: t("case6Desc"),
+            icon: Activity,
+            badge: t("case6Badge"),
+        },
+        {
+            title: t("devcontainerStandardization"),
+            desc: t("case7Desc"),
+            icon: Container,
+            badge: t("case7Badge"),
+        },
+        {
+            title: t("sharedCapabilities"),
+            desc: t("case8Desc"),
+            icon: Puzzle,
+            badge: t("case8Badge"),
         },
     ]
 
