@@ -204,12 +204,12 @@ export function IntentScanner() {
   const particlesRef = useRef<Particle[]>([])
   const animationRef = useRef<number>(0)
 
-  const [position, setPosition] = useState<number | null>(null)
-  const [containerWidth, setContainerWidth] = useState(0)
-
   const CARD_WIDTH = 380
   const CARD_GAP = 48
   const SINGLE_SET_WIDTH = (CARD_WIDTH + CARD_GAP) * CARDS_DATA.length
+
+  const [position, setPosition] = useState<number | null>(-SINGLE_SET_WIDTH)
+  const [containerWidth, setContainerWidth] = useState(0)
 
   // Initialize canvas and particle animation
   useEffect(() => {
@@ -369,7 +369,6 @@ export function IntentScanner() {
 
     const startPos = -SINGLE_SET_WIDTH
     let pos = startPos
-    setPosition(pos)
 
     let frameId: number
 
@@ -474,7 +473,7 @@ export function IntentScanner() {
 
                   {/* Intent Card (top layer - clips away to reveal Shift) */}
                   <div
-                    className="absolute inset-0 rounded-xl border border-white/20 bg-white/5 backdrop-blur-md p-5 overflow-hidden"
+                    className="absolute inset-0 rounded-xl border border-white/20 bg-zinc-900 p-5 overflow-hidden"
                     style={{
                       clipPath: `inset(0 ${clipPercent}% 0 0)`,
                       boxShadow: "inset 0 1px 1px 0 rgba(255,255,255,0.1)"
@@ -484,7 +483,7 @@ export function IntentScanner() {
                       {tScanner("intent")}
                     </div>
                     <p className="text-lg font-medium text-foreground leading-relaxed">
-                      "{tScanner(card.intentKey)}"
+                      &quot;{tScanner(card.intentKey)}&quot;
                     </p>
                     <div className="absolute bottom-4 left-5 right-5 flex items-center gap-2 text-xs text-muted-foreground/60">
                       <span className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" />

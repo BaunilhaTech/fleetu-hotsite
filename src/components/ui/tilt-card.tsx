@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from "react"
+import React, { useRef } from "react"
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { cn } from "@/lib/utils"
 
@@ -25,11 +25,6 @@ export function TiltCard({ children, className, perspective = 1000 }: TiltCardPr
     // Glare effects
     const glareX = useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"])
     const glareY = useTransform(mouseY, [-0.5, 0.5], ["0%", "100%"])
-    const glareOpacity = useTransform(
-        useMotionValue(0), // Placeholder logic - usually based on distance from center
-        [0, 1],
-        [0, 1]
-    )
 
     // Simple radial gradient following mouse
     const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.15) 0%, transparent 80%)`

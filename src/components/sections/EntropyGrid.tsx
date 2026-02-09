@@ -19,7 +19,10 @@ export function EntropyGrid() {
     const [repos, setRepos] = useState<Repo[]>(
         Array.from({ length: GRID_SIZE }, (_, i) => ({ id: i, status: "healthy" }))
     )
-    const [complianceScore, setComplianceScore] = useState(100)
+    // entries derived from state
+    const healthyCount = repos.filter(r => r.status === "healthy" || r.status === "recovering").length
+    const complianceScore = Math.round((healthyCount / GRID_SIZE) * 100)
+
     const [timeElapsed, setTimeElapsed] = useState(0)
 
     useEffect(() => {
@@ -48,12 +51,6 @@ export function EntropyGrid() {
 
         return () => clearInterval(interval)
     }, [])
-
-    // valid repos / total repos
-    useEffect(() => {
-        const healthyCount = repos.filter(r => r.status === "healthy" || r.status === "recovering").length
-        setComplianceScore(Math.round((healthyCount / GRID_SIZE) * 100))
-    }, [repos])
 
     const fixRepo = (id: number) => {
         setRepos((currentRepos) =>
