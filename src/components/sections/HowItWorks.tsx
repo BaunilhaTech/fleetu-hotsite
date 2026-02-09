@@ -52,6 +52,22 @@ function resolveStepState(stepId: StepId, index: number, activeIndex: number): S
     return "running"
 }
 
+function dotStateClass(state: StepState): string {
+    if (state === "done") {
+        return "bg-green-400"
+    }
+
+    if (state === "watch") {
+        return "bg-purple-400"
+    }
+
+    if (state === "queued") {
+        return "bg-white/40"
+    }
+
+    return "bg-blue-400 animate-pulse"
+}
+
 export function HowItWorks() {
     const t = useTranslations("HowItWorks")
     const [activeStep, setActiveStep] = useState<StepId>("enforce")
@@ -181,126 +197,175 @@ export function HowItWorks() {
                     </p>
                 </div>
 
-                <div className="relative rounded-3xl border border-white/10 bg-black/35 backdrop-blur-xl p-5 md:p-8 lg:p-10 shadow-2xl ring-1 ring-white/5 overflow-hidden">
-                    <div className="absolute inset-0 pointer-events-none">
-                        <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-                        <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-blue-400/30 to-transparent" />
-                    </div>
+                <div className="space-y-4 lg:hidden">
+                    {steps.map((step, index) => {
+                        const isActive = step.id === activeStep
+                        const mobileEvents = runtimeByStep[step.id]
 
-                    <div className="grid gap-8 lg:gap-10 xl:grid-cols-[1.05fr_1.45fr]">
-                        <div className="space-y-4">
-                            {steps.map((step, index) => (
-                                <motion.div
-                                    key={step.id}
-                                    initial={{ opacity: 0, x: -16 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ delay: index * 0.1, duration: 0.45 }}
-                                    className="relative pl-14"
+                        return (
+                            <motion.div
+                                key={`mobile-${step.id}`}
+                                initial={{ opacity: 0, y: 14 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ delay: index * 0.08, duration: 0.35 }}
+                                className={`rounded-2xl border p-4 text-left transition-all duration-300 ${isActive
+                                    ? "border-primary/45 bg-primary/10"
+                                    : "border-white/10 bg-black/40"
+                                    }`}
+                            >
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveStep(step.id)}
+                                    className="w-full text-left"
                                 >
-                                    {index < steps.length - 1 && (
-                                        <div className="absolute left-[20px] top-11 h-[calc(100%+8px)] w-px bg-gradient-to-b from-primary/40 to-transparent" />
-                                    )}
-
-                                    <div className={`absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border text-primary transition-colors ${step.id === activeStep ? "border-primary/50 bg-primary/20" : "border-primary/30 bg-primary/10"}`}>
-                                        <step.icon className="h-5 w-5" />
-                                    </div>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => setActiveStep(step.id)}
-                                        aria-pressed={step.id === activeStep}
-                                        className={`w-full rounded-2xl border p-4 md:p-5 text-left transition-all duration-300 ${step.id === activeStep
-                                            ? "border-primary/45 bg-primary/10 shadow-[0_0_30px_-12px_rgba(124,58,237,0.75)]"
-                                            : "border-white/10 bg-black/40 hover:border-primary/30"
-                                            }`}
-                                    >
-                                        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                            <h3 className="text-lg font-semibold">{step.title}</h3>
-                                            <span className={`px-2.5 py-1 rounded-full text-[11px] border font-medium ${STATE_CLASSES[step.state]}`}>
-                                                {step.stateLabel}
-                                            </span>
+                                    <div className="flex items-start justify-between gap-3 mb-3">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary">
+                                                <step.icon className="h-4 w-4" />
+                                            </div>
+                                            <h3 className="text-base font-semibold leading-tight">{step.title}</h3>
                                         </div>
-                                        <p className="text-sm text-muted-foreground leading-relaxed">
-                                            {step.desc}
-                                        </p>
-                                    </button>
-                                </motion.div>
-                            ))}
+                                        <span className={`px-2 py-0.5 rounded-full text-[10px] border font-medium shrink-0 ${STATE_CLASSES[step.state]}`}>
+                                            {step.stateLabel}
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                        {step.desc}
+                                    </p>
+                                </button>
+
+                                {isActive && (
+                                    <div className="mt-3 space-y-2 rounded-xl border border-white/10 bg-black/30 p-3 font-mono">
+                                        {mobileEvents.map((event) => (
+                                            <div key={event.id} className="flex items-center justify-between gap-3 text-xs">
+                                                <div className="flex items-center gap-2 min-w-0">
+                                                    <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${dotStateClass(event.state)}`} />
+                                                    <span className="text-foreground/90 truncate">{event.label}</span>
+                                                </div>
+                                                <span className="text-muted-foreground shrink-0">{event.detail}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </motion.div>
+                        )
+                    })}
+                </div>
+
+                <div className="hidden lg:block">
+                    <div className="relative rounded-3xl border border-white/10 bg-black/35 backdrop-blur-xl p-5 md:p-8 lg:p-10 shadow-2xl ring-1 ring-white/5 overflow-hidden">
+                        <div className="absolute inset-0 pointer-events-none">
+                            <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                            <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-blue-400/30 to-transparent" />
                         </div>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 16 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 0.5 }}
-                            className="rounded-2xl border border-white/10 bg-black/50 overflow-hidden ring-1 ring-white/5"
-                        >
-                            <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-white/5">
-                                <div className="flex items-center gap-2">
-                                    <div className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
-                                    <div className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
-                                    <div className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
-                                    <span className="ml-2 text-xs text-muted-foreground font-mono">{t("runtimeShell")}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/15 px-2 py-0.5 text-[10px] uppercase tracking-wide text-blue-200">
-                                        {t("runtimeMockBadge")}
-                                    </span>
-                                    <span className="text-xs text-primary font-medium">{t("runtimeTitle")}</span>
-                                </div>
-                            </div>
+                        <div className="grid gap-8 lg:gap-10 xl:grid-cols-[1.05fr_1.45fr]">
+                            <div className="space-y-4">
+                                {steps.map((step, index) => (
+                                    <motion.div
+                                        key={step.id}
+                                        initial={{ opacity: 0, x: -16 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ delay: index * 0.1, duration: 0.45 }}
+                                        className="relative pl-14"
+                                    >
+                                        {index < steps.length - 1 && (
+                                            <div className="absolute left-[20px] top-11 h-[calc(100%+8px)] w-px bg-gradient-to-b from-primary/40 to-transparent" />
+                                        )}
 
-                            <div className="p-4 md:p-6">
-                                <p className="text-xs text-muted-foreground mb-4">
-                                    {t("runtimeSubtitle")}
-                                </p>
-                                <div className="mb-4 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
-                                    <span className="text-[11px] text-muted-foreground">{t("runtimeFocusLabel")}:</span>{" "}
-                                    <span className="text-xs text-foreground/90 font-medium">{activeStepData.title}</span>
-                                </div>
-
-                                <div className="space-y-3 font-mono">
-                                    {runtimeEvents.map((event, index) => (
-                                        <motion.div
-                                            key={event.id}
-                                            initial={{ opacity: 0, x: -10 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: index * 0.12, duration: 0.35 }}
-                                            className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs"
-                                        >
-                                            <div className="flex items-center gap-2 min-w-0">
-                                                <span
-                                                    className={`h-1.5 w-1.5 rounded-full shrink-0 ${event.state === "done"
-                                                        ? "bg-green-400"
-                                                        : event.state === "watch"
-                                                            ? "bg-purple-400"
-                                                            : event.state === "queued"
-                                                                ? "bg-white/40"
-                                                                : "bg-blue-400 animate-pulse"
-                                                        }`}
-                                                />
-                                                <span className="text-foreground/90 truncate">{event.label}</span>
-                                            </div>
-                                            <span className="text-muted-foreground shrink-0">{event.detail}</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="px-4 md:px-6 pb-4 md:pb-6">
-                                <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mb-4" />
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    {metrics.map((metric) => (
-                                        <div key={metric.label} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
-                                            <div className="text-sm font-semibold">{metric.value}</div>
-                                            <div className="text-[11px] text-muted-foreground">{metric.label}</div>
+                                        <div className={`absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border text-primary transition-colors ${step.id === activeStep ? "border-primary/50 bg-primary/20" : "border-primary/30 bg-primary/10"}`}>
+                                            <step.icon className="h-5 w-5" />
                                         </div>
-                                    ))}
-                                </div>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => setActiveStep(step.id)}
+                                            aria-pressed={step.id === activeStep}
+                                            className={`w-full rounded-2xl border p-4 md:p-5 text-left transition-all duration-300 ${step.id === activeStep
+                                                ? "border-primary/45 bg-primary/10 shadow-[0_0_30px_-12px_rgba(124,58,237,0.75)]"
+                                                : "border-white/10 bg-black/40 hover:border-primary/30"
+                                                }`}
+                                        >
+                                            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                                <h3 className="text-lg font-semibold">{step.title}</h3>
+                                                <span className={`px-2.5 py-1 rounded-full text-[11px] border font-medium ${STATE_CLASSES[step.state]}`}>
+                                                    {step.stateLabel}
+                                                </span>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                                {step.desc}
+                                            </p>
+                                        </button>
+                                    </motion.div>
+                                ))}
                             </div>
-                        </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 16 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.5 }}
+                                className="rounded-2xl border border-white/10 bg-black/50 overflow-hidden ring-1 ring-white/5"
+                            >
+                                <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-white/5">
+                                    <div className="flex items-center gap-2">
+                                        <div className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
+                                        <div className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
+                                        <div className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
+                                        <span className="ml-2 text-xs text-muted-foreground font-mono">{t("runtimeShell")}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/15 px-2 py-0.5 text-[10px] uppercase tracking-wide text-blue-200">
+                                            {t("runtimeMockBadge")}
+                                        </span>
+                                        <span className="text-xs text-primary font-medium">{t("runtimeTitle")}</span>
+                                    </div>
+                                </div>
+
+                                <div className="p-4 md:p-6">
+                                    <p className="text-xs text-muted-foreground mb-4">
+                                        {t("runtimeSubtitle")}
+                                    </p>
+                                    <div className="mb-4 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
+                                        <span className="text-[11px] text-muted-foreground">{t("runtimeFocusLabel")}:</span>{" "}
+                                        <span className="text-xs text-foreground/90 font-medium">{activeStepData.title}</span>
+                                    </div>
+
+                                    <div className="space-y-3 font-mono">
+                                        {runtimeEvents.map((event, index) => (
+                                            <motion.div
+                                                key={event.id}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                whileInView={{ opacity: 1, x: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: index * 0.12, duration: 0.35 }}
+                                                className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs"
+                                            >
+                                                <div className="flex items-center gap-2 min-w-0">
+                                                    <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${dotStateClass(event.state)}`} />
+                                                    <span className="text-foreground/90 truncate">{event.label}</span>
+                                                </div>
+                                                <span className="text-muted-foreground shrink-0">{event.detail}</span>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="px-4 md:px-6 pb-4 md:pb-6">
+                                    <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mb-4" />
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                        {metrics.map((metric) => (
+                                            <div key={metric.label} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
+                                                <div className="text-sm font-semibold">{metric.value}</div>
+                                                <div className="text-[11px] text-muted-foreground">{metric.label}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
             </div>
