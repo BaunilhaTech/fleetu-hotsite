@@ -126,13 +126,13 @@ export function NotFoundPage({
                     className="flex flex-col sm:flex-row gap-4 justify-center"
                 >
                     <Button asChild variant="outline" className="gap-2">
-                        <Link href={homeHref} onClick={handleGoBack}>
+                        <Link href={homeHref} onClick={handleGoBack} prefetch={false}>
                             <ArrowLeft className="w-4 h-4" />
                             {goBackText}
                         </Link>
                     </Button>
                     <Button asChild className="gap-2">
-                        <Link href={homeHref}>
+                        <Link href={homeHref} prefetch={false}>
                             <Home className="w-4 h-4" />
                             {returnHomeText}
                         </Link>
