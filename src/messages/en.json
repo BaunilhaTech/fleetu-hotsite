@@ -1,6 +1,7 @@
 {
     "Header": {
         "product": "Product",
+        "problem": "The Gap",
         "howItWorks": "How it Works",
         "useCases": "Use Cases",
         "requestAccess": "Join Waitlist"

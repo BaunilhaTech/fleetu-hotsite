@@ -16,6 +16,7 @@ export function Header() {
     const locale = useLocale()
 
     const navItems = [
+        { name: t("problem"), href: "#problem" },
         { name: t("product"), href: "#solution" },
         { name: t("howItWorks"), href: "#how-it-works" },
         { name: t("useCases"), href: "#use-cases" },
