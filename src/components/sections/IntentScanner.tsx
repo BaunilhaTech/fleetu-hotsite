@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Terminal } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
+import logo from "@/assets/logo.svg"
 
 // ── Constants ──
 const MAX_PARTICLES = 400
@@ -464,13 +466,13 @@ export function IntentScanner() {
         {/* Header */}
         <div className="flex flex-col items-center text-center space-y-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
+            className="flex items-center gap-3"
           >
-            <Terminal className="mr-2 h-4 w-4" />
-            <span>{t("badge")}</span>
+            <Image src={logo} alt="Fleetu Logo" width={64} height={64} className="w-auto h-10 sm:h-12 md:h-16" />
+            <span className="text-3xl sm:text-4xl md:text-5xl font-bold font-logo tracking-tight">Fleetu</span>
           </motion.div>
 
           <motion.h1

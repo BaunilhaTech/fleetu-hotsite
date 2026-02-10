@@ -8,7 +8,6 @@
         "requestAccess": "Entrar na Lista"
     },
     "Hero": {
-        "badge": "Governança como Código",
         "title": "Onde a <intent>intenção</intent> vira <system>sistema</system>",
         "description": "Plataforma de governança de engenharia que transforma decisões organizacionais em sistemas executáveis.",
         "cta": "Entrar na Lista",
@@ -80,12 +79,17 @@
         "policyNote": "Quando o risco é crítico (por exemplo, Log4Shell), o modo de guardrail crítico dá à liderança de engenharia controle real de resposta com rastreabilidade ponta a ponta."
     },
     "Solution": {
+        "badge": "Governança como Código",
         "title": "Governança Automatizada",
         "description": "Defina políticas como código e aplique-as automaticamente.",
-        "item1": "Escopo: Defina o alcance via metadados (ex: 'framework: react')",
-        "item2": "Ação: Aplique refatorações ou patches automatizados",
-        "item3": "Validação: Execute testes em containers isolados",
-        "item4": "Rollout: Execute em ondas para prevenir incidentes",
+        "step1Title": "Escopo",
+        "step1Desc": "Defina o alcance via metadados (ex: 'framework: react')",
+        "step2Title": "Ação",
+        "step2Desc": "Aplique refatorações ou patches automatizados",
+        "step3Title": "Validação",
+        "step3Desc": "Execute testes em containers isolados",
+        "step4Title": "Rollout",
+        "step4Desc": "Execute em ondas para prevenir incidentes",
         "executing": "Executando..."
     },
     "HowItWorks": {

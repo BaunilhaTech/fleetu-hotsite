@@ -1,9 +1,16 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Check, FileText, Play } from "lucide-react"
+import { Crosshair, FileText, FlaskConical, Play, Rocket, Terminal, Zap } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { TiltCard } from "@/components/ui/tilt-card"
+
+const STEPS = [
+    { icon: Crosshair, titleKey: "step1Title", descKey: "step1Desc" },
+    { icon: Zap, titleKey: "step2Title", descKey: "step2Desc" },
+    { icon: FlaskConical, titleKey: "step3Title", descKey: "step3Desc" },
+    { icon: Rocket, titleKey: "step4Title", descKey: "step4Desc" },
+] as const
 
 export function Solution() {
     const t = useTranslations("Solution")
@@ -11,27 +18,38 @@ export function Solution() {
     return (
         <section id="solution" className="py-20 md:py-24 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
-                <div className="grid gap-12 lg:grid-cols-2 items-center">
-                    <div className="space-y-6 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                            {t("title")}
-                        </h2>
-                        <p className="text-muted-foreground md:text-xl">
-                            {t("description")}
-                        </p>
-                        <ul className="space-y-4 max-w-xl mx-auto lg:mx-0">
-                            {[
-                                t("item1"),
-                                t("item2"),
-                                t("item3"),
-                                t("item4")
-                            ].map((item, i) => (
-                                <li key={i} className="flex items-center justify-center lg:justify-start gap-3 text-left">
-                                    <Check className="h-5 w-5 text-green-500" />
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
+                <div className="flex flex-col items-center text-center space-y-4 mb-12 md:mb-14">
+                    <div className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+                        <Terminal className="mr-2 h-4 w-4" />
+                        <span>{t("badge")}</span>
+                    </div>
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                        {t("title")}
+                    </h2>
+                    <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                        {t("description")}
+                    </p>
+                </div>
+                <div className="grid gap-8 lg:gap-12 lg:grid-cols-2 items-center">
+                    <div className="space-y-4 max-w-xl mx-auto lg:mx-0">
+                        {STEPS.map((step, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.45, delay: i * 0.1 }}
+                                className="flex gap-4 rounded-xl border border-primary/10 bg-card/30 backdrop-blur-md p-4 sm:p-5 transition-all duration-300 hover:bg-card/40 hover:border-primary/20"
+                            >
+                                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary">
+                                    <step.icon className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold sm:text-lg">{t(step.titleKey)}</h3>
+                                    <p className="text-sm text-muted-foreground mt-1">{t(step.descKey)}</p>
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
 
                     <div className="relative w-full max-w-2xl mx-auto">

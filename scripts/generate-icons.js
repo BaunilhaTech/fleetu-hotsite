@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Generates favicon + app icons from the canonical SVG mark.
  *

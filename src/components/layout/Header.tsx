@@ -41,7 +41,7 @@ export function Header() {
                     <div className="mr-4 hidden lg:flex">
                         <Link href={`/${locale}`} className="mr-6 flex items-center space-x-2">
                             <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
-                            <span className="hidden font-bold sm:inline-block font-[var(--font-logo)] tracking-tight">
+                            <span className="hidden font-bold sm:inline-block font-logo tracking-tight">
                                 Fleetu
                             </span>
                         </Link>
@@ -116,7 +116,7 @@ export function Header() {
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
-                                    <span className="font-bold text-white font-[var(--font-logo)] tracking-tight">Fleetu</span>
+                                    <span className="font-bold text-white font-logo tracking-tight">Fleetu</span>
                                 </Link>
                                 <button
                                     onClick={() => setIsMenuOpen(false)}

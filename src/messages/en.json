@@ -8,7 +8,6 @@
         "requestAccess": "Join Waitlist"
     },
     "Hero": {
-        "badge": "Governance as Code",
         "title": "Where <intent>intent</intent> becomes <system>system</system>",
         "description": "Engineering governance platform that transforms organizational decisions into executable systems.",
         "cta": "Join Waitlist",
@@ -80,12 +79,17 @@
         "policyNote": "When risk is critical (for example, Log4Shell), critical guardrail mode gives engineering leadership real response control with end-to-end traceability."
     },
     "Solution": {
+        "badge": "Governance as Code",
         "title": "Automated Governance",
         "description": "Define policies as code and enforce them automatically.",
-        "item1": "Targeting: Define scope via metadata (e.g., 'framework: react')",
-        "item2": "Action: Apply automated refactors or patches",
-        "item3": "Validation: Run tests in isolated containers",
-        "item4": "Rollout: Execute in waves to prevent outages",
+        "step1Title": "Targeting",
+        "step1Desc": "Define scope via metadata (e.g., 'framework: react')",
+        "step2Title": "Action",
+        "step2Desc": "Apply automated refactors or patches",
+        "step3Title": "Validation",
+        "step3Desc": "Run tests in isolated containers",
+        "step4Title": "Rollout",
+        "step4Desc": "Execute in waves to prevent outages",
         "executing": "Executing..."
     },
     "HowItWorks": {

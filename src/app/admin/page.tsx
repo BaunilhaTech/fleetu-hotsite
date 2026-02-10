@@ -313,7 +313,7 @@ export default function AdminPage() {
                     <div className="flex items-center gap-3">
                         <Link href="/" className="flex items-center gap-2">
                             <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="h-8 w-auto" />
-                            <span className="font-[var(--font-logo)] text-lg font-bold tracking-tight">Fleetu</span>
+                            <span className="font-logo text-lg font-bold tracking-tight">Fleetu</span>
                         </Link>
                         <Badge variant="outline" className="border-primary/25 bg-primary/10 text-primary">
                             <ShieldCheck className="h-3 w-3" />

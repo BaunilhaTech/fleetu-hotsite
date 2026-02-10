@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 const sansita = Sansita({
-  variable: "--font-logo",
+  variable: "--font-sansita",
   subsets: ["latin"],
   weight: ["700"],
 });
