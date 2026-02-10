@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const languageOptions = [
     { code: "en", label: "English", shortLabel: "EN", countryCode: "US" },
-    { code: "br", label: "Português (Brasil)", shortLabel: "BR", countryCode: "BR" },
+    { code: "pt-BR", label: "Português (Brasil)", shortLabel: "BR", countryCode: "BR" },
 ] as const;
 
 function countryCodeToFlag(countryCode: string) {

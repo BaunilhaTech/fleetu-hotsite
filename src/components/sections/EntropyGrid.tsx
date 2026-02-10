@@ -77,7 +77,7 @@ export function EntropyGrid() {
 
             // Update scorecard
             setTimeElapsed(t => t + 1)
-        }, 150)
+        }, 400)
 
         return () => clearInterval(interval)
     }, [])
@@ -155,11 +155,12 @@ export function EntropyGrid() {
             </div>
 
             {/* The Grid - responsive item count */}
-            <div className="grid grid-cols-8 sm:grid-cols-12 lg:grid-cols-16 gap-[2px] sm:gap-[3px]">
+            <div className="grid grid-cols-8 sm:grid-cols-12 lg:grid-cols-16 gap-[2px] sm:gap-[3px]" role="grid" aria-label="Fleet repository health status">
                 {visibleRepos.map((repo) => (
-                    <motion.div
+                    <div
                         key={repo.id}
-                        layout
+                        role="gridcell"
+                        aria-label={`Repository ${repo.id + 1}: ${repo.status}`}
                         onMouseEnter={() => fixRepo(repo.id)}
                         className={cn(
                             "aspect-square rounded-[3px] transition-all duration-500 cursor-crosshair backdrop-blur-md shadow-sm",

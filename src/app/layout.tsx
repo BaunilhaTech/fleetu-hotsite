@@ -16,11 +16,14 @@ const geistMono = Geist_Mono({
 const sansita = Sansita({
   variable: "--font-logo",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["700"],
 });
 
 export const metadata: Metadata = {
-  title: "Fleetu - Where intent becomes system",
+  title: {
+    default: "Fleetu - Where intent becomes system",
+    template: "%s | Fleetu",
+  },
   description: "Engineering governance platform that transforms organizational decisions into executable systems.",
 };
 
@@ -30,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className="overflow-x-hidden dark">
+    <html suppressHydrationWarning className="overflow-x-hidden dark">
       <body className={`${geistSans.variable} ${geistMono.variable} ${sansita.variable} antialiased font-sans bg-background text-foreground`}>
         {children}
       </body>

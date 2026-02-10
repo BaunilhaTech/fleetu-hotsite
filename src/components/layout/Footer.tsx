@@ -4,6 +4,8 @@ import Image from "next/image"
 import logo from "@/assets/logo.svg"
 import { useTranslations } from "next-intl"
 
+const CURRENT_YEAR = 2026
+
 export function Footer() {
     const t = useTranslations("Footer")
 
@@ -14,7 +16,7 @@ export function Footer() {
                     <Image src={logo} alt="Fleetu Logo" width={22} height={24} className="w-auto h-6" />
                 </div>
                 <p className="text-center text-sm text-muted-foreground">
-                    &copy; {new Date().getFullYear()} Fleetu. {t("copyright")}
+                    &copy; {CURRENT_YEAR} Fleetu. {t("copyright")}
                 </p>
             </div>
         </footer>

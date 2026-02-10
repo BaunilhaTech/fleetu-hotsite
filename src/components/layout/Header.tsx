@@ -92,6 +92,9 @@ export function Header() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
                         className="fixed inset-0 z-[100] lg:hidden"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Navigation menu"
                     >
                         {/* Backdrop */}
                         <motion.div

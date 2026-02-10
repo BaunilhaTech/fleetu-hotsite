@@ -1,10 +1,20 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Terminal } from "lucide-react"
 import { useTranslations } from "next-intl"
+
+// ── Constants ──
+const MAX_PARTICLES = 400
+const PARTICLE_SPAWN_RATE = 0.92
+const CARD_SPEED = 0.5
+const PARTICLE_SPREAD = 8
+const BASE_CARD_WIDTH = 380
+const BASE_CARD_HEIGHT = 250
+const BASE_CARD_GAP = 48
+const BASE_SCANNER_HEIGHT = 300
 
 // Card data with translation keys, category, and code
 const CARDS_DATA = [
@@ -179,8 +189,6 @@ rollout:
   },
 ]
 
-
-
 // Triplicate cards for seamless infinite loop
 const LOOPED_CARDS = [...CARDS_DATA, ...CARDS_DATA, ...CARDS_DATA]
 
@@ -203,13 +211,22 @@ export function IntentScanner() {
     intent: (chunks) => <span className="text-primary">{chunks}</span>,
     system: (chunks) => <span className="text-primary">{chunks}</span>,
   })
+
+  const sectionRef = useRef<HTMLElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const animationRef = useRef<number>(0)
-  const [cardScale, setCardScale] = useState(1)
-  const scannerHeightRef = useRef(300)
+  const cardAnimRef = useRef<number>(0)
+  const isVisibleRef = useRef(true)
+  const posRef = useRef(0)
 
+  const [cardScale, setCardScale] = useState(1)
+  const scannerHeightRef = useRef(BASE_SCANNER_HEIGHT)
+  const [containerWidth, setContainerWidth] = useState(0)
+
+  // Responsive card scale
   useEffect(() => {
     const updateScale = () => {
       const w = window.innerWidth
@@ -218,23 +235,35 @@ export function IntentScanner() {
       else if (w < 1024) s = 0.7 + ((w - 640) / (1024 - 640)) * 0.3
       else s = 1
       setCardScale(s)
-      scannerHeightRef.current = Math.round(300 * s)
+      scannerHeightRef.current = Math.round(BASE_SCANNER_HEIGHT * s)
     }
     updateScale()
     window.addEventListener("resize", updateScale)
     return () => window.removeEventListener("resize", updateScale)
   }, [])
 
-  const CARD_WIDTH = Math.round(380 * cardScale)
-  const CARD_HEIGHT = Math.round(250 * cardScale)
-  const CARD_GAP = Math.round(48 * cardScale)
-  const SCANNER_HEIGHT = Math.round(300 * cardScale)
+  const CARD_WIDTH = Math.round(BASE_CARD_WIDTH * cardScale)
+  const CARD_HEIGHT = Math.round(BASE_CARD_HEIGHT * cardScale)
+  const CARD_GAP = Math.round(BASE_CARD_GAP * cardScale)
+  const SCANNER_HEIGHT = Math.round(BASE_SCANNER_HEIGHT * cardScale)
   const SINGLE_SET_WIDTH = (CARD_WIDTH + CARD_GAP) * CARDS_DATA.length
 
-  const [position, setPosition] = useState<number | null>(-SINGLE_SET_WIDTH)
-  const [containerWidth, setContainerWidth] = useState(0)
+  // IntersectionObserver — pause animations when section is off-screen
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
 
-  // Initialize canvas and particle animation
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
+
+  // Canvas particle animation
   useEffect(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
@@ -252,7 +281,7 @@ export function IntentScanner() {
     resizeCanvas()
     window.addEventListener("resize", resizeCanvas)
 
-    // Particle gradient
+    // Pre-render particle gradient texture
     const gradCanvas = document.createElement("canvas")
     const gradCtx = gradCanvas.getContext("2d")!
     gradCanvas.width = 32
@@ -269,7 +298,7 @@ export function IntentScanner() {
     gradCtx.fill()
 
     const createParticle = (x: number): Particle => ({
-      x: x + (Math.random() - 0.5) * 8,
+      x: x + (Math.random() - 0.5) * PARTICLE_SPREAD,
       y: Math.random() * scannerHeightRef.current,
       vx: (Math.random() - 0.5) * 1.5,
       vy: (Math.random() - 0.5) * 0.5,
@@ -280,6 +309,11 @@ export function IntentScanner() {
     })
 
     const animate = () => {
+      if (!isVisibleRef.current) {
+        animationRef.current = requestAnimationFrame(animate)
+        return
+      }
+
       const h = scannerHeightRef.current
       ctx.clearRect(0, 0, canvas.width, h)
       const centerX = canvas.width / 2
@@ -350,8 +384,8 @@ export function IntentScanner() {
       ctx.fillStyle = fadeMask
       ctx.fillRect(0, 0, canvas.width, h)
 
-      // Add new particles from scanner
-      if (Math.random() < 0.95 && particlesRef.current.length < 600) {
+      // Spawn new particles from scanner
+      if (Math.random() < PARTICLE_SPAWN_RATE && particlesRef.current.length < MAX_PARTICLES) {
         particlesRef.current.push(createParticle(centerX))
         particlesRef.current.push(createParticle(centerX))
       }
@@ -388,48 +422,44 @@ export function IntentScanner() {
     }
   }, [])
 
-  // Card stream animation - left to right, start populated
+  // Card stream animation — direct DOM manipulation (no setState per frame)
   useEffect(() => {
     if (containerWidth === 0) return
 
-    const startPos = -SINGLE_SET_WIDTH
-    let pos = startPos
-
-    let frameId: number
+    posRef.current = -SINGLE_SET_WIDTH
 
     const animateCards = () => {
-      pos += 0.5
-      if (pos > 0) {
-        pos = -SINGLE_SET_WIDTH
+      if (isVisibleRef.current) {
+        posRef.current += CARD_SPEED
+        if (posRef.current > 0) {
+          posRef.current = -SINGLE_SET_WIDTH
+        }
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translateX(${posRef.current}px)`
+        }
       }
-      setPosition(pos)
-      frameId = requestAnimationFrame(animateCards)
+      cardAnimRef.current = requestAnimationFrame(animateCards)
     }
 
     animateCards()
 
-    return () => cancelAnimationFrame(frameId)
+    return () => cancelAnimationFrame(cardAnimRef.current)
   }, [containerWidth, SINGLE_SET_WIDTH])
 
-  // Calculate clip percentage for a card
-  // Cards move left-to-right: RIGHT edge touches scanner first
-  // Clip Intent from RIGHT to reveal Shift from RIGHT
-  const getClipPercent = (index: number): number => {
-    if (position === null) return 0
+  // Calculate clip percentage for card (pure function, no state)
+  const getClipPercent = useCallback((index: number): number => {
     const scannerX = containerWidth / 2
-    const cardStart = position + index * (CARD_WIDTH + CARD_GAP)
+    const pos = posRef.current
+    const cardStart = pos + index * (CARD_WIDTH + CARD_GAP)
     const cardEnd = cardStart + CARD_WIDTH
 
-    // Card is fully LEFT of scanner (right edge hasn't reached) = show Intent (0%)
     if (cardEnd <= scannerX) return 0
-    // Card is fully RIGHT of scanner (left edge has passed) = show Shift (100%)
     if (cardStart >= scannerX) return 100
-    // Card is crossing - clip from RIGHT as right edge passes scanner
     return ((cardEnd - scannerX) / CARD_WIDTH) * 100
-  }
+  }, [containerWidth, CARD_WIDTH, CARD_GAP])
 
   return (
-    <section className="relative overflow-hidden min-h-dvh flex flex-col pt-20 md:pt-28 lg:pt-36 pb-10 md:pb-16 lg:pb-20">
+    <section ref={sectionRef} className="relative overflow-hidden min-h-dvh flex flex-col pt-20 md:pt-28 lg:pt-36 pb-10 md:pb-16 lg:pb-20">
       <div className="container relative z-10 px-4 md:px-6 mx-auto flex flex-col flex-1 justify-center items-center gap-8 md:gap-12">
         {/* Header */}
         <div className="flex flex-col items-center text-center space-y-6">
@@ -478,56 +508,27 @@ export function IntentScanner() {
           {/* Scanner canvas with particles */}
           <canvas ref={canvasRef} className="absolute inset-0 z-10 pointer-events-none" />
 
-          {/* Card stream */}
+          {/* Card stream — transform set directly via ref, no React re-renders */}
           <div
+            ref={trackRef}
             className="absolute top-0 left-0 flex items-center h-full z-5"
-            style={{ transform: `translateX(${position}px)`, willChange: "transform", gap: `${CARD_GAP}px` }}
+            style={{ willChange: "transform", gap: `${CARD_GAP}px` }}
           >
-            {LOOPED_CARDS.map((card, index) => {
-              const clipPercent = getClipPercent(index)
-              return (
-                <div key={index} className="relative flex-shrink-0" style={{ width: `${CARD_WIDTH}px`, height: `${CARD_HEIGHT}px` }}>
-                  {/* Shift Card (base layer - revealed after passing scanner) */}
-                  <div
-                    className="absolute top-0 left-0 origin-top-left rounded-xl border border-violet-500/30 bg-zinc-950/95 backdrop-blur-sm p-5 overflow-hidden"
-                    style={{ width: 380, height: 250, transform: `scale(${cardScale})` }}
-                  >
-                    <div className="text-xs font-mono text-violet-400/80 uppercase tracking-wider mb-2">
-                      {tScanner("shift")}
-                    </div>
-                    <pre className="text-[10px] font-mono text-violet-300/80 leading-tight overflow-hidden">
-                      {card.code}
-                    </pre>
-                  </div>
-
-                  {/* Intent Card (top layer - clips away to reveal Shift) */}
-                  <div
-                    className="absolute top-0 left-0 origin-top-left rounded-xl border border-white/20 bg-zinc-900 p-5 overflow-hidden"
-                    style={{
-                      width: 380,
-                      height: 250,
-                      transform: `scale(${cardScale})`,
-                      clipPath: `inset(0 ${clipPercent}% 0 0)`,
-                      boxShadow: "inset 0 1px 1px 0 rgba(255,255,255,0.1)"
-                    }}
-                  >
-                    <div className="text-xs font-mono text-blue-400/80 uppercase tracking-wider mb-3">
-                      {tScanner("intent")}
-                    </div>
-                    <p className="text-lg font-medium text-foreground leading-relaxed">
-                      &quot;{tScanner(card.intentKey)}&quot;
-                    </p>
-                    <div className="absolute bottom-4 left-5 right-5 flex items-center gap-2 text-xs text-muted-foreground/60">
-                      <span className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" />
-                      {tScanner(card.categoryKey)}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+            {LOOPED_CARDS.map((card, index) => (
+              <CardItem
+                key={index}
+                card={card}
+                index={index}
+                cardWidth={CARD_WIDTH}
+                cardHeight={CARD_HEIGHT}
+                cardScale={cardScale}
+                getClipPercent={getClipPercent}
+                tScanner={tScanner}
+              />
+            ))}
           </div>
 
-          {/* Blur overlays with mask for smooth transition */}
+          {/* Blur overlays */}
           <div
             className="absolute left-0 top-0 bottom-0 w-32 backdrop-blur-xl z-20 pointer-events-none"
             style={{
@@ -572,5 +573,81 @@ export function IntentScanner() {
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-violet-500/10 blur-[120px] rounded-full -z-10" />
     </section>
+  )
+}
+
+// Extracted card component — avoids re-rendering all 30 cards on every frame
+function CardItem({
+  card,
+  index,
+  cardWidth,
+  cardHeight,
+  cardScale,
+  getClipPercent,
+  tScanner,
+}: {
+  card: typeof CARDS_DATA[number]
+  index: number
+  cardWidth: number
+  cardHeight: number
+  cardScale: number
+  getClipPercent: (index: number) => number
+  tScanner: ReturnType<typeof useTranslations>
+}) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const intentRef = useRef<HTMLDivElement>(null)
+
+  // Update clip via rAF polling instead of React state
+  useEffect(() => {
+    let frameId: number
+    const update = () => {
+      const pct = getClipPercent(index)
+      if (intentRef.current) {
+        intentRef.current.style.clipPath = `inset(0 ${pct}% 0 0)`
+      }
+      frameId = requestAnimationFrame(update)
+    }
+    update()
+    return () => cancelAnimationFrame(frameId)
+  }, [getClipPercent, index])
+
+  return (
+    <div ref={cardRef} className="relative flex-shrink-0" style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}>
+      {/* Shift Card (base layer) */}
+      <div
+        className="absolute top-0 left-0 origin-top-left rounded-xl border border-violet-500/30 bg-zinc-950/95 backdrop-blur-sm p-5 overflow-hidden"
+        style={{ width: BASE_CARD_WIDTH, height: BASE_CARD_HEIGHT, transform: `scale(${cardScale})` }}
+      >
+        <div className="text-xs font-mono text-violet-400/80 uppercase tracking-wider mb-2">
+          {tScanner("shift")}
+        </div>
+        <pre className="text-[10px] font-mono text-violet-300/80 leading-tight overflow-hidden">
+          {card.code}
+        </pre>
+      </div>
+
+      {/* Intent Card (top layer — clips away to reveal Shift) */}
+      <div
+        ref={intentRef}
+        className="absolute top-0 left-0 origin-top-left rounded-xl border border-white/20 bg-zinc-900 p-5 overflow-hidden"
+        style={{
+          width: BASE_CARD_WIDTH,
+          height: BASE_CARD_HEIGHT,
+          transform: `scale(${cardScale})`,
+          boxShadow: "inset 0 1px 1px 0 rgba(255,255,255,0.1)"
+        }}
+      >
+        <div className="text-xs font-mono text-blue-400/80 uppercase tracking-wider mb-3">
+          {tScanner("intent")}
+        </div>
+        <p className="text-lg font-medium text-foreground leading-relaxed">
+          &quot;{tScanner(card.intentKey)}&quot;
+        </p>
+        <div className="absolute bottom-4 left-5 right-5 flex items-center gap-2 text-xs text-muted-foreground/60">
+          <span className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" />
+          {tScanner(card.categoryKey)}
+        </div>
+      </div>
+    </div>
   )
 }

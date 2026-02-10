@@ -45,10 +45,23 @@ export function CTA() {
     const [isOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [honeypot, setHoneypot] = useState("")
+    const [lastSubmit, setLastSubmit] = useState(0)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!email || !role || !fleetSize) return
+
+        // Honeypot check: if a bot filled the hidden field, silently reject
+        if (honeypot) {
+            setIsOpen(true)
+            return
+        }
+
+        // Cooldown: prevent double-submits (5 second window)
+        const now = Date.now()
+        if (now - lastSubmit < 5000) return
+        setLastSubmit(now)
 
         setIsLoading(true)
         setError(null)
@@ -82,7 +95,20 @@ export function CTA() {
                         {t("subtitle")}
                     </p>
 
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-lg mx-auto">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-lg mx-auto" aria-label="Request early access">
+                        {/* Honeypot field — hidden from real users, catches bots */}
+                        <div className="absolute -left-[9999px]" aria-hidden="true">
+                            <label htmlFor="website">Website</label>
+                            <input
+                                type="text"
+                                id="website"
+                                name="website"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                value={honeypot}
+                                onChange={(e) => setHoneypot(e.target.value)}
+                            />
+                        </div>
                         <Input
                             type="email"
                             placeholder={t("emailPlaceholder")}
