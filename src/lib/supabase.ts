@@ -21,9 +21,11 @@ export async function saveLead(lead: Lead) {
 
     const { error } = await supabase
         .from('leads')
-        .upsert([lead], { onConflict: 'email', ignoreDuplicates: true })
+        .insert([lead])
 
     if (error) {
+        // Duplicate email — user already registered, treat as success
+        if (error.code === '23505') return
         console.error('Error saving lead:', error)
         throw error
     }
