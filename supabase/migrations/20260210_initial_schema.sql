@@ -24,11 +24,11 @@ create index leads_created_at_idx on leads (created_at desc);
 -- ── Row Level Security ──────────────────────────────────────────
 alter table leads enable row level security;
 
--- Anonymous users (anon key) can ONLY insert — no read, update, or delete
-create policy "Allow anonymous lead submissions"
+-- Anyone can submit a lead (anon visitors and authenticated admin users)
+create policy "Allow lead submissions"
   on leads
   for insert
-  to anon
+  to anon, authenticated
   with check (true);
 
 -- Service role has full access (used by backend jobs and admin tools)
