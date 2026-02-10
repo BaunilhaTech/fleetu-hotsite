@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Activity, Shield, ShieldAlert, Clock } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -44,6 +44,8 @@ function useGridSize() {
 export function EntropyGrid() {
     const t = useTranslations("EntropyGrid")
     const gridSize = useGridSize()
+    const containerRef = useRef<HTMLDivElement>(null)
+    const isVisibleRef = useRef(false)
     const [repos, setRepos] = useState<Repo[]>(
         Array.from({ length: GRID_SIZES.desktop }, (_, i) => ({ id: i, status: "healthy" }))
     )
@@ -54,8 +56,23 @@ export function EntropyGrid() {
 
     const [timeElapsed, setTimeElapsed] = useState(0)
 
+    // Pause simulation when off-screen to save CPU/battery
+    useEffect(() => {
+        const el = containerRef.current
+        if (!el) return
+
+        const observer = new IntersectionObserver(
+            ([entry]) => { isVisibleRef.current = entry.isIntersecting },
+            { threshold: 0.05 }
+        )
+        observer.observe(el)
+        return () => observer.disconnect()
+    }, [])
+
     useEffect(() => {
         const interval = setInterval(() => {
+            if (!isVisibleRef.current) return
+
             setRepos((currentRepos) => {
                 const newRepos = [...currentRepos]
                 const randomIndex = Math.floor(Math.random() * newRepos.length)
@@ -94,7 +111,7 @@ export function EntropyGrid() {
     const hours = (timeElapsed % 24).toString().padStart(2, '0')
 
     return (
-        <div className="relative mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-xl border border-white/10 bg-zinc-950/50 p-4 sm:p-5 backdrop-blur-xl shadow-2xl">
+        <div ref={containerRef} className="relative mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-xl border border-white/10 bg-zinc-950/50 p-4 sm:p-5 backdrop-blur-xl shadow-2xl">
             {/* Dashboard Header */}
             <div className="flex flex-col gap-4 mb-6 sm:mb-8 border-b border-white/5 pb-4 sm:pb-6">
                 {/* Compliance Score - prominent on mobile */}

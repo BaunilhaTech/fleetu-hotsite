@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { isValidLocale, locales, getHtmlLang, defaultLocale } from '@/i18n';
+import { HtmlLangUpdater } from '@/components/HtmlLangUpdater';
 
 const SITE_URL = 'https://fleetu.dev';
 
@@ -84,20 +85,14 @@ export default async function LocaleLayout({
       <ThemeProvider
         attribute="class"
         defaultTheme="dark"
-        enableSystem
         disableTransitionOnChange
       >
+        <HtmlLangUpdater lang={htmlLang} />
         <div className="relative flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
-        {/* Set lang attribute on the html element */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.lang="${htmlLang}";`,
-          }}
-        />
       </ThemeProvider>
     </NextIntlClientProvider>
   );

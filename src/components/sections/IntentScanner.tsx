@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useEffect, useMemo, useRef, useState, createRef, type RefObject } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -448,17 +448,42 @@ export function IntentScanner() {
     return () => cancelAnimationFrame(cardAnimRef.current)
   }, [containerWidth, SINGLE_SET_WIDTH])
 
-  // Calculate clip percentage for card (pure function, no state)
-  const getClipPercent = useCallback((index: number): number => {
-    const scannerX = containerWidth / 2
-    const pos = posRef.current
-    const cardStart = pos + index * (CARD_WIDTH + CARD_GAP)
-    const cardEnd = cardStart + CARD_WIDTH
+  // Stable array of refs for intent layer of each card (created once)
+  const intentRefs = useMemo(
+    () => Array.from({ length: LOOPED_CARDS.length }, () => createRef<HTMLDivElement>()),
+    []
+  )
 
-    if (cardEnd <= scannerX) return 0
-    if (cardStart >= scannerX) return 100
-    return ((cardEnd - scannerX) / CARD_WIDTH) * 100
-  }, [containerWidth, CARD_WIDTH, CARD_GAP])
+  // Single rAF loop that updates clipPath on all cards (replaces 30 per-card loops)
+  useEffect(() => {
+    if (containerWidth === 0) return
+
+    const clipAnimRef = { current: 0 }
+    const updateClips = () => {
+      const scannerX = containerWidth / 2
+      const pos = posRef.current
+      const step = CARD_WIDTH + CARD_GAP
+
+      for (let i = 0; i < LOOPED_CARDS.length; i++) {
+        const el = intentRefs[i]?.current
+        if (!el) continue
+
+        const cardStart = pos + i * step
+        const cardEnd = cardStart + CARD_WIDTH
+
+        let pct: number
+        if (cardEnd <= scannerX) pct = 0
+        else if (cardStart >= scannerX) pct = 100
+        else pct = ((cardEnd - scannerX) / CARD_WIDTH) * 100
+
+        el.style.clipPath = `inset(0 ${pct}% 0 0)`
+      }
+
+      clipAnimRef.current = requestAnimationFrame(updateClips)
+    }
+    updateClips()
+    return () => cancelAnimationFrame(clipAnimRef.current)
+  }, [containerWidth, CARD_WIDTH, CARD_GAP, intentRefs])
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden min-h-dvh flex flex-col pt-20 md:pt-28 lg:pt-36 pb-10 md:pb-16 lg:pb-20">
@@ -520,11 +545,10 @@ export function IntentScanner() {
               <CardItem
                 key={index}
                 card={card}
-                index={index}
+                intentRef={intentRefs[index]}
                 cardWidth={CARD_WIDTH}
                 cardHeight={CARD_HEIGHT}
                 cardScale={cardScale}
-                getClipPercent={getClipPercent}
                 tScanner={tScanner}
               />
             ))}
@@ -581,40 +605,21 @@ export function IntentScanner() {
 // Extracted card component — avoids re-rendering all 30 cards on every frame
 function CardItem({
   card,
-  index,
+  intentRef,
   cardWidth,
   cardHeight,
   cardScale,
-  getClipPercent,
   tScanner,
 }: {
   card: typeof CARDS_DATA[number]
-  index: number
+  intentRef: RefObject<HTMLDivElement | null>
   cardWidth: number
   cardHeight: number
   cardScale: number
-  getClipPercent: (index: number) => number
   tScanner: ReturnType<typeof useTranslations>
 }) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const intentRef = useRef<HTMLDivElement>(null)
-
-  // Update clip via rAF polling instead of React state
-  useEffect(() => {
-    let frameId: number
-    const update = () => {
-      const pct = getClipPercent(index)
-      if (intentRef.current) {
-        intentRef.current.style.clipPath = `inset(0 ${pct}% 0 0)`
-      }
-      frameId = requestAnimationFrame(update)
-    }
-    update()
-    return () => cancelAnimationFrame(frameId)
-  }, [getClipPercent, index])
-
   return (
-    <div ref={cardRef} className="relative flex-shrink-0" style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}>
+    <div className="relative flex-shrink-0" style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}>
       {/* Shift Card (base layer) */}
       <div
         className="absolute top-0 left-0 origin-top-left rounded-xl border border-violet-500/30 bg-zinc-950/95 backdrop-blur-sm p-5 overflow-hidden"

@@ -49,6 +49,19 @@ function getGithubUsername(user: User | null): string | null {
         return null
     }
 
+    // Check provider-specific identity first (most reliable)
+    const githubIdentity = user.identities?.find((i) => i.provider === "github")
+    if (githubIdentity?.identity_data) {
+        const idData = githubIdentity.identity_data
+        const idCandidates = [idData.user_name, idData.preferred_username, idData.login]
+        for (const candidate of idCandidates) {
+            if (typeof candidate === "string" && candidate.trim().length > 0) {
+                return candidate.trim().toLowerCase()
+            }
+        }
+    }
+
+    // Fallback to top-level user_metadata
     const metadata = user.user_metadata ?? {}
     const candidates = [
         metadata.user_name,
@@ -140,19 +153,24 @@ export default function AdminPage() {
         setIsLoadingLeads(true)
         setError(null)
 
-        const { data, error: fetchError } = await supabase
-            .from("leads")
-            .select("id, email, role, fleet_size, created_at")
-            .order("created_at", { ascending: false })
+        try {
+            const { data, error: fetchError } = await supabase
+                .from("leads")
+                .select("id, email, role, fleet_size, created_at")
+                .order("created_at", { ascending: false })
 
-        if (fetchError) {
-            setError(fetchError.message)
+            if (fetchError) {
+                setError(fetchError.message)
+                setLeads([])
+            } else {
+                setLeads((data ?? []) as LeadRow[])
+            }
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Falha ao carregar leads.")
             setLeads([])
-        } else {
-            setLeads((data ?? []) as LeadRow[])
+        } finally {
+            setIsLoadingLeads(false)
         }
-
-        setIsLoadingLeads(false)
     }, [])
 
     useEffect(() => {
@@ -163,32 +181,46 @@ export default function AdminPage() {
 
         let isMounted = true
 
-        const applySession = async () => {
-            const { data, error: sessionError } = await sb.auth.getSession()
-
-            if (!isMounted) {
-                return
-            }
-
-            if (sessionError) {
-                setError(sessionError.message)
-                setIsCheckingSession(false)
-                return
-            }
-
-            const user = data.session?.user ?? null
+        const applyUser = (user: User | null) => {
             const username = getGithubUsername(user)
             const allowed = Boolean(username && ALLOWED_GITHUB_USERS.includes(username))
 
             setCurrentUser(user)
             setGithubUsername(username)
             setIsAuthorized(allowed)
-            setIsCheckingSession(false)
 
-            if (allowed) {
-                await fetchLeads()
-            } else {
-                setLeads([])
+            return allowed
+        }
+
+        const applySession = async () => {
+            try {
+                const { data, error: sessionError } = await sb.auth.getSession()
+
+                if (!isMounted) {
+                    return
+                }
+
+                if (sessionError) {
+                    setError(sessionError.message)
+                    return
+                }
+
+                const allowed = applyUser(data.session?.user ?? null)
+
+                if (allowed) {
+                    await fetchLeads()
+                } else {
+                    setLeads([])
+                }
+            } catch (err) {
+                if (!isMounted) {
+                    return
+                }
+                setError(err instanceof Error ? err.message : "Falha ao verificar sessão.")
+            } finally {
+                if (isMounted) {
+                    setIsCheckingSession(false)
+                }
             }
         }
 
@@ -199,18 +231,16 @@ export default function AdminPage() {
                 return
             }
 
-            const user = session?.user ?? null
-            const username = getGithubUsername(user)
-            const allowed = Boolean(username && ALLOWED_GITHUB_USERS.includes(username))
+            const allowed = applyUser(session?.user ?? null)
 
-            setCurrentUser(user)
-            setGithubUsername(username)
-            setIsAuthorized(allowed)
-
-            if (allowed) {
-                await fetchLeads()
-            } else {
-                setLeads([])
+            try {
+                if (allowed) {
+                    await fetchLeads()
+                } else {
+                    setLeads([])
+                }
+            } catch {
+                // fetchLeads handles its own errors
             }
         })
 

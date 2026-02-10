@@ -1,18 +1,16 @@
 "use client"
 
 import Image from "next/image"
-import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import logo from "@/assets/logo.svg"
 import Link from "next/link"
 import { useTranslations, useLocale } from "next-intl"
-import LanguageSwitcher from "./LanguageSwitcher"
+import { LanguageSwitcher } from "./LanguageSwitcher"
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
 export function Header() {
-    const pathname = usePathname()
     const t = useTranslations("Header")
     const locale = useLocale()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -50,8 +48,7 @@ export function Header() {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`transition-colors hover:text-foreground/80 ${pathname === item.href ? "text-foreground" : "text-foreground/60"
-                                        }`}
+                                    className="text-foreground/60 transition-colors hover:text-foreground/80"
                                 >
                                     {item.name}
                                 </Link>
