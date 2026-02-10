@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 import { isValidLocale, locales, getHtmlLang, defaultLocale } from '@/i18n';
 import { HtmlLangUpdater } from '@/components/HtmlLangUpdater';
 
-const SITE_URL = 'https://fleetu.dev';
+const SITE_URL = 'https://fleetu.io';
 
 type Props = {
   params: Promise<{ locale: string }>;
