@@ -16,13 +16,12 @@ export interface Lead {
 
 export async function saveLead(lead: Lead) {
     if (!supabase) {
-        console.error('Supabase client not initialized. Check environment variables.')
         throw new Error('Database connection not available')
     }
 
     const { error } = await supabase
         .from('leads')
-        .insert([lead])
+        .upsert([lead], { onConflict: 'email', ignoreDuplicates: true })
 
     if (error) {
         console.error('Error saving lead:', error)
