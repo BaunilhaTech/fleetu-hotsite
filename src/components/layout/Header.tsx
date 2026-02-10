@@ -38,7 +38,7 @@ export function Header() {
         <>
             <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container flex h-14 max-w-screen-2xl items-center mx-auto px-4 md:px-8">
-                    <div className="mr-4 hidden md:flex">
+                    <div className="mr-4 hidden lg:flex">
                         <Link href={`/${locale}`} className="mr-6 flex items-center space-x-2">
                             <Image src={logo} alt="Fleetu Logo" width={29} height={32} className="w-auto h-8" />
                             <span className="hidden font-bold sm:inline-block font-[var(--font-logo)] tracking-tight">
@@ -62,15 +62,15 @@ export function Header() {
                     {/* Mobile Menu Button */}
                     <Button
                         variant="ghost"
-                        className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+                        className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
                         onClick={() => setIsMenuOpen(true)}
                     >
                         <Menu className="h-5 w-5" />
                         <span className="sr-only">Toggle Menu</span>
                     </Button>
 
-                    <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-                        <div className="w-full flex-1 md:w-auto md:flex-none">
+                    <div className="flex flex-1 items-center justify-between space-x-2 lg:justify-end">
+                        <div className="w-full flex-1 lg:w-auto lg:flex-none">
                             {/* Search or other items could go here */}
                         </div>
                         <nav className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export function Header() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-[100] md:hidden"
+                        className="fixed inset-0 z-[100] lg:hidden"
                     >
                         {/* Backdrop */}
                         <motion.div

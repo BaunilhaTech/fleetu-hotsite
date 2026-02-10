@@ -3,7 +3,6 @@
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import { useTransition } from "react";
-import { Check, Globe2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -47,10 +46,6 @@ export default function LanguageSwitcher() {
 
     return (
         <div className="relative inline-flex items-center rounded-full border border-primary/25 bg-gradient-to-r from-primary/15 via-background/80 to-primary/10 p-1 shadow-[0_10px_30px_-18px_hsl(var(--primary)/0.7)] backdrop-blur-md">
-            <div className="pl-2 pr-1 text-muted-foreground">
-                <Globe2 className="h-3.5 w-3.5" />
-                <span className="sr-only">Select language</span>
-            </div>
             <div className="relative grid grid-cols-2 gap-1">
                 {languageOptions.map((option) => {
                     const isActive = locale === option.code;
@@ -64,7 +59,7 @@ export default function LanguageSwitcher() {
                             aria-label={option.label}
                             aria-pressed={isActive}
                             className={cn(
-                                "relative min-w-[68px] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-200",
+                                "relative min-w-[42px] lg:min-w-[54px] rounded-full px-2 lg:px-2.5 py-1.5 text-xs font-semibold transition-colors duration-200",
                                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70",
                                 isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                                 isPending && "cursor-wait opacity-70"
@@ -77,10 +72,9 @@ export default function LanguageSwitcher() {
                                     className="absolute inset-0 rounded-full border border-primary/30 bg-primary/20"
                                 />
                             ) : null}
-                            <span className="relative z-10 inline-flex items-center gap-1.5">
+                            <span className="relative z-10 inline-flex items-center gap-1">
                                 <span aria-hidden>{countryCodeToFlag(option.countryCode)}</span>
-                                <span>{option.shortLabel}</span>
-                                {isActive ? <Check className="h-3.5 w-3.5" /> : null}
+                                <span className="hidden lg:inline">{option.shortLabel}</span>
                             </span>
                         </button>
                     );
