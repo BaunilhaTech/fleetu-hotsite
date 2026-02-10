@@ -6,18 +6,18 @@ Fleetu is an engineering governance platform that turns organizational decisions
 
 This repository contains the **high-performance landing page** (hotsite) designed to communicate this value proposition to engineering leaders.
 
-## 🎯 The Problem
+## The Problem
 
 As organizations grow, systems drift away from intent:
 - Policies become static documents.
 - Standards become mere suggestions.
 - Migrations turn into endless, unmanageable projects.
 
-## 💡 The Solution
+## The Solution
 
 Fleetu closes this gap by making governance **automated**, **auditable**, and **scalable**. With Fleetu, intent becomes system, and systems stay aligned.
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
 - **Library:** [React 19](https://react.dev/)
@@ -27,7 +27,7 @@ Fleetu closes this gap by making governance **automated**, **auditable**, and **
 - **Backend/DB:** [Supabase](https://supabase.com/) (PostgreSQL + RLS)
 - **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
 
-## ✨ Key Features
+## Key Features
 
 - **Performance First:** 
   - Optimized animations using `requestAnimationFrame` with direct DOM manipulation (zero React render overhead).
@@ -48,7 +48,7 @@ Fleetu closes this gap by making governance **automated**, **auditable**, and **
   - Anonymous users are restricted to `INSERT` only.
   - Honeypot fields and submission cooldowns to prevent bot spam.
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -81,7 +81,7 @@ Fleetu closes this gap by making governance **automated**, **auditable**, and **
    ```
    Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-## 🗄️ Database Schema
+## Database Schema
 
 The project uses Supabase (PostgreSQL) for lead capture.
 
@@ -97,14 +97,14 @@ The project uses Supabase (PostgreSQL) for lead capture.
 - **Admins:** Read access restricted to specific GitHub users defined in RLS policies.
 - **Schema:** Full migration available at `supabase/migrations/20260210_initial_schema.sql`.
 
-## � Admin Panel
+## Admin Panel
 
 The site includes a restricted area at `/admin` for viewing captured leads.
 - **Authentication:** GitHub OAuth via Supabase.
 - **Authorization:** Allowlist enforced via RLS policies and client-side checks.
 - **Access:** Only specific GitHub usernames (e.g., maintainers) are permitted to view data.
 
-## �📦 Deployment
+## Deployment
 
 This project is configured for static export but uses Next.js Image Optimization and dynamic routing (`[locale]`).
 
@@ -113,6 +113,6 @@ This project is configured for static export but uses Next.js Image Optimization
 
 Deployment workflows are configured for **GitHub Pages**.
 
-## 📄 License
+## License
 
 Copyright © 2026 Fleetu. All rights reserved.
