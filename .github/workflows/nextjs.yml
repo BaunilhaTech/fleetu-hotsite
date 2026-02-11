@@ -65,15 +65,36 @@ jobs:
             echo "Unable to determine package manager from lockfile"
             exit 1
           fi
-      - name: Setup Node
+      - name: Setup Node (pnpm)
+        if: ${{ steps.detect-package-manager.outputs.manager == 'pnpm' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Setup Node (npm/yarn)
+        if: ${{ steps.detect-package-manager.outputs.manager != 'pnpm' }}
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
           cache-dependency-path: ${{ github.workspace }}/${{ steps.detect-package-manager.outputs.lockfile }}
-      - name: Enable Corepack
+      - name: Setup pnpm
         if: ${{ steps.detect-package-manager.outputs.manager == 'pnpm' }}
-        run: corepack enable
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.2
+          run_install: false
+      - name: Resolve pnpm store path
+        if: ${{ steps.detect-package-manager.outputs.manager == 'pnpm' }}
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+      - name: Restore pnpm store cache
+        if: ${{ steps.detect-package-manager.outputs.manager == 'pnpm' }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Restore cache
