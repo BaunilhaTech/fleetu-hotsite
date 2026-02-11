@@ -1,6 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
 import {
     Card,
     CardDescription,
@@ -18,10 +15,11 @@ import {
     SquareCode,
     Terminal,
 } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
+import { Reveal } from "@/components/ui/reveal"
 
-export function UseCases() {
-    const t = useTranslations("UseCases")
+export async function UseCases() {
+    const t = await getTranslations("UseCases")
 
     const cases = [
         {
@@ -77,25 +75,17 @@ export function UseCases() {
     return (
         <section id="use-cases" className="py-24 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto">
-                <div className="mb-12 flex flex-col items-center text-center">
+                <Reveal className="mb-12 flex flex-col items-center text-center">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                         {t("title")}
                     </h2>
                     <p className="mt-4 text-muted-foreground md:text-xl max-w-2xl">
                         {t("description")}
                     </p>
-                </div>
+                </Reveal>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {cases.map((item, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1, duration: 0.5 }}
-                            whileHover={{ scale: 1.02 }}
-                            className="h-full"
-                        >
+                        <Reveal key={i} delay={(i % 4) * 100} className="h-full">
                             <Card className="h-full bg-card/30 backdrop-blur-md border-primary/10 transition-all duration-300 hover:bg-card/40 hover:border-primary/30 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.2)]">
                                 <CardHeader>
                                     <div className="mb-4 flex items-center justify-between">
@@ -110,7 +100,7 @@ export function UseCases() {
                                     </CardDescription>
                                 </CardHeader>
                             </Card>
-                        </motion.div>
+                        </Reveal>
                     ))}
                 </div>
             </div>

@@ -144,6 +144,16 @@
   --sidebar-ring: oklch(0.65 0.22 280);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-in { animation: none !important; opacity: 1 !important; }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: ease-out;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -151,6 +161,12 @@
 
   html {
     overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {

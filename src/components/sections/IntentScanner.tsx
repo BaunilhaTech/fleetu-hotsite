@@ -1,15 +1,15 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState, createRef, type RefObject } from "react"
-import { motion } from "framer-motion"
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import logo from "@/assets/logo.svg"
 
 // ── Constants ──
-const MAX_PARTICLES = 400
+const MAX_PARTICLES = 220
 const PARTICLE_SPAWN_RATE = 0.92
 const CARD_SPEED = 0.5
 const PARTICLE_SPREAD = 8
@@ -191,8 +191,8 @@ rollout:
   },
 ]
 
-// Triplicate cards for seamless infinite loop
-const LOOPED_CARDS = [...CARDS_DATA, ...CARDS_DATA, ...CARDS_DATA]
+// Duplicate card set for seamless infinite loop
+const LOOPED_CARDS = [...CARDS_DATA, ...CARDS_DATA]
 
 // Particle type
 interface Particle {
@@ -460,6 +460,11 @@ export function IntentScanner() {
 
     const clipAnimRef = { current: 0 }
     const updateClips = () => {
+      if (!isVisibleRef.current) {
+        clipAnimRef.current = requestAnimationFrame(updateClips)
+        return
+      }
+
       const scannerX = containerWidth / 2
       const pos = posRef.current
       const step = CARD_WIDTH + CARD_GAP
@@ -490,42 +495,24 @@ export function IntentScanner() {
       <div className="container relative z-10 px-4 md:px-6 mx-auto flex flex-col flex-1 justify-center items-center gap-8 md:gap-12">
         {/* Header */}
         <div className="flex flex-col items-center text-center space-y-6">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-3"
-          >
+          <div className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500 flex items-center gap-3">
             <Image src={logo} alt="Fleetu Logo" width={64} height={64} className="w-auto h-10 sm:h-12 md:h-16" />
             <span className="text-3xl sm:text-4xl md:text-5xl font-bold font-logo tracking-tight">Fleetu</span>
-          </motion.div>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
-          >
+          <h1 className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500 delay-150 text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             {highlightedTitle}
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-[700px] text-muted-foreground md:text-xl/relaxed"
-          >
+          <p className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500 delay-300 max-w-[700px] text-muted-foreground md:text-xl/relaxed">
             {t("description")}
-          </motion.p>
+          </p>
         </div>
 
         {/* Scanner Visualization */}
-        <motion.div
+        <div
           ref={containerRef}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative w-full overflow-hidden"
+          className="animate-in fade-in fill-mode-both duration-700 delay-500 relative w-full overflow-hidden"
           style={{
             height: `${SCANNER_HEIGHT}px`,
             maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
@@ -569,32 +556,20 @@ export function IntentScanner() {
               WebkitMaskImage: 'linear-gradient(to left, black, transparent)'
             }}
           />
-        </motion.div>
+        </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-col gap-3 w-full px-6 sm:flex-row sm:justify-center sm:w-auto sm:gap-4 sm:px-0"
-        >
-          <Button
-            size="lg"
-            className="h-12 w-full sm:w-auto px-8 text-base"
-            onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            {t("cta")}
-            <ArrowRight className="ml-2 h-4 w-4" />
+        <div className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500 delay-700 flex flex-col gap-3 w-full px-6 sm:flex-row sm:justify-center sm:w-auto sm:gap-4 sm:px-0">
+          <Button asChild size="lg" className="h-12 w-full sm:w-auto px-8 text-base">
+            <Link href="#cta">
+              {t("cta")}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="h-12 w-full sm:w-auto px-8 text-base"
-            onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            {t("demo")}
+          <Button asChild variant="outline" size="lg" className="h-12 w-full sm:w-auto px-8 text-base">
+            <Link href="#how-it-works">{t("demo")}</Link>
           </Button>
-        </motion.div>
+        </div>
       </div>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-violet-500/10 blur-[120px] rounded-full -z-10" />
@@ -602,7 +577,7 @@ export function IntentScanner() {
   )
 }
 
-// Extracted card component — avoids re-rendering all 30 cards on every frame
+// Extracted card component — avoids re-rendering all cards on every frame
 function CardItem({
   card,
   intentRef,

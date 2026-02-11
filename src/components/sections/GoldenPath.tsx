@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { useState } from "react"
 import {
     AlertTriangle,
@@ -15,6 +14,7 @@ import {
     type LucideIcon,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { Reveal } from "@/components/ui/reveal"
 
 type GuardMode = "suggestive" | "mandatory"
 
@@ -64,7 +64,7 @@ export function GoldenPath() {
             </div>
 
             <div className="container px-4 md:px-6 mx-auto">
-                <div className="mx-auto max-w-3xl text-center mb-12 md:mb-14">
+                <Reveal className="mx-auto max-w-3xl text-center mb-12 md:mb-14">
                     <div className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
                         <Scale className="mr-2 h-4 w-4" />
                         {t("badge")}
@@ -75,16 +75,10 @@ export function GoldenPath() {
                     <p className="mt-4 text-muted-foreground md:text-xl max-w-2xl mx-auto">
                         {t("description")}
                     </p>
-                </div>
+                </Reveal>
 
                 <div className="grid gap-6 lg:grid-cols-[0.95fr_1.35fr]">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.45 }}
-                        className="rounded-2xl border border-destructive/25 bg-destructive/5 p-6 backdrop-blur-md"
-                    >
+                    <Reveal className="rounded-2xl border border-destructive/25 bg-destructive/5 p-6 backdrop-blur-md">
                         <div className="inline-flex items-center rounded-full border border-destructive/30 bg-destructive/10 px-2.5 py-1 text-xs font-medium text-destructive mb-4">
                             {t("legacyLabel")}
                         </div>
@@ -105,15 +99,9 @@ export function GoldenPath() {
                                 </div>
                             ))}
                         </div>
-                    </motion.div>
+                    </Reveal>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.45, delay: 0.08 }}
-                        className="rounded-2xl border border-primary/35 bg-primary/10 p-6 backdrop-blur-md shadow-[0_0_45px_-20px_hsl(var(--primary)/0.55)]"
-                    >
+                    <Reveal delay={150} className="rounded-2xl border border-primary/35 bg-primary/10 p-6 backdrop-blur-md shadow-[0_0_45px_-20px_hsl(var(--primary)/0.55)]">
                         <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary mb-4">
                             {t("goldenLabel")}
                         </div>
@@ -147,13 +135,7 @@ export function GoldenPath() {
                             </div>
                         </div>
 
-                        <motion.div
-                            key={activeMode}
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.22 }}
-                            className={`mt-4 rounded-xl border p-4 ${activeModeConfig.toneClass}`}
-                        >
+                        <div className={`mt-4 rounded-xl border p-4 ${activeModeConfig.toneClass}`}>
                             <div className="flex items-start gap-3 mb-2">
                                 <div className="mt-0.5 text-primary">
                                     <activeModeConfig.icon className="h-5 w-5" />
@@ -171,7 +153,7 @@ export function GoldenPath() {
                                     </div>
                                 ))}
                             </div>
-                        </motion.div>
+                        </div>
 
                         <div className="mt-5">
                             <p className="text-xs uppercase tracking-wide text-muted-foreground mb-3">{t("flowTitle")}</p>
@@ -195,29 +177,19 @@ export function GoldenPath() {
                                 ))}
                             </div>
                             <div className="mt-3 h-1 rounded-full bg-white/10 overflow-hidden">
-                                <motion.div
-                                    className="h-full w-20 rounded-full bg-gradient-to-r from-primary/40 via-primary to-primary/40"
-                                    animate={{ x: ["-20%", "520%"] }}
-                                    transition={{ repeat: Infinity, duration: 2.6, ease: "easeInOut" }}
-                                />
+                                <div className="h-full w-full rounded-full bg-gradient-to-r from-primary/20 via-primary/80 to-primary/20" />
                             </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.15 }}
-                    className="mt-6 rounded-xl border border-primary/25 bg-black/35 px-4 py-3 text-sm text-muted-foreground backdrop-blur-md md:text-base"
-                >
+                <Reveal className="mt-6 rounded-xl border border-primary/25 bg-black/35 px-4 py-3 text-sm text-muted-foreground backdrop-blur-md md:text-base">
                     <span className="inline-flex items-center gap-2 text-primary font-medium mr-2">
                         <ShieldCheck className="h-4 w-4" />
                         {t("policyLabel")}
                     </span>
                     {t("policyNote")}
-                </motion.div>
+                </Reveal>
             </div>
         </section>
     )

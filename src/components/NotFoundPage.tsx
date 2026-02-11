@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Home, AlertTriangle, ArrowLeft } from "lucide-react"
 import Link from "next/link"
@@ -59,51 +58,31 @@ export function NotFoundPage({
 
             <div className="max-w-lg mx-auto text-center space-y-8">
                 {/* Animated 404 */}
-                <motion.div
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5, type: "spring" }}
-                    className="relative"
-                >
+                <div className="animate-in fade-in zoom-in-50 duration-500 fill-mode-both relative">
                     <div className="text-[150px] sm:text-[200px] font-black text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5 leading-none select-none">
                         404
                     </div>
 
                     {/* Glowing overlay */}
-                    <motion.div
-                        className="absolute inset-0 flex items-center justify-center"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.5 }}
-                    >
+                    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 fill-mode-both absolute inset-0 flex items-center justify-center">
                         <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 backdrop-blur-md">
                             <AlertTriangle className="w-12 h-12 sm:w-16 sm:h-16 text-red-500" />
                         </div>
-                    </motion.div>
-                </motion.div>
+                    </div>
+                </div>
 
                 {/* Content */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
-                    className="space-y-4"
-                >
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[400ms] fill-mode-both space-y-4">
                     <h1 className="text-2xl sm:text-3xl font-bold">
                         {title}
                     </h1>
                     <p className="text-muted-foreground max-w-md mx-auto">
                         {description}
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Terminal-style error */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                    className="rounded-xl border border-white/10 bg-black/40 backdrop-blur-md p-4 font-mono text-sm text-left max-w-sm mx-auto"
-                >
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-500 fill-mode-both rounded-xl border border-white/10 bg-black/40 backdrop-blur-md p-4 font-mono text-sm text-left max-w-sm mx-auto">
                     <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
                         <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
                         <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
@@ -116,15 +95,10 @@ export function NotFoundPage({
                         <div><span className="text-purple-400">{terminalLabels.message}:</span> &quot;{terminalLabels.pathError}&quot;</div>
                         <div><span className="text-green-400">{terminalLabels.action}:</span> {terminalLabels.returnAction}</div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Buttons */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
-                >
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-[600ms] fill-mode-both flex flex-col sm:flex-row gap-4 justify-center">
                     <Button asChild variant="outline" className="gap-2">
                         <Link href={homeHref} onClick={handleGoBack} prefetch={false}>
                             <ArrowLeft className="w-4 h-4" />
@@ -137,7 +111,7 @@ export function NotFoundPage({
                             {returnHomeText}
                         </Link>
                     </Button>
-                </motion.div>
+                </div>
             </div>
         </div>
     )

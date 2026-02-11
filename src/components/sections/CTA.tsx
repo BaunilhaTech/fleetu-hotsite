@@ -20,6 +20,7 @@ import {
 import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { saveLead } from "@/lib/supabase"
+import { Reveal } from "@/components/ui/reveal"
 
 const ROLES = [
     { value: "dev_lead", labelKey: "roleDeveloper" },
@@ -88,13 +89,16 @@ export function CTA() {
         <section id="cta" className="py-24 border-t border-white/5 min-h-dvh flex items-center">
             <div className="container px-4 md:px-6 mx-auto text-center">
                 <div className="max-w-3xl mx-auto space-y-8">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                        {t("title")}
-                    </h2>
-                    <p className="text-muted-foreground md:text-xl">
-                        {t("subtitle")}
-                    </p>
+                    <Reveal>
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                            {t("title")}
+                        </h2>
+                        <p className="mt-8 text-muted-foreground md:text-xl">
+                            {t("subtitle")}
+                        </p>
+                    </Reveal>
 
+                    <Reveal delay={200}>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-lg mx-auto" aria-label="Request early access">
                         {/* Honeypot field — hidden from real users, catches bots */}
                         <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -161,6 +165,7 @@ export function CTA() {
                             )}
                         </Button>
                     </form>
+                    </Reveal>
 
                     <p className="text-xs text-muted-foreground">
                         {t("privacy")}

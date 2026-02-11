@@ -6,34 +6,19 @@ import { Solution } from "@/components/sections/Solution"
 import { HowItWorks } from "@/components/sections/HowItWorks"
 import { UseCases } from "@/components/sections/UseCases"
 import { CTA } from "@/components/sections/CTA"
-import { ErrorBoundary } from "@/components/ErrorBoundary"
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   return (
     <>
-      <ErrorBoundary>
-        <IntentScanner />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <Problem />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <GoldenPath />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <Solution />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <HowItWorks />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <UseCases />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <CTA />
-      </ErrorBoundary>
+      <IntentScanner />
+      <Problem />
+      <GoldenPath />
+      <Solution />
+      <HowItWorks />
+      <UseCases />
+      <CTA />
     </>
   );
 }

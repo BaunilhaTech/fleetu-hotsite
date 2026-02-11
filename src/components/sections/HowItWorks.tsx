@@ -1,9 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { GitPullRequest, Search, Shield, Zap, type LucideIcon } from "lucide-react"
 import { useState } from "react"
 import { useTranslations } from "next-intl"
+import { Reveal } from "@/components/ui/reveal"
 
 type StepState = "queued" | "running" | "done" | "watch"
 type StepId = "policy" | "enforce" | "monitor" | "guard"
@@ -185,7 +185,7 @@ export function HowItWorks() {
             </div>
 
             <div className="container px-4 md:px-6 mx-auto">
-                <div className="text-center mb-16">
+                <Reveal className="text-center mb-16">
                     <div className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs sm:text-sm font-medium text-primary mb-4">
                         {t("badge")}
                     </div>
@@ -195,20 +195,16 @@ export function HowItWorks() {
                     <p className="mt-4 text-muted-foreground md:text-xl">
                         {t("subtitle")}
                     </p>
-                </div>
+                </Reveal>
 
-                <div className="space-y-4 lg:hidden">
-                    {steps.map((step, index) => {
+                <Reveal className="space-y-4 lg:hidden">
+                    {steps.map((step) => {
                         const isActive = step.id === activeStep
                         const mobileEvents = runtimeByStep[step.id]
 
                         return (
-                            <motion.div
+                            <div
                                 key={`mobile-${step.id}`}
-                                initial={{ opacity: 0, y: 14 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ delay: index * 0.08, duration: 0.35 }}
                                 className={`rounded-2xl border p-4 text-left transition-all duration-300 ${isActive
                                     ? "border-primary/45 bg-primary/10"
                                     : "border-white/10 bg-black/40"
@@ -248,12 +244,12 @@ export function HowItWorks() {
                                         ))}
                                     </div>
                                 )}
-                            </motion.div>
+                            </div>
                         )
                     })}
-                </div>
+                </Reveal>
 
-                <div className="hidden lg:block">
+                <Reveal className="hidden lg:block">
                     <div className="relative rounded-3xl border border-white/10 bg-black/35 backdrop-blur-xl p-5 md:p-8 lg:p-10 shadow-2xl ring-1 ring-white/5 overflow-hidden">
                         <div className="absolute inset-0 pointer-events-none">
                             <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
@@ -263,12 +259,8 @@ export function HowItWorks() {
                         <div className="grid gap-8 lg:gap-10 xl:grid-cols-[1.05fr_1.45fr]">
                             <div className="space-y-4">
                                 {steps.map((step, index) => (
-                                    <motion.div
+                                    <div
                                         key={step.id}
-                                        initial={{ opacity: 0, x: -16 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true, amount: 0.3 }}
-                                        transition={{ delay: index * 0.1, duration: 0.45 }}
                                         className="relative pl-14"
                                     >
                                         {index < steps.length - 1 && (
@@ -299,15 +291,11 @@ export function HowItWorks() {
                                                 {step.desc}
                                             </p>
                                         </button>
-                                    </motion.div>
+                                    </div>
                                 ))}
                             </div>
 
-                            <motion.div
-                                initial={{ opacity: 0, y: 16 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.5 }}
+                            <div
                                 className="rounded-2xl border border-white/10 bg-black/50 overflow-hidden ring-1 ring-white/5"
                             >
                                 <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-white/5">
@@ -335,13 +323,9 @@ export function HowItWorks() {
                                     </div>
 
                                     <div className="space-y-3 font-mono">
-                                        {runtimeEvents.map((event, index) => (
-                                            <motion.div
+                                        {runtimeEvents.map((event) => (
+                                            <div
                                                 key={event.id}
-                                                initial={{ opacity: 0, x: -10 }}
-                                                whileInView={{ opacity: 1, x: 0 }}
-                                                viewport={{ once: true }}
-                                                transition={{ delay: index * 0.12, duration: 0.35 }}
                                                 className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs"
                                             >
                                                 <div className="flex items-center gap-2 min-w-0">
@@ -349,7 +333,7 @@ export function HowItWorks() {
                                                     <span className="text-foreground/90 truncate">{event.label}</span>
                                                 </div>
                                                 <span className="text-muted-foreground shrink-0">{event.detail}</span>
-                                            </motion.div>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
@@ -365,10 +349,10 @@ export function HowItWorks() {
                                         ))}
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Reveal>
             </div>
         </section>
     )

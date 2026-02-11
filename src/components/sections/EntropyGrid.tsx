@@ -12,47 +12,19 @@ interface Repo {
     status: RepoStatus
 }
 
-// Responsive grid sizes: mobile shows less, desktop shows more
-const GRID_SIZES = {
-    mobile: 48,   // 8x6 grid for mobile
-    tablet: 84,   // 12x7 grid for tablet
-    desktop: 112  // 16x7 grid for desktop
-}
-
-function useGridSize() {
-    const [gridSize, setGridSize] = useState(GRID_SIZES.desktop)
-
-    useEffect(() => {
-        const updateGridSize = () => {
-            if (window.innerWidth < 640) {
-                setGridSize(GRID_SIZES.mobile)
-            } else if (window.innerWidth < 1024) {
-                setGridSize(GRID_SIZES.tablet)
-            } else {
-                setGridSize(GRID_SIZES.desktop)
-            }
-        }
-
-        updateGridSize()
-        window.addEventListener('resize', updateGridSize)
-        return () => window.removeEventListener('resize', updateGridSize)
-    }, [])
-
-    return gridSize
-}
+const TOTAL_REPOS = 112
 
 export function EntropyGrid() {
     const t = useTranslations("EntropyGrid")
-    const gridSize = useGridSize()
     const containerRef = useRef<HTMLDivElement>(null)
     const isVisibleRef = useRef(false)
     const [repos, setRepos] = useState<Repo[]>(
-        Array.from({ length: GRID_SIZES.desktop }, (_, i) => ({ id: i, status: "healthy" }))
+        Array.from({ length: TOTAL_REPOS }, (_, i) => ({ id: i, status: "healthy" }))
     )
-    // entries derived from state - use only visible items for score
-    const visibleRepos = repos.slice(0, gridSize)
-    const healthyCount = visibleRepos.filter(r => r.status === "healthy" || r.status === "recovering").length
-    const complianceScore = Math.round((healthyCount / gridSize) * 100)
+
+    const healthyCount = repos.filter(r => r.status === "healthy" || r.status === "recovering").length
+    const complianceScore = Math.round((healthyCount / TOTAL_REPOS) * 100)
+    const criticalCount = repos.filter(r => r.status === "critical").length
 
     const [timeElapsed, setTimeElapsed] = useState(0)
 
@@ -142,7 +114,7 @@ export function EntropyGrid() {
                         <div className="flex items-center gap-2">
                             <Activity className="w-3 h-3 text-muted-foreground" />
                             <div className="text-xs font-mono font-medium text-red-500">
-                                {visibleRepos.filter(r => r.status === 'critical').length}
+                                {criticalCount}
                             </div>
                         </div>
                     </div>
@@ -163,32 +135,31 @@ export function EntropyGrid() {
                         <div>
                             <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{t("activeDrifts")}</div>
                             <div className="text-sm font-mono font-medium text-red-500">
-                                {visibleRepos.filter(r => r.status === 'critical').length}
+                                {criticalCount}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* The Grid - responsive item count */}
-            <div className="grid grid-cols-8 sm:grid-cols-12 lg:grid-cols-16 gap-[2px] sm:gap-[3px]" role="grid" aria-label="Fleet repository health status">
-                {visibleRepos.map((repo) => (
-                    <div
-                        key={repo.id}
-                        role="gridcell"
-                        aria-label={`Repository ${repo.id + 1}: ${repo.status}`}
-                        onMouseEnter={() => fixRepo(repo.id)}
-                        className={cn(
-                            "aspect-square rounded-[3px] transition-all duration-500 cursor-crosshair backdrop-blur-md shadow-sm",
-                            // Healthy: Dark frosted glass, subtle border
-                            repo.status === "healthy" && "bg-black/40 border border-white/5 hover:bg-white/5 hover:border-white/10 hover:shadow-md",
-                            // Recovering: Dark emerald glass
-                            repo.status === "recovering" && "bg-emerald-950/30 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]",
-                            // Critical: Dark red glass
-                            repo.status === "critical" && "bg-red-950/30 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
-                        )}
-                    />
-                ))}
+            {/* The Grid — CSS aspect-ratio controls visible rows, no JS breakpoint needed */}
+            <div className="overflow-hidden aspect-[8/6] sm:aspect-[12/7] lg:aspect-[16/7]">
+                <div className="grid grid-cols-8 sm:grid-cols-12 lg:grid-cols-16 gap-[2px] sm:gap-[3px]" role="grid" aria-label="Fleet repository health status">
+                    {repos.map((repo) => (
+                        <div
+                            key={repo.id}
+                            role="gridcell"
+                            aria-label={`Repository ${repo.id + 1}: ${repo.status}`}
+                            onMouseEnter={() => fixRepo(repo.id)}
+                            className={cn(
+                                "aspect-square rounded-[3px] border transition-colors duration-500 cursor-crosshair",
+                                repo.status === "healthy" && "bg-black/40 border-white/5 hover:bg-white/5 hover:border-white/10",
+                                repo.status === "recovering" && "bg-emerald-950/30 border-emerald-500/30",
+                                repo.status === "critical" && "bg-red-950/30 border-red-500/30"
+                            )}
+                        />
+                    ))}
+                </div>
             </div>
 
             <div className="mt-4 sm:mt-6 flex justify-between items-center text-[10px] sm:text-xs text-muted-foreground/50 font-mono">
@@ -198,4 +169,3 @@ export function EntropyGrid() {
         </div>
     )
 }
-
