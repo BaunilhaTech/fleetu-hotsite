@@ -22,13 +22,14 @@ export function Header() {
 
     useEffect(() => {
         const onScroll = () => {
+            if (isMenuOpen) return
             const y = window.scrollY
             setHidden(y > 56 && y > lastYRef.current)
             lastYRef.current = y
         }
         window.addEventListener("scroll", onScroll, { passive: true })
         return () => window.removeEventListener("scroll", onScroll)
-    }, [])
+    }, [isMenuOpen])
 
     const navItems = [
         { name: t("problem"), href: "#problem" },
@@ -87,7 +88,7 @@ export function Header() {
 
     return (
         <>
-            <header className={`animate-in fade-in slide-in-from-top-2 duration-500 fill-mode-both sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300 ${hidden ? "-translate-y-full" : "translate-y-0"}`}>
+            <header className={`fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300 ${hidden ? "-translate-y-full" : "translate-y-0"}`}>
                 <div className="container flex h-14 max-w-screen-2xl items-center mx-auto px-4 md:px-8">
                     <div className="mr-4 hidden lg:flex">
                         <Link href={`/${locale}`} className="mr-6 flex items-center space-x-2">

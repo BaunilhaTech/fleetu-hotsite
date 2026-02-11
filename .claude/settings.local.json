@@ -61,7 +61,8 @@
       "Bash(git -C /run/host/var/home/ale/Documents/fleetu-hotsite diff --cached --stat)",
       "Bash(git -C /run/host/var/home/ale/Documents/fleetu-hotsite commit -m \"$\\(cat <<''EOF''\nchore: migrate to pnpm 10 via mise\n\nReplace npm/corepack-managed pnpm 9.15.0 with mise-managed pnpm 10.29.2.\nAdd .npmrc with public-hoist-pattern for tailwindcss compatibility and\nonlyBuiltDependencies allowlist for pnpm 10 security defaults.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(grep:*)",
-      "Bash(mise exec:*)"
+      "Bash(mise exec:*)",
+      "Bash(git diff 8cff840..c667992 -- src/app/[locale]/page.tsx src/app/[locale]/error.tsx)"
     ]
   }
 }

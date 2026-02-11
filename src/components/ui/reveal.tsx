@@ -17,11 +17,11 @@ export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Reve
     const el = ref.current
     if (!el) return
 
-    // Respect prefers-reduced-motion — show immediately
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.classList.remove("opacity-0")
-      return
-    }
+    // Respect prefers-reduced-motion — skip entirely
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    // Hide before observing — SSR renders visible content as fallback
+    el.classList.add("opacity-0")
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -35,7 +35,7 @@ export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Reve
         el.classList.remove("opacity-0")
         observer.disconnect()
       },
-      { threshold: 0.1 }
+      { threshold: 0 }
     )
 
     observer.observe(el)
@@ -43,7 +43,7 @@ export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Reve
   }, [delay])
 
   return (
-    <Tag ref={ref} className={cn("opacity-0", className)}>
+    <Tag ref={ref} className={className}>
       {children}
     </Tag>
   )
