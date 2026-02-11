@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next build:*)",
+      "Bash(git add:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx eslint:*)",
+      "Bash(source:*)",
+      "Bash(curl:*)",
+      "Bash(gh auth:*)",
+      "Bash(python3:*)",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:answers.netlify.com)",
+      "Bash(gh secret set:*)",
+      "Bash(git -C /var/home/ale/Documents/fleetu-hotsite diff)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: allow authenticated users to insert leads\n\nThe RLS INSERT policy only targeted the anon role, but the Supabase\nJS client reuses the authenticated session from localStorage when\nan admin is logged in, causing 403 on lead submissions.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(rpm -qa:*)",
+      "Bash(flatpak list:*)",
+      "Bash(brew list:*)",
+      "Bash(distrobox list:*)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(distrobox create:*)",
+      "Bash(distrobox enter:*)"
+    ]
+  }
+}
