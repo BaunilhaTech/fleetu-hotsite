@@ -496,7 +496,13 @@ export function IntentScanner() {
         {/* Header */}
         <div className="flex flex-col items-center text-center space-y-6">
           <div className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500 flex items-center gap-3">
-            <Image src={logo} alt="Fleetu Logo" width={64} height={64} className="w-auto h-10 sm:h-12 md:h-16" />
+            <Image
+              src={logo}
+              alt="Fleetu Logo"
+              width={59}
+              height={64}
+              className="h-auto w-[37px] sm:w-[44px] md:w-[59px]"
+            />
             <span className="text-3xl sm:text-4xl md:text-5xl font-bold font-logo tracking-tight">Fleetu</span>
           </div>
 
