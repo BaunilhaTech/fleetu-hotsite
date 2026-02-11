@@ -1,7 +1,18 @@
 {
   "name": "web",
   "version": "0.1.0",
+  "packageManager": "pnpm@10.29.2",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@swc/core",
+      "msw",
+      "sharp",
+      "supabase",
+      "unrs-resolver"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/BaunilhaTech/fleetu-hotsite"
@@ -28,10 +39,10 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.33",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
+    "eslint": "^9.39.2",
     "eslint-config-next": "16.1.6",
     "shadcn": "^3.8.4",
     "supabase": "^2.76.7",
